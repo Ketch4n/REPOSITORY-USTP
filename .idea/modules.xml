@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/repository_ustp.iml" filepath="$PROJECT_DIR$/repository_ustp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/repository_ustp_android.iml" filepath="$PROJECT_DIR$/android/repository_ustp_android.iml" />
+    </modules>
+  </component>
+</project>
