@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/utils/text.dart';
 
-Icon addExitIcon() {
-  return const Icon(
-    Icons.exit_to_app_rounded,
+Icon addPreffixIcon(icon) {
+  return Icon(
+    icon,
     color: Colors.black,
   );
 }
 
-Text addTextButton() {
+Text addLabel(label) {
   return Text(
-    'Logout',
+    label,
     style: CustomTextStyle.iconLabel,
   );
 }

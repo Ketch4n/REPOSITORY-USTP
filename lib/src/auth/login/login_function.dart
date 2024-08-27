@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:repository_ustp/src/components/snackbar.dart';
+import 'package:repository_ustp/src/data/session.dart';
 import 'package:repository_ustp/src/data/user_binary_value.dart';
 
 class LoginController {
@@ -16,7 +17,9 @@ class LoginController {
       int type = UserBinary.defaultValue;
 
       for (var user in jsonData) {
+        final int? id = user['id'];
         final String? userName = user["username"];
+        final String? userEmail = user["email"];
         final String? pass = user["password"];
         final int typeString = user['type'];
 
@@ -24,6 +27,10 @@ class LoginController {
           isAuthenticated = true;
           type = typeString;
           UserBinary.defaultValue = type;
+          UserSession.auth = true;
+          UserSession.id = id!;
+          UserSession.username = userName!;
+          UserSession.email = userEmail!;
           break;
         }
       }

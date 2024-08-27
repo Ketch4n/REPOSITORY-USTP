@@ -18,4 +18,6 @@ String userBinaryValue(int type) {
 
 class UserBinary {
   static int defaultValue = 3;
+  static String username = "Undefined User";
+  static String email = "email.undefined@gmail.com";
 }

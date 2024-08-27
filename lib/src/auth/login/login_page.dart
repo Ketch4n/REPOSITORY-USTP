@@ -93,6 +93,7 @@ class _LoginPageState extends State<LoginPage> {
       callback: () {
         final username = usernameController.text.trim();
         final password = passwordController.text.trim();
+
         LoginController.fetchUser(context, username, password);
       },
       child: const Text("LOG IN"),

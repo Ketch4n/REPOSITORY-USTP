@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:repository_ustp/src/auth/login/login_page.dart';
-import 'package:repository_ustp/src/pages/index/index_page.dart';
 import 'package:repository_ustp/src/routes/routes.dart';
 
 void main() {
@@ -15,9 +13,9 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'MontserratRegular'),
-      // initialRoute: AppRoutes.login,
+      initialRoute: AppRoutes.login,
       onGenerateRoute: AppRoutes.onGenerateRoute,
-      home: const LoginPage(),
+      // home: const LoginPage(),
     );
   }
 }
