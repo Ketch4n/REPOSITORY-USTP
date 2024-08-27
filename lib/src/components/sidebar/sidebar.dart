@@ -14,6 +14,7 @@ class _SideBarState extends State<SideBar> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
         constraints: const BoxConstraints(maxWidth: 260),
         child: MyDrawer(callback: widget.callback),
       ),

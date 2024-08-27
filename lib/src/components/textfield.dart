@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatefulWidget {
   const CustomTextField({
     super.key,
-    required this.text,
+    this.label,
+    this.hint,
     required this.controller,
-    required this.obscure,
+    this.obscure,
     this.suffix,
   });
-  final String text;
+  final String? label;
+  final String? hint;
+
   final TextEditingController controller;
-  final bool obscure;
+  final bool? obscure;
   final Widget? suffix;
 
   @override
@@ -20,26 +23,26 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 40, right: 40, bottom: 10),
-      child: SizedBox(
-        height: 60,
-        child: TextFormField(
-          obscureText: widget.obscure,
-          controller: widget.controller,
-          decoration: InputDecoration(
-            enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-            ),
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.blue),
-            ),
-            labelText: widget.text,
-            labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-            fillColor: Colors.white,
-            filled: true,
-            suffixIcon: widget.suffix,
+    return SizedBox(
+      height: widget.hint == null ? 60 : 40,
+      width: widget.hint == null ? null : 120,
+      child: TextField(
+        obscureText: widget.obscure ?? false,
+        controller: widget.controller,
+        decoration: InputDecoration(
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
           ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blue),
+          ),
+          labelText: widget.label,
+          hintText: widget.hint,
+          hintStyle: const TextStyle(fontSize: 15),
+          labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+          fillColor: Colors.white,
+          filled: true,
+          suffixIcon: widget.suffix,
         ),
       ),
     );

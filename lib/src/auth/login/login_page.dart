@@ -63,28 +63,31 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildTextFields() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CustomTextField(
-          obscure: false,
-          text: "Username or Email",
-          controller: usernameController,
-        ),
-        CustomTextField(
-          obscure: _isObscure,
-          text: "Password",
-          controller: passwordController,
-          suffix: IconButton(
-            icon: Icon(_isObscure ? Icons.visibility_off : Icons.visibility),
-            onPressed: () {
-              setState(() {
-                _isObscure = !_isObscure;
-              });
-            },
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 40.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CustomTextField(
+            label: "Username or Email",
+            controller: usernameController,
           ),
-        ),
-      ],
+          const SizedBox(height: 10),
+          CustomTextField(
+            obscure: _isObscure,
+            label: "Password",
+            controller: passwordController,
+            suffix: IconButton(
+              icon: Icon(_isObscure ? Icons.visibility_off : Icons.visibility),
+              onPressed: () {
+                setState(() {
+                  _isObscure = !_isObscure;
+                });
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
