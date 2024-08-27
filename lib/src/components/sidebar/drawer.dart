@@ -9,7 +9,8 @@ import 'package:repository_ustp/src/components/textbutton_icon.dart';
 import 'package:repository_ustp/src/utils/palette.dart';
 
 class MyDrawer extends StatefulWidget {
-  const MyDrawer({super.key});
+  const MyDrawer({super.key, required this.callback});
+  final Function callback;
 
   @override
   State<MyDrawer> createState() => _MyDrawerState();
@@ -30,7 +31,7 @@ class _MyDrawerState extends State<MyDrawer> {
               children: [
                 const SideBarHeaderContainer(),
                 addUserType(),
-                addItemList(),
+                addItemList(widget.callback),
               ],
             ),
           ),
