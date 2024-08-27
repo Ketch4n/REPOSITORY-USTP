@@ -23,6 +23,7 @@ class LoginController {
         if (userName == username && pass == password) {
           isAuthenticated = true;
           type = typeString;
+          UserBinary.defaultValue = type;
           break;
         }
       }

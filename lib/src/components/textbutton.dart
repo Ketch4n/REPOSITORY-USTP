@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repository_ustp/src/utils/palette.dart';
 
 class CustomTextButton extends StatelessWidget {
   const CustomTextButton(
@@ -13,9 +14,9 @@ class CustomTextButton extends StatelessWidget {
       },
       child: Text(
         text,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 15,
-          color: Colors.blue,
+          color: ColorPallete.primary,
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/auth/login/login_page.dart';
+import 'package:repository_ustp/src/pages/index/index_page.dart';
 import 'package:repository_ustp/src/routes/routes.dart';
 
 void main() {

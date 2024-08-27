@@ -5,6 +5,13 @@ class CustomTextStyle {
     fontSize: 15,
     fontWeight: FontWeight.bold,
   );
-  static TextStyle iconLabel =
-      const TextStyle(fontWeight: FontWeight.bold, color: Colors.black);
+  static TextStyle iconLabel = const TextStyle(
+    fontWeight: FontWeight.bold,
+    color: Colors.black,
+  );
+
+  static TextStyle sideBarItems = const TextStyle(
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+  );
 }

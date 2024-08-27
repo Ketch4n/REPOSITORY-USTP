@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/auth/login/components/ustp_logo.dart';
 import 'package:repository_ustp/src/auth/login/login_function.dart';
+import 'package:repository_ustp/src/auth/login/modules/add_title.dart';
+import 'package:repository_ustp/src/auth/login/modules/build_footer_textbutton.dart';
 import 'package:repository_ustp/src/auth/login/utils/login_style.dart';
 import 'package:repository_ustp/src/auth/login/components/main_container.dart';
 import 'package:repository_ustp/src/components/button.dart';
-import 'package:repository_ustp/src/components/textbutton.dart';
 import 'package:repository_ustp/src/components/textfield.dart';
-import 'package:repository_ustp/src/utils/text.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -18,6 +18,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool _isObscure = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
             _buildMainContainer(),
             const Positioned(
               top: -65,
-              child: USTPLogo(),
+              child: USTPLogo(size: 125),
             ),
           ],
         ),
@@ -52,25 +53,11 @@ class _LoginPageState extends State<LoginPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _buildTitle(),
+          addTitle(),
           _buildTextFields(),
           _buildButton(),
-          _buildFooterText(),
+          buildFooterTextButton(),
         ],
-      ),
-    );
-  }
-
-  Widget _buildTitle() {
-    return const Padding(
-      padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 70, bottom: 20),
-      child: Text(
-        "PROJECT REPOSITORY\nSYSTEM",
-        style: TextStyle(
-          fontSize: 25,
-          fontWeight: FontWeight.bold,
-        ),
-        textAlign: TextAlign.center,
       ),
     );
   }
@@ -80,12 +67,22 @@ class _LoginPageState extends State<LoginPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CustomTextField(
+          obscure: false,
           text: "Username or Email",
           controller: usernameController,
         ),
         CustomTextField(
+          obscure: _isObscure,
           text: "Password",
           controller: passwordController,
+          suffix: IconButton(
+            icon: Icon(_isObscure ? Icons.visibility_off : Icons.visibility),
+            onPressed: () {
+              setState(() {
+                _isObscure = !_isObscure;
+              });
+            },
+          ),
         ),
       ],
     );
@@ -99,28 +96,6 @@ class _LoginPageState extends State<LoginPage> {
         LoginController.fetchUser(context, username, password);
       },
       child: const Text("LOG IN"),
-    );
-  }
-
-  Widget _buildFooterText() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Create new account?",
-                style: CustomTextStyle.subtext,
-              ),
-              CustomTextButton(text: "Sign Up", callback: () {})
-            ],
-          ),
-          CustomTextButton(text: "Forgot Password", callback: () {})
-        ],
-      ),
     );
   }
 }
