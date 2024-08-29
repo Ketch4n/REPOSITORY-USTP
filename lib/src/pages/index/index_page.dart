@@ -77,18 +77,20 @@ Widget _buildContent(
   return Expanded(
     child: Scaffold(
       backgroundColor: ColorPallete.grey,
-      floatingActionButton: addShowSearch(
-          onTapShowItems,
-          showTopItems && width > tabletBreakpoint
-              ? const Icon(Icons.fullscreen)
-              : !showTopItems && width > tabletBreakpoint
-                  ? const Icon(Icons.search)
-                  : const SizedBox(),
-          showTopItems && width > tabletBreakpoint
-              ? const Text("Fullscreen")
-              : !showTopItems && width > tabletBreakpoint
-                  ? const Text("Show Search")
-                  : const SizedBox()),
+      floatingActionButton: width > tabletBreakpoint
+          ? addShowSearch(
+              onTapShowItems,
+              showTopItems && width > tabletBreakpoint
+                  ? const Icon(Icons.fullscreen)
+                  : !showTopItems && width > tabletBreakpoint
+                      ? const Icon(Icons.search)
+                      : const SizedBox(),
+              showTopItems && width > tabletBreakpoint
+                  ? const Text("Fullscreen")
+                  : !showTopItems && width > tabletBreakpoint
+                      ? const Text("Show Search")
+                      : const SizedBox())
+          : null,
       floatingActionButtonLocation: showTopItems && width > tabletBreakpoint
           ? FloatingActionButtonLocation.miniEndDocked
           : FloatingActionButtonLocation.miniEndTop,
