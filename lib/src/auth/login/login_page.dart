@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
             _buildMainContainer(),
             const Positioned(
               top: -65,
-              child: USTPLogo(size: 125),
+              child: Hero(tag: 'Container-0-Hero', child: USTPLogo(size: 125)),
             ),
           ],
         ),
@@ -48,15 +48,13 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildMainContainer() {
     return LoginMainContainer(
-      height: 470,
-      width: 450,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          addTitle(),
+          addTitle("PROJECT REPOSITORY\nSYSTEM", null),
           _buildTextFields(),
           _buildButton(),
-          buildFooterTextButton(),
+          buildFooterTextButton(context),
         ],
       ),
     );

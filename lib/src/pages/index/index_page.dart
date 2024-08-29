@@ -5,6 +5,7 @@ import 'package:repository_ustp/src/data/screen_breakpoint.dart';
 import 'package:repository_ustp/src/pages/index/components/card_list.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field.dart';
 import 'package:repository_ustp/src/pages/index/modules/add_appbar.dart';
+import 'package:repository_ustp/src/pages/index/modules/add_showsearch.dart';
 import 'package:repository_ustp/src/utils/palette.dart';
 
 class IndexPage extends StatefulWidget {
@@ -18,6 +19,7 @@ class IndexPage extends StatefulWidget {
 class _IndexPageState extends State<IndexPage> {
   int widgetIndex = 0;
   String quack = "Quack";
+  bool showTopItems = true;
   void _onMenuItemTap(int index) {
     setState(() {
       widgetIndex = index;
@@ -30,25 +32,36 @@ class _IndexPageState extends State<IndexPage> {
     });
   }
 
+  _onTapShowItems() {
+    setState(() {
+      showTopItems = !showTopItems;
+      // customSnackBar(context, 0, "Clicked");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: ColorPallete.grey,
-      appBar: width <= tabletBreakpoint ? addAppBar() : null,
+      appBar: width <= tabletBreakpoint
+          ? addAppBar(_onTapShowItems, showTopItems)
+          : null,
       drawer:
           width <= tabletBreakpoint ? SideBar(callback: _onMenuItemTap) : null,
-      body:
-          _buildBody(width, _onMenuItemTap, widgetIndex, _onCardItemTap, quack),
+      body: _buildBody(width, _onMenuItemTap, widgetIndex, _onCardItemTap,
+          quack, showTopItems, _onTapShowItems),
     );
   }
 }
 
-Widget _buildBody(width, onMenuItemTap, widgetIndex, onCardItemTap, quack) {
+Widget _buildBody(width, onMenuItemTap, widgetIndex, onCardItemTap, quack,
+    showTopItems, onTapShowItems) {
   return Row(
     children: <Widget>[
       _buildSidebar(width, onMenuItemTap),
-      _buildContent(widgetIndex, onCardItemTap, quack),
+      _buildContent(width, widgetIndex, onCardItemTap, quack, showTopItems,
+          onTapShowItems),
     ],
   );
 }
@@ -59,32 +72,54 @@ Widget _buildSidebar(width, onMenuItemTap) {
       : const SizedBox();
 }
 
-Widget _buildContent(widgetIndex, onCardItemTap, quack) {
+Widget _buildContent(
+    width, widgetIndex, onCardItemTap, quack, showTopItems, onTapShowItems) {
   return Expanded(
     child: Scaffold(
       backgroundColor: ColorPallete.grey,
-      body: Column(
-        children: [
-          const SearchField(),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20.0),
-            child: CardList(callback: onCardItemTap),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: IndexedStack(
-                children: [
-                  Duck(status: widgetIndex.toString(), content: quack),
-                  Duck(status: widgetIndex.toString(), content: quack),
-                  Duck(status: widgetIndex.toString(), content: quack),
-                  Duck(status: widgetIndex.toString(), content: quack),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
+      floatingActionButton: addShowSearch(
+          onTapShowItems,
+          showTopItems && width > tabletBreakpoint
+              ? const Icon(Icons.fullscreen)
+              : !showTopItems && width > tabletBreakpoint
+                  ? const Icon(Icons.search)
+                  : const SizedBox(),
+          showTopItems && width > tabletBreakpoint
+              ? const Text("Fullscreen")
+              : !showTopItems && width > tabletBreakpoint
+                  ? const Text("Show Search")
+                  : const SizedBox()),
+      floatingActionButtonLocation: showTopItems && width > tabletBreakpoint
+          ? FloatingActionButtonLocation.miniEndDocked
+          : FloatingActionButtonLocation.miniEndTop,
+      body: _buildSubContent(showTopItems, onCardItemTap, widgetIndex, quack),
     ),
+  );
+}
+
+Widget _buildSubContent(showTopItems, onCardItemTap, widgetIndex, quack) {
+  return Column(
+    children: [
+      showTopItems ? const SearchField() : const SizedBox(),
+      showTopItems
+          ? Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: CardList(callback: onCardItemTap),
+            )
+          : const SizedBox(),
+      Expanded(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: IndexedStack(
+            children: [
+              Duck(status: widgetIndex.toString(), content: quack),
+              Duck(status: widgetIndex.toString(), content: quack),
+              Duck(status: widgetIndex.toString(), content: quack),
+              Duck(status: widgetIndex.toString(), content: quack),
+            ],
+          ),
+        ),
+      )
+    ],
   );
 }

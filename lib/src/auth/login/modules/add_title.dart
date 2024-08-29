@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-Widget addTitle() {
-  return const Padding(
-    padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 70, bottom: 20),
+Widget addTitle(text, topPadding) {
+  return Padding(
+    padding: EdgeInsets.only(
+        left: 16.0, right: 16.0, top: topPadding ?? 70, bottom: 20),
     child: Text(
-      "PROJECT REPOSITORY\nSYSTEM",
-      style: TextStyle(
+      text,
+      style: const TextStyle(
         fontSize: 25,
         fontWeight: FontWeight.bold,
       ),
