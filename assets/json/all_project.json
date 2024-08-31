@@ -1,0 +1,54 @@
+[
+    {
+        "id": 1,
+        "title": "Repository Management System",
+        "year_published": "2024",
+        "category": "WEB APP CAPSTONE",
+        "group_name": "Cyber Tech",
+        "author": [
+            "Leader",
+            "Programmer",
+            "Documentator",
+            "Member 4"
+        ]
+    },
+    {
+        "id": 1,
+        "title": "Online Ordering System",
+        "year_published": "2022",
+        "category": "WEB APP CAPSTONE",
+        "group_name": "Team Resto",
+        "author": [
+            "Leader",
+            "Programmer",
+            "Documentator",
+            "Member 4"
+        ]
+    },
+    {
+        "id": 1,
+        "title": "Attendance Management System",
+        "year_published": "2024",
+        "category": "WEB APP CAPSTONE",
+        "group_name": "Team CEB",
+        "author": [
+            "Leader",
+            "Programmer",
+            "Documentator",
+            "Member 4"
+        ]
+    },
+    {
+        "id": 1,
+        "title": "Flood Detector",
+        "year_published": "2022",
+        "category": "IOT CAPSTONE",
+        "group_name": "Team USTP",
+        "author": [
+            "Leader",
+            "Programmer",
+            "Documentator",
+            "Member 4"
+        ]
+    }
+]

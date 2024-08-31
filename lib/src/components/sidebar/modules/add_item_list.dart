@@ -10,8 +10,8 @@ Widget addItemList(callback, context) {
   return Column(
     children: [
       CustomListTileItems(
-        icon: addPreffixIcon(Icons.insert_drive_file_outlined),
-        label: addLabel("All Projects"),
+        icon: addPreffixIcon(Icons.handyman_rounded),
+        label: addLabel("Projects"),
         callback: () {
           callback(0);
           mobile ? Navigator.of(context).pop() : null;
@@ -33,7 +33,7 @@ Widget addItemList(callback, context) {
           mobile ? Navigator.of(context).pop() : null;
         },
       ),
-      UserBinary.defaultValue < 2
+      UserBinary.defaultValue != 2
           ? CustomListTileItems(
               icon: addPreffixIcon(Icons.archive_outlined),
               label: addLabel("Archived"),

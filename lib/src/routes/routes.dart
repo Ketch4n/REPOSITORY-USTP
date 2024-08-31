@@ -4,12 +4,14 @@ import 'package:repository_ustp/src/auth/signup/signup_page.dart';
 import 'package:repository_ustp/src/components/duck_404.dart';
 import 'package:repository_ustp/src/data/user_binary_value.dart';
 import 'package:repository_ustp/src/pages/index/index_page.dart';
+import 'package:repository_ustp/src/pages/repository/components/repository_add.dart';
 
 class AppRoutes {
   static const String login = '/login';
   static const String index = '/index';
   static const String duck = '/duck';
   static const String signup = '/signup';
+  static const String repoAdd = '/repository/add';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -23,6 +25,9 @@ class AppRoutes {
 
       case signup:
         return MaterialPageRoute(builder: (_) => const SignupPage());
+
+      case repoAdd:
+        return MaterialPageRoute(builder: (_) => const RepositoryAdd());
 
       case duck:
         final args = settings.arguments as String?;

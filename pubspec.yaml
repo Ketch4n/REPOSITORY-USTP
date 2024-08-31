@@ -10,10 +10,13 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # Provider
+  provider: ^6.1.2
   #Network
   http: ^1.2.2
   #Styling
   hexcolor: ^3.0.1
+  loader_skeleton: ^0.0.4
   smooth_page_indicator: ^1.2.0+3
   #State Management
   flutter_bloc: ^8.1.6

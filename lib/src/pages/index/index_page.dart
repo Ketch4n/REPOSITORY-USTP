@@ -6,6 +6,9 @@ import 'package:repository_ustp/src/pages/index/components/card_list.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field.dart';
 import 'package:repository_ustp/src/pages/index/modules/add_appbar.dart';
 import 'package:repository_ustp/src/pages/index/modules/add_showsearch.dart';
+import 'package:repository_ustp/src/pages/projects/project_page.dart';
+import 'package:repository_ustp/src/pages/repository/components/repository_add.dart';
+import 'package:repository_ustp/src/pages/repository/repository_page.dart';
 import 'package:repository_ustp/src/utils/palette.dart';
 
 class IndexPage extends StatefulWidget {
@@ -45,7 +48,10 @@ class _IndexPageState extends State<IndexPage> {
     return Scaffold(
       backgroundColor: ColorPallete.grey,
       appBar: width <= tabletBreakpoint
-          ? addAppBar(_onTapShowItems, showTopItems)
+          ? addAppBar(
+              _onTapShowItems,
+              showTopItems,
+            )
           : null,
       drawer:
           width <= tabletBreakpoint ? SideBar(callback: _onMenuItemTap) : null,
@@ -61,7 +67,7 @@ Widget _buildBody(width, onMenuItemTap, widgetIndex, onCardItemTap, quack,
     children: <Widget>[
       _buildSidebar(width, onMenuItemTap),
       _buildContent(width, widgetIndex, onCardItemTap, quack, showTopItems,
-          onTapShowItems),
+          onTapShowItems, onMenuItemTap),
     ],
   );
 }
@@ -72,12 +78,12 @@ Widget _buildSidebar(width, onMenuItemTap) {
       : const SizedBox();
 }
 
-Widget _buildContent(
-    width, widgetIndex, onCardItemTap, quack, showTopItems, onTapShowItems) {
+Widget _buildContent(width, widgetIndex, onCardItemTap, quack, showTopItems,
+    onTapShowItems, onMenuItemTap) {
   return Expanded(
     child: Scaffold(
       backgroundColor: ColorPallete.grey,
-      floatingActionButton: width > tabletBreakpoint
+      floatingActionButton: width > tabletBreakpoint && widgetIndex < 4
           ? addShowSearch(
               onTapShowItems,
               showTopItems && width > tabletBreakpoint
@@ -91,37 +97,51 @@ Widget _buildContent(
                       ? const Text("Show Search")
                       : const SizedBox())
           : null,
-      floatingActionButtonLocation: showTopItems && width > tabletBreakpoint
-          ? FloatingActionButtonLocation.miniEndDocked
-          : FloatingActionButtonLocation.miniEndTop,
-      body: _buildSubContent(showTopItems, onCardItemTap, widgetIndex, quack),
+      floatingActionButtonLocation:
+          showTopItems && width > tabletBreakpoint && widgetIndex < 4
+              ? FloatingActionButtonLocation.miniEndDocked
+              : FloatingActionButtonLocation.miniEndTop,
+      body: _buildSubContent(
+          showTopItems, onCardItemTap, widgetIndex, quack, onMenuItemTap),
     ),
   );
 }
 
-Widget _buildSubContent(showTopItems, onCardItemTap, widgetIndex, quack) {
-  return Column(
-    children: [
-      showTopItems ? const SearchField() : const SizedBox(),
-      showTopItems
-          ? Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: CardList(callback: onCardItemTap),
+Widget _buildSubContent(
+    showTopItems, onCardItemTap, widgetIndex, quack, onMenuItemTap) {
+  return widgetIndex < 4
+      ? Column(
+          children: [
+            showTopItems ? const SearchField() : const SizedBox(),
+            showTopItems
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: CardList(callback: onCardItemTap),
+                  )
+                : const SizedBox(),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: IndexedStack(
+                  index: widgetIndex,
+                  children: <Widget>[
+                    const ProjectPage(),
+                    RepositoryPage(callback: onMenuItemTap),
+                    Duck(status: widgetIndex.toString(), content: quack),
+                    Duck(status: widgetIndex.toString(), content: quack),
+                    Duck(status: widgetIndex.toString(), content: quack),
+                  ],
+                ),
+              ),
             )
-          : const SizedBox(),
-      Expanded(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: IndexedStack(
-            children: [
-              Duck(status: widgetIndex.toString(), content: quack),
-              Duck(status: widgetIndex.toString(), content: quack),
-              Duck(status: widgetIndex.toString(), content: quack),
-              Duck(status: widgetIndex.toString(), content: quack),
-            ],
-          ),
-        ),
-      )
-    ],
-  );
+          ],
+        )
+      : widgetIndex == 4
+          ? const Padding(
+              padding: EdgeInsets.all(10.0),
+              child: RepositoryAdd(),
+            )
+          : const Duck(
+              status: "Page not found",
+              content: "check route or if page exist");
 }
