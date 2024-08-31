@@ -47,15 +47,18 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildMainContainer() {
-    return LoginMainContainer(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          addTitle("PROJECT REPOSITORY\nSYSTEM", null),
-          _buildTextFields(),
-          _buildButton(),
-          buildFooterTextButton(context),
-        ],
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: LoginMainContainer(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            addTitle("PROJECT REPOSITORY\nSYSTEM", null),
+            _buildTextFields(),
+            _buildButton(),
+            buildFooterTextButton(context),
+          ],
+        ),
       ),
     );
   }
