@@ -1,13 +1,15 @@
 // import 'package:http/http.dart' as http;
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:repository_ustp/src/components/snackbar.dart';
 import 'package:repository_ustp/src/data/session.dart';
-import 'package:repository_ustp/src/data/user_binary_value.dart';
+import 'package:repository_ustp/src/data/binary_value.dart';
 
-class LoginController {
-  static Future fetchUser(context, String username, String password) async {
+class LoginFunctions {
+  static Future fetchUserCredentials(
+      context, String username, String password) async {
     try {
       final response =
           await rootBundle.loadString("assets/json/user_credentials.json");

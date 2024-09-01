@@ -3,7 +3,7 @@
         "id": 1,
         "title": "Repository Management System",
         "year_published": "2024",
-        "category": "WEB APP CAPSTONE",
+        "project_type": 2,
         "group_name": "Cyber Tech",
         "author": [
             "Leader",
@@ -16,7 +16,7 @@
         "id": 1,
         "title": "Online Ordering System",
         "year_published": "2022",
-        "category": "WEB APP CAPSTONE",
+        "project_type": 2,
         "group_name": "Team Resto",
         "author": [
             "Leader",
@@ -29,7 +29,7 @@
         "id": 1,
         "title": "Attendance Management System",
         "year_published": "2024",
-        "category": "WEB APP CAPSTONE",
+        "project_type": 2,
         "group_name": "Team CEB",
         "author": [
             "Leader",
@@ -42,7 +42,7 @@
         "id": 1,
         "title": "Flood Detector",
         "year_published": "2022",
-        "category": "IOT CAPSTONE",
+        "project_type": 1,
         "group_name": "Team USTP",
         "author": [
             "Leader",

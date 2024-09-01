@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/components/card.dart';
+import 'package:repository_ustp/src/data/binary_value.dart';
 
 class CardList extends StatefulWidget {
   const CardList({super.key, required this.callback});
@@ -20,10 +21,10 @@ class _CardListState extends State<CardList> {
         direction: Axis.horizontal,
         alignment: WrapAlignment.center,
         children: [
-          CustomCard(child: "RECENTLY ADDED", callback: widget.callback),
-          CustomCard(child: "IOT CAPSTONE", callback: widget.callback),
-          CustomCard(child: "WEB APP CAPSTONE", callback: widget.callback),
-          CustomCard(child: "PIT PROJECT", callback: widget.callback),
+          CustomCard(child: 0, callback: widget.callback),
+          CustomCard(child: 1, callback: widget.callback),
+          CustomCard(child: 2, callback: widget.callback),
+          CustomCard(child: 3, callback: widget.callback),
         ],
       ),
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:repository_ustp/src/data/user_binary_value.dart';
+import 'package:repository_ustp/src/data/binary_value.dart';
 import 'package:repository_ustp/src/utils/text.dart';
 
 ListTile addUserType() {

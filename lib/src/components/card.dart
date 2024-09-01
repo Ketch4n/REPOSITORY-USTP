@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:repository_ustp/src/data/binary_value.dart';
 import 'package:repository_ustp/src/utils/palette.dart';
 
 class CustomCard extends StatefulWidget {
   const CustomCard({super.key, required this.child, required this.callback});
-  final String child;
+  final int child;
   final Function callback;
 
   @override
@@ -27,7 +28,7 @@ class _CustomCardState extends State<CustomCard> {
         ),
         child: Center(
           child: Text(
-            widget.child,
+            projectTypeBinaryValue(widget.child),
             style: const TextStyle(color: Colors.white),
           ),
         ),

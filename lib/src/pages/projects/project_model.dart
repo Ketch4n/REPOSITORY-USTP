@@ -4,7 +4,7 @@ class ProjectModel {
   final int id;
   final String title;
   final String year_published;
-  final String category;
+  final int project_type;
   final String group_name;
   final List<String> author;
 
@@ -12,7 +12,7 @@ class ProjectModel {
     required this.id,
     required this.title,
     required this.year_published,
-    required this.category,
+    required this.project_type,
     required this.group_name,
     required this.author,
   });
@@ -23,7 +23,7 @@ class ProjectModel {
       id: json['id'],
       title: json['title'],
       year_published: json['year_published'],
-      category: json['category'],
+      project_type: json['project_type'],
       group_name: json['group_name'],
       author: List<String>.from(
           json['author']), // Convert JSON array to List<String>
@@ -36,7 +36,7 @@ class ProjectModel {
       'id': id,
       'title': title,
       'year_published': year_published,
-      'category': category,
+      'project_type': project_type,
       'group_name': group_name,
       'author': author,
     };
