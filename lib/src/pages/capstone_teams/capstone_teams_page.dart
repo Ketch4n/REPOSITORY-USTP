@@ -12,7 +12,7 @@ class _CapstoneTeamsPageState extends State<CapstoneTeamsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Container(
+        child: SizedBox(
             height: 60, width: 60, child: Image.asset("assets/ustp_v2.png")),
       ),
     );

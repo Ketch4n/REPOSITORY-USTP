@@ -60,8 +60,7 @@ class _RepositoryPageState extends State<RepositoryPage> {
             actions: [
               IconButton(
                 icon: const Icon(Icons.sort),
-                onPressed:
-                    reload, // Call reload method when refresh button is tapped
+                onPressed: reload,
               ),
             ],
           ),

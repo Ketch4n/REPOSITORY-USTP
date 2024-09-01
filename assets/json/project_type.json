@@ -1,0 +1,14 @@
+[
+    {
+        "id": 0,
+        "project_type": 1
+    },
+    {
+        "id": 1,
+        "project_type": 2
+    },
+    {
+        "id": 2,
+        "project_type": 3
+    }
+]

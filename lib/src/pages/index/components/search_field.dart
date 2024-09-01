@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/components/textfield.dart';
+import 'package:repository_ustp/src/data/binary_value.dart';
 
 class SearchField extends StatefulWidget {
   const SearchField({super.key});
@@ -10,9 +11,13 @@ class SearchField extends StatefulWidget {
 
 class _SearchFieldState extends State<SearchField> {
   final TextEditingController _searchController = TextEditingController();
-  final TextEditingController _allController = TextEditingController();
-  final TextEditingController _keywordController = TextEditingController();
-  final TextEditingController _filesController = TextEditingController();
+  // final TextEditingController _allController = TextEditingController();
+  // final TextEditingController _keywordController = TextEditingController();
+  // final TextEditingController _filesController = TextEditingController();
+
+  String? _selectedItem;
+
+  final List<int> _items = [1, 2, 3];
 
   @override
   Widget build(BuildContext context) {
@@ -33,18 +38,51 @@ class _SearchFieldState extends State<SearchField> {
                 hint: "SEARCH",
               ),
             ),
-            CustomTextField(
-              controller: _allController,
-              hint: "ALL",
+            Container(
+              height: 40,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+              child: DropdownButton<String>(
+                value: _selectedItem,
+                hint: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text('ALL'),
+                ),
+                // icon: Icon(Icons.arrow_downward),
+                // iconSize: 24,
+                elevation: 16,
+                underline: const SizedBox.shrink(),
+                // style: TextStyle(color: Colors.deepPurple),
+                // underline: Container(
+                //   height: 2,
+                //   // color: Colors.deepPurpleAccent,
+                // ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedItem = newValue;
+                  });
+                },
+                items: _items.map<DropdownMenuItem<String>>((int value) {
+                  return DropdownMenuItem<String>(
+                    value: projectTypeBinaryValue(value),
+                    child: Text(projectTypeBinaryValue(value)),
+                  );
+                }).toList(),
+              ),
             ),
-            CustomTextField(
-              controller: _keywordController,
-              hint: "KEYWORD",
-            ),
-            CustomTextField(
-              controller: _filesController,
-              hint: "FILES",
-            ),
+            // CustomTextField(
+            //   controller: _allController,
+            //   hint: "ALL",
+            // ),
+            // CustomTextField(
+            //   controller: _keywordController,
+            //   hint: "KEYWORD",
+            // ),
+            // CustomTextField(
+            //   controller: _filesController,
+            //   hint: "FILES",
+            // ),
             Container(
               decoration: const BoxDecoration(
                 color: Colors.white,

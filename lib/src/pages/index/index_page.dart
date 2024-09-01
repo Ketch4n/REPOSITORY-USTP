@@ -4,7 +4,6 @@ import 'package:repository_ustp/src/components/sidebar/sidebar.dart';
 import 'package:repository_ustp/src/data/binary_value.dart';
 import 'package:repository_ustp/src/data/screen_breakpoint.dart';
 import 'package:repository_ustp/src/data/session.dart';
-import 'package:repository_ustp/src/pages/capstone_teams/capstone_teams_page.dart';
 import 'package:repository_ustp/src/pages/index/components/card_list.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field.dart';
 import 'package:repository_ustp/src/pages/index/modules/add_appbar.dart';

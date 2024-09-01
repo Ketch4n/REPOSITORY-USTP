@@ -125,26 +125,26 @@ class _RepositoryAddState extends State<RepositoryAdd> {
                               alignment: Alignment.center,
                               children: [
                                 Image.asset("assets/hardbound.png"),
-                                TextContent(
+                                const TextContent(
                                     alignment: Alignment.topCenter,
                                     title: "Web App",
                                     size: 10),
-                                TextContent(
+                                const TextContent(
                                   alignment: Alignment.center,
                                   title: "Capstone Title",
                                   color: Colors.yellow,
                                 ),
-                                TextContent(
+                                const TextContent(
                                     alignment: Alignment.bottomCenter,
                                     title: "2024",
                                     size: 8),
                               ],
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 15,
                           ),
-                          Column(
+                          const Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text("Group Name"),
@@ -154,10 +154,10 @@ class _RepositoryAddState extends State<RepositoryAdd> {
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Text("Access to Repository Files ?"),
+                      const Text("Access to Repository Files ?"),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -169,7 +169,7 @@ class _RepositoryAddState extends State<RepositoryAdd> {
                                 _selectedValue = value!;
                               });
                             },
-                            child: Text("Public"),
+                            child: const Text("Public"),
                           ),
                           RadioMenuButton(
                             value: 1,
@@ -179,7 +179,7 @@ class _RepositoryAddState extends State<RepositoryAdd> {
                                 _selectedValue = value!;
                               });
                             },
-                            child: Text("Private"),
+                            child: const Text("Private"),
                           ),
                         ],
                       ),

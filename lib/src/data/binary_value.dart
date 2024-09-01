@@ -22,23 +22,16 @@ String userBinaryValue(int type) {
 }
 
 String projectTypeBinaryValue(int type) {
-  if (type == 0) {
-    const value = "RECENTLY ADDED";
-
-    return value;
-  } else if (type == 1) {
-    const value = "IOT CAPSTONE";
-
-    return value;
-  } else if (type == 2) {
-    const value = "WEB APP CAPSTONE";
-
-    return value;
-  } else if (type == 3) {
-    const value = "PIT PROJECT";
-    return value;
-  } else {
-    const value = "INVALID PROJECT TYPE";
-    return value;
+  switch (type) {
+    case 0:
+      return "RECENTLY ADDED";
+    case 1:
+      return "IOT CAPSTONE";
+    case 2:
+      return "WEB APP CAPSTONE";
+    case 3:
+      return "PIT PROJECT";
+    default:
+      return "INVALID PROJECT TYPE";
   }
 }

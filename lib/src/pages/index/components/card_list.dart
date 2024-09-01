@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/components/card.dart';
-import 'package:repository_ustp/src/data/binary_value.dart';
 
 class CardList extends StatefulWidget {
   const CardList({super.key, required this.callback});

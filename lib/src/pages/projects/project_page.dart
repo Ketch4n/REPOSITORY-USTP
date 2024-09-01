@@ -6,6 +6,7 @@ import 'package:repository_ustp/src/data/session.dart';
 import 'package:repository_ustp/src/pages/projects/components/text_content.dart';
 import 'package:repository_ustp/src/pages/projects/project_function.dart';
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
+import 'package:repository_ustp/src/utils/palette.dart';
 
 class ProjectPage extends StatefulWidget {
   const ProjectPage({super.key, required this.projectType});
@@ -49,15 +50,19 @@ class _ProjectPageState extends State<ProjectPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Consumer<CardTypeClick>(builder: (context, value, child) {
-          return Text(projectTypeBinaryValue(value.quackNew));
+          return Row(
+            children: [
+              Text(projectTypeBinaryValue(value.quackNew)),
+              IconButton(
+                icon: Icon(
+                  Icons.sort,
+                  color: ColorPallete.primary,
+                ),
+                onPressed: reload,
+              ),
+            ],
+          );
         }),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.sort),
-            onPressed:
-                reload, // Call reload method when refresh button is tapped
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -97,7 +102,6 @@ class _ProjectPageState extends State<ProjectPage> {
     );
   }
 
-  // Moved _buildBody inside the class to access state
   Widget _buildBody(int index, List<ProjectModel> projectList) {
     final ProjectModel project = projectList[index];
     return Padding(

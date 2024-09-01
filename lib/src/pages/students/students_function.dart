@@ -18,7 +18,7 @@ class StudentFunctions {
 
       userStream.add(filteredUsers);
     } catch (e) {
-      print("Error $e");
+      // print("Error $e");
     }
   }
 }

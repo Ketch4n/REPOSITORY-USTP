@@ -22,7 +22,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'MontserratRegular'),
-      initialRoute: AppRoutes.login,
+      initialRoute: AppRoutes.index,
       onGenerateRoute: AppRoutes.onGenerateRoute,
       // home: const LoginPage(),
     );

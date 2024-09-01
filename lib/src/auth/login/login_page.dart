@@ -37,8 +37,8 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             _buildMainContainer(),
             const Positioned(
-              top: -65,
-              child: Hero(tag: 'Container-0-Hero', child: USTPLogo(size: 125)),
+              top: -50,
+              child: Hero(tag: 'Container-0-Hero', child: USTPLogo(size: 120)),
             ),
           ],
         ),
