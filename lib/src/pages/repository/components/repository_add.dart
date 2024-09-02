@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repository_ustp/src/auth/login/modules/add_title.dart';
 import 'package:repository_ustp/src/components/textfield.dart';
 import 'package:repository_ustp/src/pages/projects/components/text_content.dart';
 import 'package:repository_ustp/src/utils/palette.dart';
@@ -24,11 +25,13 @@ int _selectedValue = 0;
 class _RepositoryAddState extends State<RepositoryAdd> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Container(
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          addTitle("ADD NEW REPOSITORY", 20),
+          Container(
             height: 470,
             width: 450,
             decoration: BoxDecoration(
@@ -200,7 +203,7 @@ class _RepositoryAddState extends State<RepositoryAdd> {
               ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }

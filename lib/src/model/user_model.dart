@@ -4,6 +4,7 @@ class UserModel {
   final String email;
   final String password;
   final int type;
+  final int status;
 
   UserModel({
     required this.id,
@@ -11,6 +12,7 @@ class UserModel {
     required this.email,
     required this.password,
     required this.type,
+    required this.status,
   });
 
   // Factory constructor to create a UserModel instance from a JSON map
@@ -21,6 +23,7 @@ class UserModel {
       email: json['email'],
       password: json['password'],
       type: json['type'],
+      status: json['status'],
     );
   }
 
@@ -32,6 +35,7 @@ class UserModel {
       'email': email,
       'password': password,
       'type': type,
+      'status': status,
     };
   }
 }

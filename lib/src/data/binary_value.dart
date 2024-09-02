@@ -1,4 +1,6 @@
 // SYSTEM USER BINARY VALUE
+import 'package:flutter/material.dart';
+
 class UserBinary {
   static int defaultValue = 3;
   static String username = "Undefined User";
@@ -33,5 +35,22 @@ String projectTypeBinaryValue(int type) {
       return "PIT PROJECT";
     default:
       return "INVALID PROJECT TYPE";
+  }
+}
+
+Icon projectPrivacyValue(int value) {
+  switch (value) {
+    case 0:
+      return const Icon(
+        Icons.public,
+        color: Colors.blue,
+      );
+    case 1:
+      return const Icon(
+        Icons.security,
+        color: Colors.orange,
+      );
+    default:
+      return const Icon(Icons.no_accounts);
   }
 }

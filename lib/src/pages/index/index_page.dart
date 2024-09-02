@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:repository_ustp/src/components/duck_404.dart';
 import 'package:repository_ustp/src/components/sidebar/sidebar.dart';
-import 'package:repository_ustp/src/data/binary_value.dart';
 import 'package:repository_ustp/src/data/screen_breakpoint.dart';
 import 'package:repository_ustp/src/data/session.dart';
+import 'package:repository_ustp/src/pages/capstone_teams/capstone_teams_page.dart';
 import 'package:repository_ustp/src/pages/index/components/card_list.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field.dart';
 import 'package:repository_ustp/src/pages/index/modules/add_appbar.dart';
 import 'package:repository_ustp/src/pages/index/modules/add_showsearch.dart';
 import 'package:repository_ustp/src/pages/projects/project_page.dart';
-import 'package:repository_ustp/src/pages/repository/components/repository_add.dart';
 import 'package:repository_ustp/src/pages/repository/repository_page.dart';
 import 'package:repository_ustp/src/pages/students/students_page.dart';
 import 'package:repository_ustp/src/utils/palette.dart';
@@ -86,7 +84,7 @@ Widget _buildContent(width, widgetIndex, onCardItemTap, quack, showTopItems,
   return Expanded(
     child: Scaffold(
       backgroundColor: ColorPallete.grey,
-      floatingActionButton: width > tabletBreakpoint && widgetIndex < 4
+      floatingActionButton: width > tabletBreakpoint
           ? addShowSearch(
               onTapShowItems,
               showTopItems && width > tabletBreakpoint
@@ -100,10 +98,9 @@ Widget _buildContent(width, widgetIndex, onCardItemTap, quack, showTopItems,
                       ? const Text("Show Search")
                       : const SizedBox())
           : null,
-      floatingActionButtonLocation:
-          showTopItems && width > tabletBreakpoint && widgetIndex < 4
-              ? FloatingActionButtonLocation.miniEndDocked
-              : FloatingActionButtonLocation.miniEndTop,
+      floatingActionButtonLocation: showTopItems && width > tabletBreakpoint
+          ? FloatingActionButtonLocation.miniEndDocked
+          : FloatingActionButtonLocation.miniEndTop,
       body: _buildSubContent(
           showTopItems, onCardItemTap, widgetIndex, quack, onMenuItemTap),
     ),
@@ -112,43 +109,33 @@ Widget _buildContent(width, widgetIndex, onCardItemTap, quack, showTopItems,
 
 Widget _buildSubContent(
     showTopItems, onCardItemTap, widgetIndex, quack, onMenuItemTap) {
-  return widgetIndex < 4
-      ? Column(
-          children: [
-            showTopItems ? const SearchField() : const SizedBox(),
-            showTopItems
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: CardList(callback: onCardItemTap),
-                  )
-                : const SizedBox(),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: IndexedStack(
-                  index: widgetIndex,
-                  children: <Widget>[
-                    ProjectPage(projectType: quack),
-                    RepositoryPage(
-                      callback: onMenuItemTap,
-                      projectType: quack,
-                    ),
-                    const StudentsPage(),
-                    Duck(
-                        status: widgetIndex.toString(),
-                        content: projectTypeBinaryValue(quack).toString()),
-                  ],
-                ),
+  return Column(
+    children: [
+      showTopItems ? const SearchField() : const SizedBox(),
+      showTopItems
+          ? Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: CardList(callback: onCardItemTap),
+            )
+          : const SizedBox(),
+      Expanded(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: IndexedStack(
+            index: widgetIndex,
+            children: <Widget>[
+              ProjectPage(projectType: quack),
+              RepositoryPage(
+                // callback: onMenuItemTap,
+                projectType: quack,
               ),
-            )
-          ],
-        )
-      : widgetIndex == 4
-          ? const Padding(
-              padding: EdgeInsets.all(10.0),
-              child: RepositoryAdd(),
-            )
-          : const Duck(
-              status: "Page not found",
-              content: "check route or if page exist");
+              const CapstoneTeamsPage(),
+              const StudentsPage(status: 0),
+              const StudentsPage(status: 1),
+            ],
+          ),
+        ),
+      )
+    ],
+  );
 }

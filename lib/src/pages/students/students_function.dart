@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:repository_ustp/src/model/user_model.dart';
 
 class StudentFunctions {
-  static fetchStudentsList(userStream, int type) async {
+  static fetchStudentsList(userStream, int type, int status) async {
     try {
       final response =
           await rootBundle.loadString("assets/json/user_credentials.json");
@@ -14,7 +14,7 @@ class StudentFunctions {
           jsonData.map((data) => UserModel.fromJson(data)).toList();
 
       final List<UserModel> filteredUsers =
-          user.where((u) => u.type == type).toList();
+          user.where((u) => u.type == type && u.status == status).toList();
 
       userStream.add(filteredUsers);
     } catch (e) {

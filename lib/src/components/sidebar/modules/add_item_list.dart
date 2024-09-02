@@ -33,12 +33,20 @@ Widget addItemList(callback, context) {
           mobile ? Navigator.of(context).pop() : null;
         },
       ),
+      CustomListTileItems(
+        icon: addPreffixIcon(Icons.lock_person),
+        label: addLabel("Student Access"),
+        callback: () {
+          callback(3);
+          mobile ? Navigator.of(context).pop() : null;
+        },
+      ),
       UserBinary.defaultValue != 2
           ? CustomListTileItems(
               icon: addPreffixIcon(Icons.archive_outlined),
               label: addLabel("Archived"),
               callback: () {
-                callback(3);
+                callback(4);
                 mobile ? Navigator.of(context).pop() : null;
               },
             )

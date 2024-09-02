@@ -2,16 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:repository_ustp/src/components/show_dialog.dart';
 import 'package:repository_ustp/src/data/binary_value.dart';
 import 'package:repository_ustp/src/data/session.dart';
 import 'package:repository_ustp/src/pages/projects/components/text_content.dart';
 import 'package:repository_ustp/src/pages/projects/project_function.dart';
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
+import 'package:repository_ustp/src/pages/repository/components/repository_add.dart';
 
 class RepositoryPage extends StatefulWidget {
-  const RepositoryPage(
-      {super.key, required this.callback, required this.projectType});
-  final Function callback;
+  const RepositoryPage({super.key, required this.projectType});
+
   final int projectType;
 
   @override
@@ -110,8 +111,9 @@ class _RepositoryPageState extends State<RepositoryPage> {
             padding: const EdgeInsets.all(10.0),
             child: ElevatedButton.icon(
                 onPressed: () {
-                  widget.callback(4);
+                  // widget.callback(4);
                   // Navigator.pushNamed(context, '/repository/add');
+                  showCustomDialog(context, const RepositoryAdd());
                 },
                 icon: const Icon(Icons.add),
                 label: const Text("Add New Repository")),
@@ -136,6 +138,10 @@ Widget _buildBody(index, projectList) {
           children: [
             Image.asset(
               "assets/folder.png",
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: projectPrivacyValue(project.privacy),
             ),
             TextContent(
                 alignment: Alignment.topLeft,
