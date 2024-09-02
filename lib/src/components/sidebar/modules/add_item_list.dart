@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/components/sidebar/modules/add_footer_icon.dart';
 import 'package:repository_ustp/src/components/textbutton_icon.dart';
 import 'package:repository_ustp/src/data/screen_breakpoint.dart';
-import 'package:repository_ustp/src/data/binary_value.dart';
+
+import 'package:repository_ustp/src/data/session.dart';
 
 Widget addItemList(callback, context) {
   final width = MediaQuery.of(context).size.width;
@@ -33,15 +34,17 @@ Widget addItemList(callback, context) {
           mobile ? Navigator.of(context).pop() : null;
         },
       ),
-      CustomListTileItems(
-        icon: addPreffixIcon(Icons.lock_person),
-        label: addLabel("Student Access"),
-        callback: () {
-          callback(3);
-          mobile ? Navigator.of(context).pop() : null;
-        },
-      ),
-      UserBinary.defaultValue != 2
+      UserSession.type != 2
+          ? CustomListTileItems(
+              icon: addPreffixIcon(Icons.lock_person),
+              label: addLabel("Student Access"),
+              callback: () {
+                callback(3);
+                mobile ? Navigator.of(context).pop() : null;
+              },
+            )
+          : const SizedBox(),
+      UserSession.type != 2
           ? CustomListTileItems(
               icon: addPreffixIcon(Icons.archive_outlined),
               label: addLabel("Archived"),

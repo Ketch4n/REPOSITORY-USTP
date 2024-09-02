@@ -1,12 +1,6 @@
 // SYSTEM USER BINARY VALUE
 import 'package:flutter/material.dart';
 
-class UserBinary {
-  static int defaultValue = 3;
-  static String username = "Undefined User";
-  static String email = "email.undefined@gmail.com";
-}
-
 String userBinaryValue(int type) {
   if (type == 0) {
     const value = "Administrator";

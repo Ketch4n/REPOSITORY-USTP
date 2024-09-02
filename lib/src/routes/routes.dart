@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/auth/login/login_page.dart';
 import 'package:repository_ustp/src/auth/signup/signup_page.dart';
 import 'package:repository_ustp/src/components/duck_404.dart';
-import 'package:repository_ustp/src/data/binary_value.dart';
+import 'package:repository_ustp/src/data/session.dart';
 import 'package:repository_ustp/src/pages/index/index_page.dart';
 import 'package:repository_ustp/src/pages/repository/components/repository_add.dart';
 
