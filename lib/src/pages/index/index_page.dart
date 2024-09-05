@@ -20,10 +20,10 @@ class IndexPage extends StatefulWidget {
   State<IndexPage> createState() => _IndexPageState();
 }
 
-class _IndexPageState extends State<IndexPage> {
-  int widgetIndex = 0;
+int widgetIndex = 0;
+bool showTopItems = true;
 
-  bool showTopItems = true;
+class _IndexPageState extends State<IndexPage> {
   void _onMenuItemTap(int index) {
     setState(() {
       widgetIndex = index;
@@ -56,19 +56,16 @@ class _IndexPageState extends State<IndexPage> {
           : null,
       drawer:
           width <= tabletBreakpoint ? SideBar(callback: _onMenuItemTap) : null,
-      body: _buildBody(width, _onMenuItemTap, widgetIndex, _onCardItemTap,
-          CardTypeClick.quack, showTopItems, _onTapShowItems),
+      body: _buildBody(width, _onMenuItemTap, _onCardItemTap, _onTapShowItems),
     );
   }
 }
 
-Widget _buildBody(width, onMenuItemTap, widgetIndex, onCardItemTap, quack,
-    showTopItems, onTapShowItems) {
+Widget _buildBody(width, onMenuItemTap, onCardItemTap, onTapShowItems) {
   return Row(
     children: <Widget>[
       _buildSidebar(width, onMenuItemTap),
-      _buildContent(width, widgetIndex, onCardItemTap, quack, showTopItems,
-          onTapShowItems, onMenuItemTap),
+      _buildContent(width, onCardItemTap, onTapShowItems, onMenuItemTap),
     ],
   );
 }
@@ -79,8 +76,7 @@ Widget _buildSidebar(width, onMenuItemTap) {
       : const SizedBox();
 }
 
-Widget _buildContent(width, widgetIndex, onCardItemTap, quack, showTopItems,
-    onTapShowItems, onMenuItemTap) {
+Widget _buildContent(width, onCardItemTap, onTapShowItems, onMenuItemTap) {
   return Expanded(
     child: Scaffold(
       backgroundColor: ColorPallete.grey,
@@ -101,14 +97,12 @@ Widget _buildContent(width, widgetIndex, onCardItemTap, quack, showTopItems,
       floatingActionButtonLocation: showTopItems && width > tabletBreakpoint
           ? FloatingActionButtonLocation.miniEndDocked
           : FloatingActionButtonLocation.miniEndTop,
-      body: _buildSubContent(
-          showTopItems, onCardItemTap, widgetIndex, quack, onMenuItemTap),
+      body: _buildSubContent(onCardItemTap, onMenuItemTap),
     ),
   );
 }
 
-Widget _buildSubContent(
-    showTopItems, onCardItemTap, widgetIndex, quack, onMenuItemTap) {
+Widget _buildSubContent(onCardItemTap, onMenuItemTap) {
   return Column(
     children: [
       showTopItems ? const SearchField() : const SizedBox(),
@@ -124,11 +118,10 @@ Widget _buildSubContent(
           child: IndexedStack(
             index: widgetIndex,
             children: <Widget>[
-              ProjectPage(projectType: quack),
+              ProjectPage(projectType: CardTypeClick.quack),
               RepositoryPage(
-                // callback: onMenuItemTap,
-                projectType: quack,
-              ),
+                  // callback: onMenuItemTap,
+                  projectType: CardTypeClick.quack),
               const CapstoneTeamsPage(),
               const StudentsPage(status: 0),
               const StudentsPage(status: 1),
