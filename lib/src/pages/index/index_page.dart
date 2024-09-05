@@ -49,10 +49,7 @@ class _IndexPageState extends State<IndexPage> {
     return Scaffold(
       backgroundColor: ColorPallete.grey,
       appBar: width <= tabletBreakpoint
-          ? addAppBar(
-              _onTapShowItems,
-              showTopItems,
-            )
+          ? addAppBar(_onTapShowItems, showTopItems)
           : null,
       drawer:
           width <= tabletBreakpoint ? SideBar(callback: _onMenuItemTap) : null,

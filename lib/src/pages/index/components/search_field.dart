@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/components/textfield.dart';
 import 'package:repository_ustp/src/data/binary_value.dart';
+import 'package:repository_ustp/src/data/session.dart';
 
 class SearchField extends StatefulWidget {
   const SearchField({super.key});
@@ -15,7 +16,7 @@ class _SearchFieldState extends State<SearchField> {
   // final TextEditingController _keywordController = TextEditingController();
   // final TextEditingController _filesController = TextEditingController();
 
-  String? _selectedItem;
+  int? _selectedItem;
 
   final List<int> _items = [1, 2, 3];
 
@@ -43,7 +44,7 @@ class _SearchFieldState extends State<SearchField> {
               decoration: const BoxDecoration(
                 color: Colors.white,
               ),
-              child: DropdownButton<String>(
+              child: DropdownButton<int>(
                 value: _selectedItem,
                 hint: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -58,14 +59,15 @@ class _SearchFieldState extends State<SearchField> {
                 //   height: 2,
                 //   // color: Colors.deepPurpleAccent,
                 // ),
-                onChanged: (String? newValue) {
+                onChanged: (int? newValue) {
                   setState(() {
                     _selectedItem = newValue;
+                    CardTypeClick.quack = _selectedItem!;
                   });
                 },
-                items: _items.map<DropdownMenuItem<String>>((int value) {
-                  return DropdownMenuItem<String>(
-                    value: projectTypeBinaryValue(value),
+                items: _items.map<DropdownMenuItem<int>>((int value) {
+                  return DropdownMenuItem<int>(
+                    value: value,
                     child: Text(projectTypeBinaryValue(value)),
                   );
                 }).toList(),

@@ -32,7 +32,7 @@ String projectTypeBinaryValue(int type) {
   }
 }
 
-Icon projectPrivacyValue(int value) {
+Icon projectPrivacyValue(int value, context) {
   switch (value) {
     case 0:
       return const Icon(
@@ -44,7 +44,15 @@ Icon projectPrivacyValue(int value) {
         Icons.security,
         color: Colors.orange,
       );
+    case 2:
+      return const Icon(
+        Icons.people_sharp,
+        color: Colors.green,
+      );
     default:
-      return const Icon(Icons.no_accounts);
+      return const Icon(
+        Icons.no_accounts,
+        color: Colors.red,
+      );
   }
 }

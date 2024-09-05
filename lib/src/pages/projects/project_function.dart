@@ -3,13 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
 
 class ProjectFunction {
-  static Future fetchProjects(projectStream, int type) async {
+  static Future fetchProjects(projectStream, int projectType) async {
     try {
       final response =
           await rootBundle.loadString("assets/json/all_project.json");
       var jsonData = jsonDecode(response) as List<dynamic>;
 
-      if (type == 0) {
+      if (projectType == 0) {
         final List<ProjectModel> project =
             jsonData.map((data) => ProjectModel.fromJson(data)).toList();
         projectStream.add(project);
@@ -17,7 +17,7 @@ class ProjectFunction {
         final List<ProjectModel> project =
             jsonData.map((data) => ProjectModel.fromJson(data)).toList();
         final List<ProjectModel> filtered =
-            project.where((u) => u.project_type == type).toList();
+            project.where((u) => u.project_type == projectType).toList();
         projectStream.add(filtered);
       }
     } catch (e) {

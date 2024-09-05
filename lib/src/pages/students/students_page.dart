@@ -105,6 +105,14 @@ _buidText(index, userlist, status) {
                   fillColor: MaterialStateProperty.all(Colors.orange),
                 ),
                 const Text("Private"),
+                const SizedBox(width: 8),
+                Radio<int>(
+                  value: 1,
+                  groupValue: _selectedValue,
+                  onChanged: null,
+                  fillColor: MaterialStateProperty.all(Colors.green),
+                ),
+                const Text("Shared"),
               ],
             )
           : const Text("No email notification and access to Repository"),

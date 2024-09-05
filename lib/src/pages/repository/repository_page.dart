@@ -88,7 +88,7 @@ class _RepositoryPageState extends State<RepositoryPage> {
                           spacing: 10.0,
                           children: List.generate(
                             projectList.length,
-                            (index) => _buildBody(index, projectList),
+                            (index) => _buildBody(index, projectList, context),
                           ),
                         ),
                       );
@@ -124,8 +124,9 @@ class _RepositoryPageState extends State<RepositoryPage> {
   }
 }
 
-Widget _buildBody(index, projectList) {
+Widget _buildBody(index, projectList, context) {
   final ProjectModel project = projectList[index];
+
   return Padding(
     padding: const EdgeInsets.all(10.0),
     child: SizedBox(
@@ -141,7 +142,7 @@ Widget _buildBody(index, projectList) {
             ),
             Align(
               alignment: Alignment.topRight,
-              child: projectPrivacyValue(project.privacy),
+              child: projectPrivacyValue(project.privacy, context),
             ),
             TextContent(
                 alignment: Alignment.topLeft,
