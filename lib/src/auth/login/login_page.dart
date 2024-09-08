@@ -19,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool _isObscure = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

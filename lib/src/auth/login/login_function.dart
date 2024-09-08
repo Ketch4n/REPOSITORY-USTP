@@ -1,65 +1,51 @@
-// import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:repository_ustp/src/components/snackbar.dart';
-import 'package:repository_ustp/src/data/session.dart';
+import 'package:repository_ustp/src/data/server/url.dart';
+import 'package:repository_ustp/src/data/provider/user_session.dart';
+import 'package:http/http.dart' as http;
 
 class LoginFunctions {
   static Future fetchUserCredentials(
       context, String username, String password) async {
-    try {
-      final response =
-          await rootBundle.loadString("assets/json/user_credentials.json");
-      var jsonData = jsonDecode(response) as List<dynamic>;
-
-      bool isAuthenticated = false;
-      // int type = UserBinary.defaultValue;
-
-      for (var user in jsonData) {
-        final int id = user['id'];
-        final String userName = user["username"];
-        final String userEmail = user["email"];
-        final String pass = user["password"];
-        final int type = user['type'];
-        // final int status = user['status'];
-
-        if (userName == username && pass == password) {
-          isAuthenticated = true;
-          // type = typeString;
-          // UserBinary.defaultValue = type;
-          UserSession.auth = true;
-          UserSession.id = id;
-          UserSession.username = userName;
-          UserSession.email = userEmail;
-          UserSession.type = type;
-          // addPrefData("u_AUTH", isAuthenticated);
-          // addPrefData("u_ID", id);
-          // addPrefData("u_USERNAME", userName);
-          // addPrefData("u_EMAIL", userEmail);
-          // addPrefData("u_TYPE", type);
-          // addPrefData("u_STATUS", status);
-
-          break;
-        }
-      }
-
-      if (isAuthenticated) {
-        const content = "Login Success";
-        customSnackBar(context, 0, content);
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          '/index',
-          (route) => false,
+    if (username.isEmpty && password.isEmpty) {
+      customSnackBar(context, 1, "Username or Password is Empty !");
+    } else {
+      try {
+        final response = await http.post(
+          Uri.parse("${Servername.host}user/login"),
+          body: {
+            'username': username,
+            'password': password,
+          },
         );
-      } else {
-        const content = "Username or password invalid";
-        customSnackBar(context, 1, content);
+        Map<String, dynamic> jsonResponse = json.decode(response.body);
+
+        bool quack = jsonResponse['quack'];
+        var user = jsonResponse['user'];
+        var message = jsonResponse['message'];
+
+        if (response.statusCode == 200 && quack) {
+          // UserSession.auth = true;
+          UserSession.id = user['id'];
+          UserSession.username = user["username"];
+          UserSession.email = user["email"];
+          UserSession.type = user['type'];
+          // const content = "Login Success";
+          customSnackBar(context, 0, message);
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            '/index',
+            (route) => false,
+          );
+        } else {
+          // const content = "Username or password invalid";
+          customSnackBar(context, 1, message);
+        }
+      } catch (e) {
+        // final content = 'Failed to fetch users: $e';
+        customSnackBar(context, 2, e);
       }
-    } catch (e) {
-      final content = 'Failed to fetch users: $e';
-      customSnackBar(context, 2, content);
     }
   }
 }

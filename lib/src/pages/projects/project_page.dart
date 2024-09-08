@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:repository_ustp/src/data/binary_value.dart';
-import 'package:repository_ustp/src/data/session.dart';
+import 'package:repository_ustp/src/data/index/project_index_value.dart';
+import 'package:repository_ustp/src/data/provider/card_click_event.dart';
 import 'package:repository_ustp/src/pages/projects/components/text_content.dart';
 import 'package:repository_ustp/src/pages/projects/project_function.dart';
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
@@ -49,7 +49,7 @@ class _ProjectPageState extends State<ProjectPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Consumer<CardTypeClick>(builder: (context, value, child) {
+        title: Consumer<CardClickEvent>(builder: (context, value, child) {
           return Row(
             children: [
               Text(projectTypeBinaryValue(value.quackNew)),

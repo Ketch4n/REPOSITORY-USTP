@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:repository_ustp/src/data/session.dart';
+import 'package:repository_ustp/src/data/provider/card_click_event.dart';
 import 'package:repository_ustp/src/pages/projects/project_function.dart';
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
 
@@ -19,7 +19,7 @@ class _CapstoneTeamsPageState extends State<CapstoneTeamsPage> {
   @override
   void initState() {
     super.initState();
-    ProjectFunction.fetchProjects(_teamStream, CardTypeClick.quack);
+    ProjectFunction.fetchProjects(_teamStream, CardClickEvent.quack);
   }
 
   @override

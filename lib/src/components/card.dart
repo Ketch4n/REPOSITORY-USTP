@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:repository_ustp/src/data/binary_value.dart';
+import 'package:repository_ustp/src/data/index/project_index_value.dart';
 import 'package:repository_ustp/src/utils/palette.dart';
 
 class CustomCard extends StatefulWidget {

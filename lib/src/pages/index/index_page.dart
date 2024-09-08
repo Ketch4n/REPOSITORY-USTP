@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/components/sidebar/sidebar.dart';
-import 'package:repository_ustp/src/data/screen_breakpoint.dart';
-import 'package:repository_ustp/src/data/session.dart';
+import 'package:repository_ustp/src/data/provider/card_click_event.dart';
+import 'package:repository_ustp/src/utils/screen_breakpoint.dart';
 import 'package:repository_ustp/src/pages/capstone_teams/capstone_teams_page.dart';
 import 'package:repository_ustp/src/pages/index/components/card_list.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field.dart';
@@ -32,7 +32,7 @@ class _IndexPageState extends State<IndexPage> {
 
   void _onCardItemTap(int index) {
     setState(() {
-      CardTypeClick.quack = index;
+      CardClickEvent.quack = index;
     });
   }
 
@@ -115,10 +115,10 @@ Widget _buildSubContent(onCardItemTap, onMenuItemTap) {
           child: IndexedStack(
             index: widgetIndex,
             children: <Widget>[
-              ProjectPage(projectType: CardTypeClick.quack),
+              ProjectPage(projectType: CardClickEvent.quack),
               RepositoryPage(
                   // callback: onMenuItemTap,
-                  projectType: CardTypeClick.quack),
+                  projectType: CardClickEvent.quack),
               const CapstoneTeamsPage(),
               const StudentsPage(status: 0),
               const StudentsPage(status: 1),

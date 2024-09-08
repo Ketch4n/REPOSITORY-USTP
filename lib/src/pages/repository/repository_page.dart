@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repository_ustp/src/components/show_dialog.dart';
-import 'package:repository_ustp/src/data/binary_value.dart';
-import 'package:repository_ustp/src/data/session.dart';
+import 'package:repository_ustp/src/data/index/privacy_icon_value.dart';
+import 'package:repository_ustp/src/data/index/project_index_value.dart';
+import 'package:repository_ustp/src/data/provider/card_click_event.dart';
 import 'package:repository_ustp/src/pages/projects/components/text_content.dart';
 import 'package:repository_ustp/src/pages/projects/project_function.dart';
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
@@ -55,7 +56,7 @@ class _RepositoryPageState extends State<RepositoryPage> {
           appBar: AppBar(
             automaticallyImplyLeading: false,
             centerTitle: true,
-            title: Consumer<CardTypeClick>(builder: (context, value, child) {
+            title: Consumer<CardClickEvent>(builder: (context, value, child) {
               return Text(projectTypeBinaryValue(value.quackNew));
             }),
             actions: [

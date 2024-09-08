@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repository_ustp/src/auth/login/components/ustp_logo.dart';
-import 'package:repository_ustp/src/data/session.dart';
+import 'package:repository_ustp/src/data/provider/user_session.dart';
 import 'package:repository_ustp/src/utils/palette.dart';
 import 'package:repository_ustp/src/utils/text.dart';
 
@@ -26,11 +26,11 @@ class SideBarHeaderContainer extends StatelessWidget {
               ),
               ListTile(
                 title: Text(
-                  value.usernameValue ?? UserBinary.username,
+                  value.usernameValue ?? UserSession.username,
                   style: CustomTextStyle.sideBarItems,
                 ),
                 subtitle: Text(
-                  value.emailValue ?? UserBinary.email,
+                  value.emailValue ?? UserSession.email,
                   style: const TextStyle(color: Colors.white),
                 ),
               ),

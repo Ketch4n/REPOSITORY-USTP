@@ -3,7 +3,9 @@ import 'package:repository_ustp/src/auth/login/components/main_container.dart';
 import 'package:repository_ustp/src/auth/login/modules/add_title.dart';
 import 'package:repository_ustp/src/auth/signup/modules/add_bottom_content.dart';
 import 'package:repository_ustp/src/auth/signup/modules/add_corner_usertype.dart';
+import 'package:repository_ustp/src/auth/signup/signup_function.dart';
 import 'package:repository_ustp/src/components/textfield.dart';
+import 'package:repository_ustp/src/data/provider/switch_role_signup.dart';
 import 'package:repository_ustp/src/utils/palette.dart';
 
 class SignupPage extends StatefulWidget {
@@ -17,6 +19,10 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwrodController = TextEditingController();
+  void callback() async {
+    await signupFunction(context, _usernameController.text,
+        _emailController.text, _passwrodController.text, SwitchRoleSignup.type);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +33,15 @@ class _SignupPageState extends State<SignupPage> {
           clipBehavior: Clip.none,
           alignment: Alignment.topCenter,
           children: [
-            LoginMainContainer(
-              radius: 10.0,
-              child: SingleChildScrollView(
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: LoginMainContainer(
+                radius: 10.0,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: 40.0, right: 40.0, top: 40.0),
+                      padding: const EdgeInsets.only(left: 40.0, right: 40.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -57,7 +64,7 @@ class _SignupPageState extends State<SignupPage> {
                         ],
                       ),
                     ),
-                    addBottomContent(context),
+                    addBottomContent(context, callback),
                   ],
                 ),
               ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/auth/login/login_page.dart';
 import 'package:repository_ustp/src/auth/signup/signup_page.dart';
 import 'package:repository_ustp/src/components/duck_404.dart';
-import 'package:repository_ustp/src/data/session.dart';
+import 'package:repository_ustp/src/data/provider/user_session.dart';
 import 'package:repository_ustp/src/pages/index/index_page.dart';
 import 'package:repository_ustp/src/pages/repository/components/repository_add.dart';
 
@@ -21,7 +21,7 @@ class AppRoutes {
       case index:
         final args = settings.arguments as int?;
         return MaterialPageRoute(
-            builder: (_) => IndexPage(type: args ?? UserBinary.defaultValue));
+            builder: (_) => IndexPage(type: args ?? UserSession.type));
 
       case signup:
         return MaterialPageRoute(builder: (_) => const SignupPage());
