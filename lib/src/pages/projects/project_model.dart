@@ -7,7 +7,7 @@ class ProjectModel {
   final int project_type;
   final String group_name;
   final int privacy;
-  final List<String> author;
+  // final List<String> author;
 
   ProjectModel({
     required this.id,
@@ -16,7 +16,7 @@ class ProjectModel {
     required this.project_type,
     required this.group_name,
     required this.privacy,
-    required this.author,
+    // required this.author,
   });
 
   // Factory method to create a ProjectModel instance from a JSON map
@@ -28,8 +28,8 @@ class ProjectModel {
       project_type: json['project_type'],
       group_name: json['group_name'],
       privacy: json['privacy'],
-      author: List<String>.from(
-          json['author']), // Convert JSON array to List<String>
+      // author: List<String>.from(
+      //     json['author']), // Convert JSON array to List<String>
     );
   }
 
@@ -42,7 +42,7 @@ class ProjectModel {
       'project_type': project_type,
       'group_name': group_name,
       'privacy': privacy,
-      'author': author,
+      // 'author': author,
     };
   }
 }

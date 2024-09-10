@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/auth/login/modules/add_title.dart';
 import 'package:repository_ustp/src/components/textfield.dart';
+import 'package:repository_ustp/src/data/index/project_index_value.dart';
+import 'package:repository_ustp/src/pages/index/components/dropdown_category.dart';
 import 'package:repository_ustp/src/pages/projects/components/text_content.dart';
 import 'package:repository_ustp/src/utils/palette.dart';
+
+import '../repository_function.dart';
 
 class RepositoryAdd extends StatefulWidget {
   const RepositoryAdd({super.key});
@@ -21,6 +25,10 @@ final TextEditingController _attachmentController = TextEditingController();
 
 int _currentStep = 0;
 int _selectedValue = 0;
+
+int? _selectedItem;
+
+final List<int> _items = [1, 2, 3];
 
 class _RepositoryAddState extends State<RepositoryAdd> {
   @override
@@ -51,6 +59,13 @@ class _RepositoryAddState extends State<RepositoryAdd> {
                   setState(() {
                     _currentStep++;
                   });
+                } else if (_currentStep == 2) {
+                  RepositoryFunction.postProjects(
+                      context,
+                      _capstoneTitleController.text,
+                      _selectedItem!,
+                      _selectedValue,
+                      _yearPublishedController.text);
                 }
               },
               onStepCancel: () {
@@ -58,6 +73,8 @@ class _RepositoryAddState extends State<RepositoryAdd> {
                   setState(() {
                     _currentStep--;
                   });
+                } else if (_currentStep == 0) {
+                  Navigator.of(context).pop();
                 }
               },
               steps: <Step>[
@@ -73,7 +90,33 @@ class _RepositoryAddState extends State<RepositoryAdd> {
                       CustomTextField(
                         controller: _projectTypeController,
                         label: "Project Type",
+                        suffix: PopupMenuButton<int>(
+                          icon: const Icon(Icons.menu),
+                          onSelected: (int value) {
+                            setState(() {
+                              _selectedItem = value;
+                              _projectTypeController.text =
+                                  projectTypeBinaryValue(value);
+                            });
+                          },
+                          itemBuilder: (BuildContext context) {
+                            return _items.map((int type) {
+                              return PopupMenuItem<int>(
+                                value: type,
+                                child: Text(projectTypeBinaryValue(type)),
+                              );
+                            }).toList();
+                          },
+                        ),
                       ),
+                      // Container(
+                      //   height: 60,
+                      //   width: double.maxFinite,
+                      //   decoration: BoxDecoration(
+                      //       color: Colors.white,
+                      //       borderRadius: BorderRadius.circular(5)),
+                      //   child: ProjectDropdownCategory(),
+                      // ),
                       const SizedBox(height: 10),
                       CustomTextField(
                         controller: _yearPublishedController,
@@ -99,11 +142,11 @@ class _RepositoryAddState extends State<RepositoryAdd> {
                         controller: _authorsController,
                         label: "Authors",
                       ),
-                      const SizedBox(height: 10),
-                      CustomTextField(
-                        controller: _attachmentController,
-                        label: "Attachment Files",
-                      ),
+                      // const SizedBox(height: 10),
+                      // CustomTextField(
+                      //   controller: _attachmentController,
+                      //   label: "Attachment Files",
+                      // ),
                     ],
                   ),
                   isActive: _currentStep >= 1,
@@ -128,18 +171,18 @@ class _RepositoryAddState extends State<RepositoryAdd> {
                               alignment: Alignment.center,
                               children: [
                                 Image.asset("assets/hardbound.png"),
-                                const TextContent(
+                                TextContent(
                                     alignment: Alignment.topCenter,
-                                    title: "Web App",
+                                    title: _projectTypeController.text,
                                     size: 10),
-                                const TextContent(
+                                TextContent(
                                   alignment: Alignment.center,
-                                  title: "Capstone Title",
+                                  title: _capstoneTitleController.text,
                                   color: Colors.yellow,
                                 ),
-                                const TextContent(
+                                TextContent(
                                     alignment: Alignment.bottomCenter,
-                                    title: "2024",
+                                    title: _yearPublishedController.text,
                                     size: 8),
                               ],
                             ),
@@ -147,12 +190,24 @@ class _RepositoryAddState extends State<RepositoryAdd> {
                           const SizedBox(
                             width: 15,
                           ),
-                          const Column(
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Group Name"),
-                              Text("Authors"),
-                              Text("Files"),
+                              const Text("Group Name"),
+                              Text(
+                                _groupNameController.text,
+                                style: const TextStyle(color: Colors.blue),
+                              ),
+                              const Text("Authors"),
+                              Text(
+                                _authorsController.text,
+                                style: const TextStyle(color: Colors.blue),
+                              ),
+
+                              // ListTile(
+                              //   title: Text(_groupNameController.text),
+                              //   subtitle: Text("Files"),
+                              // ),
                             ],
                           )
                         ],

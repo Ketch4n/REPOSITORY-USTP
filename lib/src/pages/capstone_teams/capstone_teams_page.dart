@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
+import 'package:repository_ustp/src/pages/capstone_teams/authors_function.dart';
+import 'package:repository_ustp/src/pages/capstone_teams/authors_model.dart';
 import 'package:repository_ustp/src/pages/projects/project_function.dart';
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
 
@@ -13,13 +15,13 @@ class CapstoneTeamsPage extends StatefulWidget {
 }
 
 class _CapstoneTeamsPageState extends State<CapstoneTeamsPage> {
-  final StreamController<List<ProjectModel>> _teamStream =
-      StreamController<List<ProjectModel>>();
+  final StreamController<List<AuthorsModel>> _teamStream =
+      StreamController<List<AuthorsModel>>();
 
   @override
   void initState() {
     super.initState();
-    ProjectFunction.fetchProjects(_teamStream, CardClickEvent.quack);
+    AuthorsFunction.fetchAuthors(_teamStream);
   }
 
   @override
@@ -38,11 +40,11 @@ class _CapstoneTeamsPageState extends State<CapstoneTeamsPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            StreamBuilder<List<ProjectModel>>(
+            StreamBuilder<List<AuthorsModel>>(
                 stream: _teamStream.stream,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    final List<ProjectModel?> teamlist = snapshot.data!;
+                    final List<AuthorsModel?> teamlist = snapshot.data!;
 
                     if (teamlist.isEmpty) {
                       return const Center(child: Text('No Team Found'));
@@ -70,7 +72,7 @@ class _CapstoneTeamsPageState extends State<CapstoneTeamsPage> {
 }
 
 _buildContent(index, teamList) {
-  final ProjectModel team = teamList[index];
+  final AuthorsModel team = teamList[index];
   return Padding(
     padding: const EdgeInsets.all(10.0),
     child: ExpansionTile(

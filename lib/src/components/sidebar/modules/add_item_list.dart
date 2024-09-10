@@ -34,6 +34,7 @@ Widget addItemList(callback, context) {
           mobile ? Navigator.of(context).pop() : null;
         },
       ),
+      const Divider(),
       UserSession.type != 2
           ? CustomListTileItems(
               icon: addPreffixIcon(Icons.lock_person),
@@ -46,10 +47,21 @@ Widget addItemList(callback, context) {
           : const SizedBox(),
       UserSession.type != 2
           ? CustomListTileItems(
-              icon: addPreffixIcon(Icons.archive_outlined),
+              icon: addPreffixIcon(Icons.no_accounts_rounded),
               label: addLabel("Archived"),
               callback: () {
                 callback(4);
+                mobile ? Navigator.of(context).pop() : null;
+              },
+            )
+          : const SizedBox(),
+      const Divider(),
+      UserSession.type != 2
+          ? CustomListTileItems(
+              icon: addPreffixIcon(Icons.cloud_download),
+              label: addLabel("Cloud Back-up"),
+              callback: () {
+                callback(5);
                 mobile ? Navigator.of(context).pop() : null;
               },
             )
