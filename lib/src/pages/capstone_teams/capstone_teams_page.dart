@@ -106,6 +106,6 @@ _buildContent(index, teamList) {
 _buildExpandedContent(index, teamList) {
   final team = teamList[index];
   return ListTile(
-    title: Text(team),
+    title: Text(team ?? ""),
   );
 }

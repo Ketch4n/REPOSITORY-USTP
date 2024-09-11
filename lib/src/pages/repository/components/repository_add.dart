@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:repository_ustp/src/auth/login/modules/add_title.dart';
+import 'package:repository_ustp/src/components/snackbar.dart';
 import 'package:repository_ustp/src/components/textfield.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
 import 'package:repository_ustp/src/pages/index/components/dropdown_category.dart';
@@ -30,6 +32,22 @@ int? _selectedItem;
 
 final List<int> _items = [1, 2, 3];
 
+List<String> lines = [];
+
+bool _visible = false;
+
+void _onSubmit(context) {
+  RepositoryFunction.postProjects(
+    context,
+    _capstoneTitleController.text,
+    _selectedItem!,
+    _selectedValue,
+    _yearPublishedController.text,
+    _groupNameController.text,
+    lines,
+  );
+}
+
 class _RepositoryAddState extends State<RepositoryAdd> {
   @override
   Widget build(BuildContext context) {
@@ -54,18 +72,13 @@ class _RepositoryAddState extends State<RepositoryAdd> {
                   _currentStep = step;
                 });
               },
-              onStepContinue: () {
+              onStepContinue: () async {
                 if (_currentStep < 2) {
                   setState(() {
                     _currentStep++;
                   });
                 } else if (_currentStep == 2) {
-                  RepositoryFunction.postProjects(
-                      context,
-                      _capstoneTitleController.text,
-                      _selectedItem!,
-                      _selectedValue,
-                      _yearPublishedController.text);
+                  _onSubmit(context);
                 }
               },
               onStepCancel: () {
@@ -131,24 +144,69 @@ class _RepositoryAddState extends State<RepositoryAdd> {
                 ),
                 Step(
                   title: const Text('Details'),
-                  content: Column(
-                    children: [
-                      CustomTextField(
-                        controller: _groupNameController,
-                        label: "Group Name",
+                  content: Column(children: [
+                    CustomTextField(
+                      controller: _groupNameController,
+                      label: "Group Name",
+                    ),
+                    const SizedBox(height: 10),
+                    // CustomTextField(
+                    //   controller: _authorsController,
+                    //   label: "Authors",
+                    // ),
+                    TextField(
+                      controller: _authorsController,
+                      keyboardType:
+                          TextInputType.multiline, // Allow multiline input
+                      maxLines: null,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        labelText: 'Authors...',
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _visible = !_visible;
+                            });
+                          },
+                          icon: const Icon(Icons.info_outline),
+                        ),
+                        fillColor: Colors.white,
                       ),
-                      const SizedBox(height: 10),
-                      CustomTextField(
-                        controller: _authorsController,
-                        label: "Authors",
-                      ),
-                      // const SizedBox(height: 10),
-                      // CustomTextField(
-                      //   controller: _attachmentController,
-                      //   label: "Attachment Files",
-                      // ),
-                    ],
-                  ),
+
+                      onChanged: (text) {
+                        setState(
+                          () {
+                            lines = text.split('\n');
+                            if (lines.length > 4) {
+                              lines = lines.sublist(0, 4);
+                              _authorsController.text = lines.join('\n');
+                              _authorsController.selection =
+                                  TextSelection.fromPosition(
+                                TextPosition(
+                                    offset: _authorsController.text.length),
+                              );
+                            }
+                          },
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    _visible
+                        ? const Text("maximum of 4 authors (by new line)")
+                        : const SizedBox()
+                    // SizedBox(
+                    //   height: 100,
+                    //   child: Expanded(
+                    //     child: ListView(
+                    //       children: List.generate(
+                    //         lines.length,
+                    //         (index) =>
+                    //             Text('Line ${index + 1}: ${lines[index]}'),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                  ]),
                   isActive: _currentStep >= 1,
                   state: _currentStep == 1
                       ? StepState.editing

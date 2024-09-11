@@ -72,7 +72,7 @@ class _ProjectPageState extends State<ProjectPage> {
               stream: _projectStream.stream,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  final List<ProjectModel> projectList = snapshot.data!;
+                  final List<ProjectModel?> projectList = snapshot.data!;
 
                   if (projectList.isEmpty) {
                     return const Center(child: Text('No projects available.'));
@@ -102,7 +102,7 @@ class _ProjectPageState extends State<ProjectPage> {
     );
   }
 
-  Widget _buildBody(int index, List<ProjectModel> projectList) {
+  Widget _buildBody(index, projectList) {
     final ProjectModel project = projectList[index];
     return Padding(
       padding: const EdgeInsets.all(10.0),

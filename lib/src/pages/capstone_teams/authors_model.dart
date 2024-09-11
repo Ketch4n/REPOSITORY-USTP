@@ -9,7 +9,7 @@ class AuthorsModel {
   final String year_published;
   // final String member_3;
 
-  final List<String> author;
+  final List<String?> author;
 
   AuthorsModel({
     required this.id,
@@ -34,7 +34,7 @@ class AuthorsModel {
       year_published: json['year_published'],
       // member_3: json['member_3'],
 
-      author: List<String>.from(
+      author: List<String?>.from(
           json['author']), // Convert JSON array to List<String>
     );
   }
