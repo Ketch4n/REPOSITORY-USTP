@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CLickEventProjectType with ChangeNotifier {
+class ClickEventProjectKeyword with ChangeNotifier {
   static int quack = 0;
 
   int get quackNew => quack;

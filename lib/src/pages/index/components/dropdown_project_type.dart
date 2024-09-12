@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
 
-class ProjectDropdownCategory extends StatefulWidget {
-  const ProjectDropdownCategory({super.key});
+class DropdownProjectType extends StatefulWidget {
+  const DropdownProjectType({super.key, required this.reload});
+  final Function reload;
 
   @override
-  State<ProjectDropdownCategory> createState() =>
-      _ProjectDropdownCategoryState();
+  State<DropdownProjectType> createState() => _DropdownProjectTypeState();
 }
 
-class _ProjectDropdownCategoryState extends State<ProjectDropdownCategory> {
+class _DropdownProjectTypeState extends State<DropdownProjectType> {
   int? _selectedItem;
 
-  final List<int> _items = [1, 2, 3];
+  final List<int> _items = [0, 1, 2, 3];
   @override
   Widget build(BuildContext context) {
     return DropdownButton<int>(
       value: _selectedItem,
       hint: const Padding(
         padding: EdgeInsets.symmetric(horizontal: 8.0),
-        child: Text('ALL'),
+        child: Text('PROJECT TYPE'),
       ),
       // icon: Icon(Icons.arrow_downward),
       // iconSize: 24,
@@ -34,7 +34,8 @@ class _ProjectDropdownCategoryState extends State<ProjectDropdownCategory> {
       onChanged: (int? newValue) {
         setState(() {
           _selectedItem = newValue;
-          CardClickEvent.quack = _selectedItem!;
+          CLickEventProjectType.quack = _selectedItem!;
+          // widget.reload();
         });
       },
       items: _items.map<DropdownMenuItem<int>>((int value) {

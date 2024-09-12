@@ -27,7 +27,7 @@ class RepositoryFunction {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
 
         String data = jsonResponse['message'];
-        String status = jsonResponse['error'];
+        String status = jsonResponse['status'];
         bool quack = jsonResponse['quack'];
         // int dataBack = jsonResponse['data']['id'];
 

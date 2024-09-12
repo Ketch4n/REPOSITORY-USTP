@@ -1,8 +1,16 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:repository_ustp/src/components/duck_404.dart';
+import 'package:repository_ustp/src/data/index/privacy_icon_value.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
+import 'package:repository_ustp/src/data/index/project_keyword_value.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
+import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
+import 'package:repository_ustp/src/pages/index/components/search_field.dart';
+import 'package:repository_ustp/src/pages/index/components/search_field_controller.dart';
 import 'package:repository_ustp/src/pages/projects/components/text_content.dart';
 import 'package:repository_ustp/src/pages/projects/project_function.dart';
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
@@ -20,10 +28,14 @@ class _ProjectPageState extends State<ProjectPage> {
   final StreamController<List<ProjectModel>> _projectStream =
       StreamController<List<ProjectModel>>();
 
+  final _searchController = SearchFieldController().search;
+
   @override
   void initState() {
     super.initState();
-    _fetchProjects();
+
+    _fetchProjects(CLickEventProjectType.quack, ClickEventProjectKeyword.quack,
+        _searchController.text);
   }
 
   @override
@@ -33,71 +45,106 @@ class _ProjectPageState extends State<ProjectPage> {
   }
 
   // Method to fetch projects and reload
-  void _fetchProjects() {
-    ProjectFunction.fetchProjects(_projectStream, widget.projectType);
+  void _fetchProjects(quackType, quackKeyword, search) {
+    ProjectFunction.fetchProjects(
+        _projectStream, quackType, quackKeyword, search);
   }
 
   // Method to reload the data
   void reload() {
     setState(() {
-      _fetchProjects();
+      _fetchProjects(CLickEventProjectType.quack,
+          ClickEventProjectKeyword.quack, _searchController.text);
+      // print(_searchController.text);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Consumer<CardClickEvent>(builder: (context, value, child) {
-          return Row(
-            children: [
-              Text(projectTypeBinaryValue(value.quackNew)),
-              IconButton(
-                icon: Icon(
-                  Icons.sort,
-                  color: ColorPallete.primary,
-                ),
-                onPressed: reload,
+      // appBar: AppBar(
+      //   backgroundColor: ColorPallete.grey,
+      //   automaticallyImplyLeading: false,
+      //   title: Padding(
+      //     padding: const EdgeInsets.only(bottom: 10.0),
+      //     child: SearchField(reload: reload),
+      //   ),
+      // ),
+      body: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(color: ColorPallete.grey),
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 10.0),
+              child: SearchField(reload: reload),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Row(
+                children: [
+                  Consumer<CLickEventProjectType>(
+                      builder: (context, value, child) {
+                    return Text(
+                      projectTypeBinaryValue(value.quackNew),
+                      style: const TextStyle(fontSize: 20),
+                    );
+                  }),
+                  Text(" / "),
+                  Consumer<ClickEventProjectKeyword>(
+                      builder: (context, value, child) {
+                    return Text(
+                      projectKeywordBinaryValue(value.quackNew),
+                      style: const TextStyle(fontSize: 20),
+                    );
+                  }),
+                ],
               ),
-            ],
-          );
-        }),
-      ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Align(
-          alignment: Alignment.center,
-          child: StreamBuilder<List<ProjectModel>>(
-              stream: _projectStream.stream,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  final List<ProjectModel?> projectList = snapshot.data!;
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Align(
+                alignment: Alignment.center,
+                child: StreamBuilder<List<ProjectModel>>(
+                    stream: _projectStream.stream,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        final List<ProjectModel?> projectList = snapshot.data!;
 
-                  if (projectList.isEmpty) {
-                    return const Center(child: Text('No projects available.'));
-                  }
-                  return Wrap(
-                    alignment: WrapAlignment.center,
-                    runAlignment: WrapAlignment.center,
-                    runSpacing: 10.0,
-                    spacing: 10.0,
-                    children: List.generate(
-                      projectList.length,
-                      (index) => _buildBody(index, projectList),
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text("Error: ${snapshot.error}"),
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              }),
-        ),
+                        if (projectList.isEmpty) {
+                          // return const Text('No projects available.');
+                          return const Duck(
+                              status: "NO PROJECT DATA", content: "");
+                        }
+                        return Wrap(
+                          alignment: WrapAlignment.center,
+                          runAlignment: WrapAlignment.center,
+                          runSpacing: 10.0,
+                          spacing: 10.0,
+                          children: List.generate(
+                            projectList.length,
+                            (index) => _buildBody(index, projectList),
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Center(
+                          child: Text("Error: ${snapshot.error}"),
+                        );
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    }),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -106,33 +153,43 @@ class _ProjectPageState extends State<ProjectPage> {
     final ProjectModel project = projectList[index];
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: SizedBox(
-        height: 190,
-        width: 140,
-        child: InkWell(
-          onTap: () {},
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Image.asset("assets/hardbound.png"),
-              TextContent(
-                alignment: Alignment.topCenter,
-                title: projectTypeBinaryValue(project.project_type).toString(),
-                size: 10,
-              ),
-              TextContent(
+      child: Stack(
+        children: [
+          SizedBox(
+            height: 190,
+            width: 140,
+            child: InkWell(
+              onTap: () {},
+              child: Stack(
                 alignment: Alignment.center,
-                title: project.title,
-                color: Colors.yellow,
+                children: [
+                  Image.asset("assets/hardbound.png"),
+                  TextContent(
+                    alignment: Alignment.topCenter,
+                    title:
+                        projectTypeBinaryValue(project.project_type).toString(),
+                    size: 10,
+                  ),
+                  TextContent(
+                    alignment: Alignment.center,
+                    title: project.title,
+                    color: Colors.yellow,
+                  ),
+                  TextContent(
+                    alignment: Alignment.bottomCenter,
+                    title: project.year_published,
+                    size: 8,
+                  ),
+                ],
               ),
-              TextContent(
-                alignment: Alignment.bottomCenter,
-                title: project.year_published,
-                size: 8,
-              ),
-            ],
+            ),
           ),
-        ),
+          // Positioned(
+          //   bottom: 5,
+          //   right: 5,
+          //   child: projectPrivacyValue(project.privacy, context),
+          // ),
+        ],
       ),
     );
   }

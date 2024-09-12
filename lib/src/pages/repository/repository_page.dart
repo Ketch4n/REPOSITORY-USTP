@@ -2,14 +2,19 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:repository_ustp/src/components/duck_404.dart';
 import 'package:repository_ustp/src/components/show_dialog.dart';
 import 'package:repository_ustp/src/data/index/privacy_icon_value.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
+import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
+import 'package:repository_ustp/src/pages/index/components/search_field.dart';
+import 'package:repository_ustp/src/pages/index/components/search_field_controller.dart';
 import 'package:repository_ustp/src/pages/projects/components/text_content.dart';
 import 'package:repository_ustp/src/pages/projects/project_function.dart';
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
 import 'package:repository_ustp/src/pages/repository/components/repository_add.dart';
+import 'package:repository_ustp/src/utils/palette.dart';
 
 class RepositoryPage extends StatefulWidget {
   const RepositoryPage({super.key, required this.projectType});
@@ -24,10 +29,14 @@ class _RepositoryPageState extends State<RepositoryPage> {
   final StreamController<List<ProjectModel>> _projectStream =
       StreamController<List<ProjectModel>>();
 
+  final _searchController = SearchFieldController().search;
+
   @override
   void initState() {
     super.initState();
-    _fetchProjects();
+
+    _fetchProjects(CLickEventProjectType.quack, ClickEventProjectKeyword.quack,
+        _searchController.text);
   }
 
   @override
@@ -37,14 +46,17 @@ class _RepositoryPageState extends State<RepositoryPage> {
   }
 
   // Method to fetch projects and reload
-  void _fetchProjects() {
-    ProjectFunction.fetchProjects(_projectStream, widget.projectType);
+  void _fetchProjects(quackType, quackKeyword, search) {
+    ProjectFunction.fetchProjects(
+        _projectStream, quackType, quackKeyword, search);
   }
 
   // Method to reload the data
   void reload() {
     setState(() {
-      _fetchProjects();
+      _fetchProjects(CLickEventProjectType.quack,
+          ClickEventProjectKeyword.quack, _searchController.text);
+      // print(_searchController.text);
     });
   }
 
@@ -53,71 +65,85 @@ class _RepositoryPageState extends State<RepositoryPage> {
     return Stack(
       children: [
         Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            centerTitle: true,
-            title: Consumer<CardClickEvent>(builder: (context, value, child) {
-              return Text(projectTypeBinaryValue(value.quackNew));
-            }),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.sort),
-                onPressed: reload,
+          body: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(color: ColorPallete.grey),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: SearchField(reload: reload),
+                ),
+              ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: MaterialButton(
+                    color: Colors.blue,
+                    onPressed: () {
+                      // widget.callback(4);
+                      // Navigator.pushNamed(context, '/repository/add');
+                      showCustomDialog(context, const RepositoryAdd());
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Add New Project",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: StreamBuilder<List<ProjectModel>>(
+                      stream: _projectStream.stream,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          final List<ProjectModel?> projectList =
+                              snapshot.data!;
+
+                          if (projectList.isEmpty) {
+                            return const Duck(
+                                status: "NO REPOSITORY FOLDERS YET",
+                                content: "");
+                          }
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: Wrap(
+                              alignment: WrapAlignment.center,
+                              runAlignment: WrapAlignment.center,
+                              runSpacing: 10.0,
+                              spacing: 10.0,
+                              children: List.generate(
+                                projectList.length,
+                                (index) =>
+                                    _buildBody(index, projectList, context),
+                              ),
+                            ),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Center(
+                            child: Text("Error: ${snapshot.error}"),
+                          );
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      }),
+                ),
               ),
             ],
-          ),
-          body: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Align(
-              alignment: Alignment.center,
-              child: StreamBuilder<List<ProjectModel>>(
-                  stream: _projectStream.stream,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final List<ProjectModel?> projectList = snapshot.data!;
-
-                      if (projectList.isEmpty) {
-                        return const Center(
-                            child: Text('No projects available.'));
-                      }
-                      return Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: Wrap(
-                          alignment: WrapAlignment.center,
-                          runAlignment: WrapAlignment.center,
-                          runSpacing: 10.0,
-                          spacing: 10.0,
-                          children: List.generate(
-                            projectList.length,
-                            (index) => _buildBody(index, projectList, context),
-                          ),
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Center(
-                        child: Text("Error: ${snapshot.error}"),
-                      );
-                    } else {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  }),
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.topLeft,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: ElevatedButton.icon(
-                onPressed: () {
-                  // widget.callback(4);
-                  // Navigator.pushNamed(context, '/repository/add');
-                  showCustomDialog(context, const RepositoryAdd());
-                },
-                icon: const Icon(Icons.add),
-                label: const Text("Add New Repository")),
           ),
         ),
       ],

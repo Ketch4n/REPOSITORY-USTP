@@ -1,11 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:repository_ustp/src/data/provider/card_click_event.dart';
+import 'package:repository_ustp/src/components/duck_404.dart';
 import 'package:repository_ustp/src/pages/capstone_teams/authors_function.dart';
 import 'package:repository_ustp/src/pages/capstone_teams/authors_model.dart';
-import 'package:repository_ustp/src/pages/projects/project_function.dart';
-import 'package:repository_ustp/src/pages/projects/project_model.dart';
 
 class CapstoneTeamsPage extends StatefulWidget {
   const CapstoneTeamsPage({super.key});
@@ -38,33 +36,34 @@ class _CapstoneTeamsPageState extends State<CapstoneTeamsPage> {
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            StreamBuilder<List<AuthorsModel>>(
-                stream: _teamStream.stream,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    final List<AuthorsModel?> teamlist = snapshot.data!;
+        scrollDirection: Axis.vertical,
+        child: Align(
+          alignment: Alignment.center,
+          child: StreamBuilder<List<AuthorsModel>>(
+              stream: _teamStream.stream,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final List<AuthorsModel?> teamlist = snapshot.data!;
 
-                    if (teamlist.isEmpty) {
-                      return const Center(child: Text('No Team Found'));
-                    }
-
-                    return Column(
-                      children: List.generate(teamlist.length,
-                          (index) => _buildContent(index, teamlist)),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(
-                      child: Text("Error: ${snapshot.error}"),
-                    );
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                  if (teamlist.isEmpty) {
+                    return const Duck(
+                        status: "NO CAPSTONE TEAMS YET", content: "");
                   }
-                }),
-          ],
+
+                  return Column(
+                    children: List.generate(teamlist.length,
+                        (index) => _buildContent(index, teamlist)),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text("Error: ${snapshot.error}"),
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              }),
         ),
       ),
     );

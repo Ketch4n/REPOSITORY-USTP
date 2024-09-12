@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:repository_ustp/src/auth/login/modules/add_title.dart';
-import 'package:repository_ustp/src/components/snackbar.dart';
 import 'package:repository_ustp/src/components/textfield.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
-import 'package:repository_ustp/src/pages/index/components/dropdown_category.dart';
 import 'package:repository_ustp/src/pages/projects/components/text_content.dart';
 import 'package:repository_ustp/src/utils/palette.dart';
 
@@ -32,7 +29,7 @@ int? _selectedItem;
 
 final List<int> _items = [1, 2, 3];
 
-List<String> lines = [];
+List<String?> lines = [];
 
 bool _visible = false;
 
