@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:repository_ustp/src/data/index/project_keyword_value.dart';
 import 'package:repository_ustp/src/data/server/url.dart';
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
 

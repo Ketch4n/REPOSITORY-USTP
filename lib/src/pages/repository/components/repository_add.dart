@@ -8,7 +8,8 @@ import 'package:repository_ustp/src/utils/palette.dart';
 import '../repository_function.dart';
 
 class RepositoryAdd extends StatefulWidget {
-  const RepositoryAdd({super.key});
+  const RepositoryAdd({super.key, required this.reload});
+  final Function reload;
 
   @override
   State<RepositoryAdd> createState() => _RepositoryAddState();
@@ -33,8 +34,8 @@ List<String?> lines = [];
 
 bool _visible = false;
 
-void _onSubmit(context) {
-  RepositoryFunction.postProjects(
+void _onSubmit(context, reload) async {
+  await RepositoryFunction.postProjects(
     context,
     _capstoneTitleController.text,
     _selectedItem!,
@@ -43,6 +44,8 @@ void _onSubmit(context) {
     _groupNameController.text,
     lines,
   );
+  Navigator.of(context).pop();
+  reload();
 }
 
 class _RepositoryAddState extends State<RepositoryAdd> {
@@ -75,7 +78,7 @@ class _RepositoryAddState extends State<RepositoryAdd> {
                     _currentStep++;
                   });
                 } else if (_currentStep == 2) {
-                  _onSubmit(context);
+                  _onSubmit(context, widget.reload);
                 }
               },
               onStepCancel: () {

@@ -27,16 +27,16 @@ class RepositoryFunction {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
 
         String data = jsonResponse['message'];
-        String status = jsonResponse['status'];
+        // String status = jsonResponse['status'];
         bool quack = jsonResponse['quack'];
-        // int dataBack = jsonResponse['data']['id'];
 
         if (quack) {
           customSnackBar(context, 0, data);
+          return quack;
           // print(dataBack);
         } else {
-          customSnackBar(context, 1, status);
-          return;
+          customSnackBar(context, 1, data);
+          return quack;
         }
       } else {
         print("Error: ${response.statusCode} ${response.reasonPhrase}");

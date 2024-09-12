@@ -1,10 +1,7 @@
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:repository_ustp/src/components/duck_404.dart';
-import 'package:repository_ustp/src/data/index/privacy_icon_value.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
 import 'package:repository_ustp/src/data/index/project_keyword_value.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
@@ -92,7 +89,7 @@ class _ProjectPageState extends State<ProjectPage> {
                       style: const TextStyle(fontSize: 20),
                     );
                   }),
-                  Text(" / "),
+                  const Text(" / "),
                   Consumer<ClickEventProjectKeyword>(
                       builder: (context, value, child) {
                     return Text(
@@ -104,47 +101,53 @@ class _ProjectPageState extends State<ProjectPage> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
+          Expanded(
             child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Align(
-                alignment: Alignment.center,
-                child: StreamBuilder<List<ProjectModel>>(
-                    stream: _projectStream.stream,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        final List<ProjectModel?> projectList = snapshot.data!;
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: StreamBuilder<List<ProjectModel>>(
+                      stream: _projectStream.stream,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          final List<ProjectModel?> projectList =
+                              snapshot.data!;
 
-                        if (projectList.isEmpty) {
-                          // return const Text('No projects available.');
-                          return const Duck(
-                              status: "NO PROJECT DATA", content: "");
+                          if (projectList.isEmpty) {
+                            // return const Text('No projects available.');
+                            return const Duck(
+                                status: "NO PROJECT DATA", content: "");
+                          }
+                          return _buildProject(projectList);
+                        } else if (snapshot.hasError) {
+                          return Center(
+                            child: Text("Error: ${snapshot.error}"),
+                          );
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
                         }
-                        return Wrap(
-                          alignment: WrapAlignment.center,
-                          runAlignment: WrapAlignment.center,
-                          runSpacing: 10.0,
-                          spacing: 10.0,
-                          children: List.generate(
-                            projectList.length,
-                            (index) => _buildBody(index, projectList),
-                          ),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Center(
-                          child: Text("Error: ${snapshot.error}"),
-                        );
-                      } else {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                    }),
+                      }),
+                ),
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildProject(projectList) {
+    return Wrap(
+      alignment: WrapAlignment.center,
+      runAlignment: WrapAlignment.center,
+      runSpacing: 10.0,
+      spacing: 10.0,
+      children: List.generate(
+        projectList.length,
+        (index) => _buildBody(index, projectList),
       ),
     );
   }

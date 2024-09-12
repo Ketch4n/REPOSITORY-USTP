@@ -27,7 +27,10 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const SignupPage());
 
       case repoAdd:
-        return MaterialPageRoute(builder: (_) => const RepositoryAdd());
+        return MaterialPageRoute(
+            builder: (_) => RepositoryAdd(
+                  reload: () {},
+                ));
 
       case duck:
         final args = settings.arguments as String?;

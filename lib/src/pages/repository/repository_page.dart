@@ -1,11 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:repository_ustp/src/components/duck_404.dart';
 import 'package:repository_ustp/src/components/show_dialog.dart';
 import 'package:repository_ustp/src/data/index/privacy_icon_value.dart';
-import 'package:repository_ustp/src/data/index/project_index_value.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
 import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field.dart';
@@ -83,9 +81,9 @@ class _RepositoryPageState extends State<RepositoryPage> {
                     onPressed: () {
                       // widget.callback(4);
                       // Navigator.pushNamed(context, '/repository/add');
-                      showCustomDialog(context, const RepositoryAdd());
+                      showCustomDialog(context, RepositoryAdd(reload: reload));
                     },
-                    child: Row(
+                    child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
@@ -101,46 +99,48 @@ class _RepositoryPageState extends State<RepositoryPage> {
                   ),
                 ),
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: StreamBuilder<List<ProjectModel>>(
-                      stream: _projectStream.stream,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          final List<ProjectModel?> projectList =
-                              snapshot.data!;
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: StreamBuilder<List<ProjectModel>>(
+                        stream: _projectStream.stream,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            final List<ProjectModel?> projectList =
+                                snapshot.data!;
 
-                          if (projectList.isEmpty) {
-                            return const Duck(
-                                status: "NO REPOSITORY FOLDERS YET",
-                                content: "");
-                          }
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 10.0),
-                            child: Wrap(
-                              alignment: WrapAlignment.center,
-                              runAlignment: WrapAlignment.center,
-                              runSpacing: 10.0,
-                              spacing: 10.0,
-                              children: List.generate(
-                                projectList.length,
-                                (index) =>
-                                    _buildBody(index, projectList, context),
+                            if (projectList.isEmpty) {
+                              return const Duck(
+                                  status: "NO REPOSITORY FOLDERS YET",
+                                  content: "");
+                            }
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: Wrap(
+                                alignment: WrapAlignment.center,
+                                runAlignment: WrapAlignment.center,
+                                runSpacing: 10.0,
+                                spacing: 10.0,
+                                children: List.generate(
+                                  projectList.length,
+                                  (index) =>
+                                      _buildBody(index, projectList, context),
+                                ),
                               ),
-                            ),
-                          );
-                        } else if (snapshot.hasError) {
-                          return Center(
-                            child: Text("Error: ${snapshot.error}"),
-                          );
-                        } else {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                      }),
+                            );
+                          } else if (snapshot.hasError) {
+                            return Center(
+                              child: Text("Error: ${snapshot.error}"),
+                            );
+                          } else {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        }),
+                  ),
                 ),
               ),
             ],
