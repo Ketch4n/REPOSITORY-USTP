@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -19,15 +21,12 @@ class RepositoryFunction {
         'member_1': m0[1],
         'member_2': m0[2],
         'member_3': m0[3],
-      }).timeout(const Duration(seconds: 10), onTimeout: () {
-        throw Exception("Request to the server timed out.");
       });
 
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
 
         String data = jsonResponse['message'];
-        // String status = jsonResponse['status'];
         bool quack = jsonResponse['quack'];
 
         if (quack) {
@@ -39,10 +38,10 @@ class RepositoryFunction {
           return quack;
         }
       } else {
-        print("Error: ${response.statusCode} ${response.reasonPhrase}");
+        // print("Error: ${response.statusCode} ${response.reasonPhrase}");
       }
     } catch (e) {
-      print("An error occurred while fetching projects: $e");
+      // print("An error occurred while fetching projects: $e");
     }
   }
 
@@ -55,59 +54,52 @@ class RepositoryFunction {
         'project_type': projectType?.toString(),
         'year_published': year.toString(),
         'privacy': privacy.toString(),
-      }).timeout(const Duration(seconds: 10), onTimeout: () {
-        throw Exception("Request to the server timed out.");
       });
+
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
 
         String data = jsonResponse['message'];
-        // String status = jsonResponse['status'];
         bool quack = jsonResponse['quack'];
 
         if (quack) {
           customSnackBar(context, 0, data);
-          return quack;
-          // print(dataBack);
+          // return quack;
         } else {
           customSnackBar(context, 1, data);
-          return quack;
+          // return quack;
         }
       } else {
-        print("Error: ${response.statusCode} ${response.reasonPhrase}");
+        // print("Error: ${response.statusCode} ${response.reasonPhrase}");
       }
     } catch (e) {
-      print("An error occurred while updating project: $e");
+      // print("An error occurred while updating project: $e");
     }
   }
 
   static Future deleteProject(BuildContext context, int id) async {
     try {
-      final response = await http
-          .delete(Uri.parse("${Servername.host}project/$id"))
-          .timeout(const Duration(seconds: 10), onTimeout: () {
-        throw Exception("Request to the server timed out.");
-      });
+      final response =
+          await http.delete(Uri.parse("${Servername.host}project/$id"));
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
 
         String data = jsonResponse['message'];
-        // String status = jsonResponse['status'];
         bool quack = jsonResponse['quack'];
 
         if (quack) {
           customSnackBar(context, 0, data);
-          return quack;
+          // return quack;
           // print(dataBack);
         } else {
           customSnackBar(context, 1, data);
-          return quack;
+          // return quack;
         }
       } else {
-        print("Error: ${response.statusCode} ${response.reasonPhrase}");
+        // print("Error: ${response.statusCode} ${response.reasonPhrase}");
       }
     } catch (e) {
-      print("An error occurred while deleting project: $e");
+      // print("An error occurred while deleting project: $e");
     }
   }
 }

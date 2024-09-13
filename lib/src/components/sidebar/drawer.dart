@@ -39,7 +39,9 @@ class _MyDrawerState extends State<MyDrawer> {
             callback: () async {
               const title = "CONFIRM LOG-OUT";
               const content = "Are you sure you want to logout ?";
-              await confirmationDialog(context, title, content, logout);
+              await confirmationDialog(context, title, content, () {
+                logout(context);
+              });
             },
             icon: addPreffixIcon(Icons.exit_to_app),
             label: addLabel("LOG-OUT"),

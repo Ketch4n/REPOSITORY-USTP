@@ -18,7 +18,7 @@ signupFunction(
     customSnackBar(context, 1, "Fields cannot be Empty !");
   } else {
     try {
-      final int value = type == true ? 2 : 1;
+      final int value = type == true ? 1 : 2;
       final response = await http.post(
         Uri.parse("${Servername.host}user/register"),
         body: {

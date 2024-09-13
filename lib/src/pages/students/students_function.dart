@@ -7,13 +7,7 @@ class StudentFunctions {
   static fetchStudentsList(userStream, int type, int status) async {
     try {
       final response = await http
-          .get(Uri.parse("${Servername.host}user?type=$type"))
-          .timeout(
-        const Duration(seconds: 10),
-        onTimeout: () {
-          throw Exception("Request to the server timed out.");
-        },
-      );
+          .get(Uri.parse("${Servername.host}user?type=$type&status=$status"));
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonResponse = json.decode(response.body);
@@ -24,7 +18,7 @@ class StudentFunctions {
           final List<dynamic> usersJson = jsonResponse['data'];
           List<UserModel> users =
               usersJson.map((json) => UserModel.fromJson(json)).toList();
-          // return users;
+
           userStream.add(users);
         } else {
           throw Exception("Failed to fetch students list.");
@@ -34,8 +28,8 @@ class StudentFunctions {
             "Error: ${response.statusCode} ${response.reasonPhrase}");
       }
     } catch (e) {
-      print("An error occurred while fetching students: $e");
-      return [];
+      // print("An error occurred while fetching students: $e");
+      // return [];
     }
   }
 }

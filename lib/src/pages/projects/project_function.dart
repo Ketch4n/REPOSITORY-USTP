@@ -11,13 +11,7 @@ class ProjectFunction {
     String? keyword,
   ) async {
     try {
-      final response =
-          await http.get(Uri.parse("${Servername.host}project")).timeout(
-        const Duration(seconds: 10),
-        onTimeout: () {
-          throw Exception("Request to the server timed out.");
-        },
-      );
+      final response = await http.get(Uri.parse("${Servername.host}project"));
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonResponse = json.decode(response.body);
@@ -52,8 +46,7 @@ class ProjectFunction {
             "Error: ${response.statusCode} ${response.reasonPhrase}");
       }
     } catch (e) {
-      // Log the error for debugging purposes
-      print("An error occurred while fetching projects: $e");
+      // print("An error occurred while fetching projects: $e");
     }
   }
 }

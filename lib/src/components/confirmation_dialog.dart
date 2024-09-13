@@ -12,7 +12,7 @@ Future confirmationDialog(
           TextButton(
             child: const Text('Yes'),
             onPressed: () async {
-              Navigator.of(context).pop(true);
+              Navigator.of(context).pop(false);
               callback();
             },
           ),

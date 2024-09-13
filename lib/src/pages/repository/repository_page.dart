@@ -164,8 +164,9 @@ Widget _buildBody(index, projectList, context, reload) {
       height: 130,
       width: 140,
       child: InkWell(
-        onDoubleTap: () {},
-        onTap: () {},
+        onDoubleTap: () {
+          showCustomDialog(context, const RepositoryOpen());
+        },
         child: PopupMenuButton<int>(
           onSelected: (value) async {
             switch (value) {

@@ -18,7 +18,7 @@ Widget addCornerUserType() {
           padding: thisFile,
           child: Consumer<SwitchRoleSignup>(builder: (context, value, child) {
             return Text(
-              userBinaryValue(value.typeNew ? 2 : 1).toString(),
+              userBinaryValue(value.typeNew ? 1 : 2).toString(),
               style: const TextStyle(fontWeight: FontWeight.bold),
             );
           }),
