@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Future confirmationDialog(
-    context, String title, String content, callback) async {
+    context, String title, String content, Function callback) async {
   await showDialog<bool>(
     context: context,
     builder: (context) {
@@ -12,8 +12,8 @@ Future confirmationDialog(
           TextButton(
             child: const Text('Yes'),
             onPressed: () async {
-              Navigator.of(context).pop(false);
-              callback(context);
+              Navigator.of(context).pop(true);
+              callback();
             },
           ),
           TextButton(

@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:repository_ustp/src/components/duck_404.dart';
 import 'package:repository_ustp/src/model/user_model.dart';
 import 'package:repository_ustp/src/pages/students/students_function.dart';
 
@@ -37,33 +39,41 @@ class _StudentsPageState extends State<StudentsPage> {
             Text(widget.status == 0 ? "ACTIVE STUDENTS" : "ARCHIVED STUDENTS"),
         automaticallyImplyLeading: false,
       ),
-      body: Column(
-        children: [
-          StreamBuilder<List<UserModel>>(
-              stream: _userStream.stream,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  final List<UserModel?> userlist = snapshot.data!;
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: StreamBuilder<List<UserModel>>(
+                  stream: _userStream.stream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final List<UserModel?> userlist = snapshot.data!;
 
-                  if (userlist.isEmpty) {
-                    return const Center(child: Text('No Students Found'));
-                  }
+                      if (userlist.isEmpty) {
+                        return const Duck(
+                            status: "NO STUDENT USERS YET", content: "");
+                      }
 
-                  return Column(
-                    children: List.generate(userlist.length,
-                        (index) => _buidText(index, userlist, widget.status)),
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text("Error: ${snapshot.error}"),
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              }),
-        ],
+                      return Column(
+                        children: List.generate(
+                            userlist.length,
+                            (index) =>
+                                _buidText(index, userlist, widget.status)),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text("Error: ${snapshot.error}"),
+                      );
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  }),
+            ),
+          ],
+        ),
       ),
     );
   }

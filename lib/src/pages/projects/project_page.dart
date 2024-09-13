@@ -56,17 +56,18 @@ class _ProjectPageState extends State<ProjectPage> {
     });
   }
 
+  void clear() {
+    setState(() {
+      _searchController.clear();
+      CLickEventProjectType.quack = 0;
+      ClickEventProjectKeyword.quack = 0;
+      reload();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: ColorPallete.grey,
-      //   automaticallyImplyLeading: false,
-      //   title: Padding(
-      //     padding: const EdgeInsets.only(bottom: 10.0),
-      //     child: SearchField(reload: reload),
-      //   ),
-      // ),
       body: Column(
         children: [
           Container(
@@ -97,6 +98,12 @@ class _ProjectPageState extends State<ProjectPage> {
                       style: const TextStyle(fontSize: 20),
                     );
                   }),
+                  const SizedBox(width: 10),
+                  IconButton(
+                      onPressed: () {
+                        clear();
+                      },
+                      icon: const Icon(Icons.refresh))
                 ],
               ),
             ),
@@ -187,11 +194,6 @@ class _ProjectPageState extends State<ProjectPage> {
               ),
             ),
           ),
-          // Positioned(
-          //   bottom: 5,
-          //   right: 5,
-          //   child: projectPrivacyValue(project.privacy, context),
-          // ),
         ],
       ),
     );

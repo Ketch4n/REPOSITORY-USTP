@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/components/duck_404.dart';
+import 'package:repository_ustp/src/data/provider/card_click_event.dart';
+import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
 import 'package:repository_ustp/src/pages/capstone_teams/authors_function.dart';
 import 'package:repository_ustp/src/pages/capstone_teams/authors_model.dart';
 
@@ -28,12 +30,31 @@ class _CapstoneTeamsPageState extends State<CapstoneTeamsPage> {
     _teamStream.close();
   }
 
+  void reload() {
+    AuthorsFunction.fetchAuthors(_teamStream);
+  }
+
+  void clear() {
+    setState(() {
+      CLickEventProjectType.quack = 0;
+      ClickEventProjectKeyword.quack = 0;
+      reload();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("CAPSTONE TEAMS / AUTHORS"),
         automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+              onPressed: () {
+                clear();
+              },
+              icon: const Icon(Icons.refresh))
+        ],
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,

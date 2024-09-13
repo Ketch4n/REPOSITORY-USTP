@@ -2,7 +2,6 @@ class UserModel {
   final int id;
   final String username;
   final String email;
-  final String password;
   final int type;
   final int status;
 
@@ -10,7 +9,6 @@ class UserModel {
     required this.id,
     required this.username,
     required this.email,
-    required this.password,
     required this.type,
     required this.status,
   });
@@ -21,7 +19,6 @@ class UserModel {
       id: json['id'],
       username: json['username'],
       email: json['email'],
-      password: json['password'],
       type: json['type'],
       status: json['status'],
     );
@@ -33,7 +30,6 @@ class UserModel {
       'id': id,
       'username': username,
       'email': email,
-      'password': password,
       'type': type,
       'status': status,
     };

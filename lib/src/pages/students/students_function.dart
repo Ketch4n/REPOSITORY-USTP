@@ -1,24 +1,41 @@
 import 'dart:convert';
-
-import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'package:repository_ustp/src/data/server/url.dart';
 import 'package:repository_ustp/src/model/user_model.dart';
 
 class StudentFunctions {
   static fetchStudentsList(userStream, int type, int status) async {
     try {
-      final response =
-          await rootBundle.loadString("assets/json/user_credentials.json");
-      var jsonData = jsonDecode(response) as List<dynamic>;
+      final response = await http
+          .get(Uri.parse("${Servername.host}user?type=$type"))
+          .timeout(
+        const Duration(seconds: 10),
+        onTimeout: () {
+          throw Exception("Request to the server timed out.");
+        },
+      );
 
-      final List<UserModel> user =
-          jsonData.map((data) => UserModel.fromJson(data)).toList();
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonResponse = json.decode(response.body);
 
-      final List<UserModel> filteredUsers =
-          user.where((u) => u.type == type && u.status == status).toList();
+        bool quack = jsonResponse['quack'];
 
-      userStream.add(filteredUsers);
+        if (quack) {
+          final List<dynamic> usersJson = jsonResponse['data'];
+          List<UserModel> users =
+              usersJson.map((json) => UserModel.fromJson(json)).toList();
+          // return users;
+          userStream.add(users);
+        } else {
+          throw Exception("Failed to fetch students list.");
+        }
+      } else {
+        throw Exception(
+            "Error: ${response.statusCode} ${response.reasonPhrase}");
+      }
     } catch (e) {
-      // print("Error $e");
+      print("An error occurred while fetching students: $e");
+      return [];
     }
   }
 }

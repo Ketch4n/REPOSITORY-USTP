@@ -15,40 +15,61 @@ class RepositoryAdd extends StatefulWidget {
   State<RepositoryAdd> createState() => _RepositoryAddState();
 }
 
-final TextEditingController _capstoneTitleController = TextEditingController();
-final TextEditingController _projectTypeController = TextEditingController();
-final TextEditingController _yearPublishedController = TextEditingController();
-
-final TextEditingController _groupNameController = TextEditingController();
-final TextEditingController _authorsController = TextEditingController();
-final TextEditingController _attachmentController = TextEditingController();
-
-int _currentStep = 0;
-int _selectedValue = 0;
-
-int? _selectedItem;
-
-final List<int> _items = [1, 2, 3];
-
-List<String?> lines = [];
-
-bool _visible = false;
-
-void _onSubmit(context, reload) async {
-  await RepositoryFunction.postProjects(
-    context,
-    _capstoneTitleController.text,
-    _selectedItem!,
-    _selectedValue,
-    _yearPublishedController.text,
-    _groupNameController.text,
-    lines,
-  );
-  Navigator.of(context).pop();
-  reload();
-}
-
 class _RepositoryAddState extends State<RepositoryAdd> {
+  final TextEditingController _capstoneTitleController =
+      TextEditingController();
+  final TextEditingController _projectTypeController = TextEditingController();
+  final TextEditingController _yearPublishedController =
+      TextEditingController();
+
+  final TextEditingController _groupNameController = TextEditingController();
+  final TextEditingController _authorsController = TextEditingController();
+  final TextEditingController _attachmentController = TextEditingController();
+
+  int _currentStep = 0;
+  int _selectedValue = 0;
+
+  int? _selectedItem;
+
+  final List<int> _items = [1, 2, 3];
+
+  List<String?> lines = [];
+
+  bool _visible = false;
+
+  void _onSubmit(context, reload) async {
+    await RepositoryFunction.postProject(
+      context,
+      _capstoneTitleController.text,
+      _selectedItem!,
+      _selectedValue,
+      _yearPublishedController.text,
+      _groupNameController.text,
+      lines,
+    );
+
+    Navigator.of(context).pop();
+    reload();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize any necessary resources here if needed
+  }
+
+  @override
+  void dispose() {
+    // Dispose of all the controllers here
+    _capstoneTitleController.dispose();
+    _projectTypeController.dispose();
+    _yearPublishedController.dispose();
+    _groupNameController.dispose();
+    _authorsController.dispose();
+    _attachmentController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -143,7 +164,7 @@ class _RepositoryAddState extends State<RepositoryAdd> {
                       : StepState.complete,
                 ),
                 Step(
-                  title: const Text('Details'),
+                  title: const Text('Authors'),
                   content: Column(children: [
                     CustomTextField(
                       controller: _groupNameController,

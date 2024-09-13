@@ -5,7 +5,7 @@ import 'package:repository_ustp/src/components/snackbar.dart';
 import 'package:repository_ustp/src/data/server/url.dart';
 
 class RepositoryFunction {
-  static Future postProjects(BuildContext context, String title, int type,
+  static Future postProject(BuildContext context, String title, int type,
       int privacy, year, String gname, List<String?> m0) async {
     try {
       final response =
@@ -43,6 +43,71 @@ class RepositoryFunction {
       }
     } catch (e) {
       print("An error occurred while fetching projects: $e");
+    }
+  }
+
+  static Future updateProject(BuildContext context, int id, String title,
+      int? projectType, String year, int privacy) async {
+    try {
+      final response =
+          await http.put(Uri.parse("${Servername.host}project/$id"), body: {
+        'title': title,
+        'project_type': projectType?.toString(),
+        'year_published': year.toString(),
+        'privacy': privacy.toString(),
+      }).timeout(const Duration(seconds: 10), onTimeout: () {
+        throw Exception("Request to the server timed out.");
+      });
+      if (response.statusCode == 200) {
+        Map<String, dynamic> jsonResponse = json.decode(response.body);
+
+        String data = jsonResponse['message'];
+        // String status = jsonResponse['status'];
+        bool quack = jsonResponse['quack'];
+
+        if (quack) {
+          customSnackBar(context, 0, data);
+          return quack;
+          // print(dataBack);
+        } else {
+          customSnackBar(context, 1, data);
+          return quack;
+        }
+      } else {
+        print("Error: ${response.statusCode} ${response.reasonPhrase}");
+      }
+    } catch (e) {
+      print("An error occurred while updating project: $e");
+    }
+  }
+
+  static Future deleteProject(BuildContext context, int id) async {
+    try {
+      final response = await http
+          .delete(Uri.parse("${Servername.host}project/$id"))
+          .timeout(const Duration(seconds: 10), onTimeout: () {
+        throw Exception("Request to the server timed out.");
+      });
+      if (response.statusCode == 200) {
+        Map<String, dynamic> jsonResponse = json.decode(response.body);
+
+        String data = jsonResponse['message'];
+        // String status = jsonResponse['status'];
+        bool quack = jsonResponse['quack'];
+
+        if (quack) {
+          customSnackBar(context, 0, data);
+          return quack;
+          // print(dataBack);
+        } else {
+          customSnackBar(context, 1, data);
+          return quack;
+        }
+      } else {
+        print("Error: ${response.statusCode} ${response.reasonPhrase}");
+      }
+    } catch (e) {
+      print("An error occurred while deleting project: $e");
     }
   }
 }

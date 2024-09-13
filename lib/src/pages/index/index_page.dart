@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:repository_ustp/src/components/duck_404.dart';
 import 'package:repository_ustp/src/components/sidebar/sidebar.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
+import 'package:repository_ustp/src/data/provider/index_menu_item.dart';
 import 'package:repository_ustp/src/utils/screen_breakpoint.dart';
 import 'package:repository_ustp/src/pages/capstone_teams/capstone_teams_page.dart';
 import 'package:repository_ustp/src/pages/projects/project_page.dart';
@@ -16,13 +19,13 @@ class IndexPage extends StatefulWidget {
   State<IndexPage> createState() => _IndexPageState();
 }
 
-int widgetIndex = 0;
+// int widgetIndex = 0;
 bool showTopItems = true;
 
 class _IndexPageState extends State<IndexPage> {
   void _onMenuItemTap(int index) {
     setState(() {
-      widgetIndex = index;
+      IndexMenuItem.quack = index;
     });
   }
 
@@ -96,32 +99,35 @@ Widget _buildContent(width, onCardItemTap, onTapShowItems, onMenuItemTap) {
 }
 
 Widget _buildSubContent(onCardItemTap, onMenuItemTap) {
-  return Column(
-    children: [
-      // showTopItems ? const SearchField() : const SizedBox(),
-      // showTopItems
-      //     ? Padding(
-      //         padding: const EdgeInsets.symmetric(vertical: 20.0),
-      //         child: CardList(callback: onCardItemTap),
-      //       )
-      //     : const SizedBox(),
-      Expanded(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: IndexedStack(
-            index: widgetIndex,
-            children: <Widget>[
-              ProjectPage(projectType: CLickEventProjectType.quack),
-              RepositoryPage(
-                  // callback: onMenuItemTap,
-                  projectType: CLickEventProjectType.quack),
-              const CapstoneTeamsPage(),
-              const StudentsPage(status: 0),
-              const StudentsPage(status: 1),
-            ],
+  return Consumer<IndexMenuItem>(builder: (context, value, child) {
+    return Column(
+      children: [
+        // showTopItems ? const SearchField() : const SizedBox(),
+        // showTopItems
+        //     ? Padding(
+        //         padding: const EdgeInsets.symmetric(vertical: 20.0),
+        //         child: CardList(callback: onCardItemTap),
+        //       )
+        //     : const SizedBox(),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: IndexedStack(
+              index: value.quackNew,
+              children: <Widget>[
+                ProjectPage(
+                  projectType: CLickEventProjectType.quack,
+                ),
+                RepositoryPage(projectType: CLickEventProjectType.quack),
+                const CapstoneTeamsPage(),
+                const StudentsPage(status: 0),
+                const StudentsPage(status: 1),
+                const Duck(status: "Cloud Backup", content: "Quack 5"),
+              ],
+            ),
           ),
-        ),
-      )
-    ],
-  );
+        )
+      ],
+    );
+  });
 }

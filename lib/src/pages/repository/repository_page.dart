@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:repository_ustp/src/components/confirmation_dialog.dart';
 import 'package:repository_ustp/src/components/duck_404.dart';
 import 'package:repository_ustp/src/components/show_dialog.dart';
 import 'package:repository_ustp/src/data/index/privacy_icon_value.dart';
@@ -12,6 +13,9 @@ import 'package:repository_ustp/src/pages/projects/components/text_content.dart'
 import 'package:repository_ustp/src/pages/projects/project_function.dart';
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
 import 'package:repository_ustp/src/pages/repository/components/repository_add.dart';
+import 'package:repository_ustp/src/pages/repository/components/repository_open.dart';
+import 'package:repository_ustp/src/pages/repository/components/repository_update.dart';
+import 'package:repository_ustp/src/pages/repository/repository_function.dart';
 import 'package:repository_ustp/src/utils/palette.dart';
 
 class RepositoryPage extends StatefulWidget {
@@ -125,8 +129,8 @@ class _RepositoryPageState extends State<RepositoryPage> {
                                 spacing: 10.0,
                                 children: List.generate(
                                   projectList.length,
-                                  (index) =>
-                                      _buildBody(index, projectList, context),
+                                  (index) => _buildBody(
+                                      index, projectList, context, reload),
                                 ),
                               ),
                             );
@@ -151,7 +155,7 @@ class _RepositoryPageState extends State<RepositoryPage> {
   }
 }
 
-Widget _buildBody(index, projectList, context) {
+Widget _buildBody(index, projectList, context, reload) {
   final ProjectModel project = projectList[index];
 
   return Padding(
@@ -160,33 +164,75 @@ Widget _buildBody(index, projectList, context) {
       height: 130,
       width: 140,
       child: InkWell(
+        onDoubleTap: () {},
         onTap: () {},
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Image.asset(
-              "assets/folder.png",
+        child: PopupMenuButton<int>(
+          onSelected: (value) async {
+            switch (value) {
+              case 0:
+                showCustomDialog(context, const RepositoryOpen());
+                break;
+              case 1:
+                showCustomDialog(
+                    context,
+                    RepositoryUpdate(
+                      reload: reload,
+                      instance: project,
+                    ));
+                break;
+              case 2:
+                const title = "Delete this Project ?";
+                const content =
+                    "this will also delete Authors and Project Data";
+                confirmationDialog(context, title, content, () {
+                  RepositoryFunction.deleteProject(context, project.id.toInt())
+                      .then((value) => reload());
+                });
+
+                break;
+            }
+          },
+          itemBuilder: (BuildContext context) => [
+            const PopupMenuItem<int>(
+              value: 0,
+              child: Text('Open'),
             ),
-            Align(
-              alignment: Alignment.topRight,
-              child: projectPrivacyValue(project.privacy, context),
+            const PopupMenuItem<int>(
+              value: 1,
+              child: Text('Edit'),
             ),
-            TextContent(
-                alignment: Alignment.topLeft,
-                title: project.year_published,
-                size: 10),
-            TextContent(
-              alignment: Alignment.center,
-              title: project.title,
-              color: Colors.black,
-              size: 14,
+            const PopupMenuItem<int>(
+              value: 2,
+              child: Text('Delete'),
             ),
-            TextContent(
-                alignment: Alignment.bottomCenter,
-                title: project.group_name,
-                color: Colors.black,
-                size: 10),
           ],
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Image.asset(
+                "assets/folder.png",
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: projectPrivacyValue(project.privacy, context),
+              ),
+              TextContent(
+                  alignment: Alignment.topLeft,
+                  title: project.year_published,
+                  size: 10),
+              TextContent(
+                alignment: Alignment.center,
+                title: project.title,
+                color: Colors.black,
+                size: 14,
+              ),
+              TextContent(
+                  alignment: Alignment.bottomCenter,
+                  title: project.group_name,
+                  color: Colors.black,
+                  size: 10),
+            ],
+          ),
         ),
       ),
     ),
