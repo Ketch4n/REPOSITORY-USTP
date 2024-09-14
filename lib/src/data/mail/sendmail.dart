@@ -25,10 +25,9 @@ class SendMailFunction {
     }
   }
 
-  static Future<void> sendEmailTypeStatus(int type, int status) async {
+  static Future<void> sendEmailTypeStatus() async {
     final response = await http.post(
-      Uri.parse(
-          "${Servername.host}sendmailTypeStatus?type=$type&status=$status"),
+      Uri.parse("${Servername.host}sendmailTypeStatus"),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },

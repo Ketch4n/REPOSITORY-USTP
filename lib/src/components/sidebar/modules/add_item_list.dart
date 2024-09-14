@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:repository_ustp/src/components/confirmation_dialog.dart';
 import 'package:repository_ustp/src/components/sidebar/modules/add_footer_icon.dart';
+import 'package:repository_ustp/src/components/snackbar.dart';
 import 'package:repository_ustp/src/components/textbutton_icon.dart';
 import 'package:repository_ustp/src/data/mail/sendmail.dart';
 import 'package:repository_ustp/src/utils/screen_breakpoint.dart';
@@ -11,22 +13,26 @@ Widget addItemList(callback, context) {
   final bool mobile = width <= tabletBreakpoint ? true : false;
   return Column(
     children: [
-      CustomListTileItems(
-        icon: addPreffixIcon(Icons.handyman_rounded),
-        label: addLabel("Projects"),
-        callback: () {
-          callback(0);
-          mobile ? Navigator.of(context).pop() : null;
-        },
-      ),
-      CustomListTileItems(
-        icon: addPreffixIcon(Icons.folder),
-        label: addLabel("Repository"),
-        callback: () {
-          callback(1);
-          mobile ? Navigator.of(context).pop() : null;
-        },
-      ),
+      UserSession.type == 2
+          ? CustomListTileItems(
+              icon: addPreffixIcon(Icons.handyman_rounded),
+              label: addLabel("Projects"),
+              callback: () {
+                callback(0);
+                mobile ? Navigator.of(context).pop() : null;
+              },
+            )
+          : const SizedBox(),
+      UserSession.type != 2
+          ? CustomListTileItems(
+              icon: addPreffixIcon(Icons.folder),
+              label: addLabel("Repository"),
+              callback: () {
+                callback(1);
+                mobile ? Navigator.of(context).pop() : null;
+              },
+            )
+          : const SizedBox(),
       CustomListTileItems(
         icon: addPreffixIcon(Icons.groups),
         label: addLabel("Capstone Teams"),
@@ -71,12 +77,21 @@ Widget addItemList(callback, context) {
           ? CustomListTileItems(
               icon: addPreffixIcon(Icons.mail),
               label: addLabel("Email"),
-              callback: () {
+              callback: () async {
                 // const name = "Quack";
                 // const email = "mangao.christian.04@gmail.com";
                 // const message = "New Repository added, check it now !";
                 // sendEmail(name, email, message);
-                SendMailFunction.sendEmailTypeStatus(2, 0);
+                const title = "Send Email to All";
+                const content = "only active users can received emails";
+
+                var output =
+                    await confirmationDialog(context, title, content, () {
+                  SendMailFunction.sendEmailTypeStatus();
+                });
+                if (output == true) {
+                  customSnackBar(context, 0, "Email Sent Successfully");
+                }
                 mobile ? Navigator.of(context).pop() : null;
               },
             )

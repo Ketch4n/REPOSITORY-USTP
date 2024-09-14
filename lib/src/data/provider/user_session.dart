@@ -7,7 +7,7 @@ class UserSession with ChangeNotifier {
   static int? id;
   static String username = "Undefined User";
   static String email = "email.undefined@gmail.com";
-  static int type = 3;
+  static int type = 4;
 
   // bool get authValue => auth;
   int? get idValue => id;

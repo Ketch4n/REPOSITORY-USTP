@@ -2,10 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/components/duck_404.dart';
 import 'package:repository_ustp/src/model/user_model.dart';
+import 'package:repository_ustp/src/pages/students/components/dropdown_student_status.dart';
 import 'package:repository_ustp/src/pages/students/students_function.dart';
 
 class StudentsPage extends StatefulWidget {
-  const StudentsPage({super.key, required this.status});
+  const StudentsPage({super.key, required this.type, required this.status});
+  final int type;
   final int status;
 
   @override
@@ -18,10 +20,14 @@ class _StudentsPageState extends State<StudentsPage> {
   final StreamController<List<UserModel>> _userStream =
       StreamController<List<UserModel>>();
 
+  void reload() {
+    StudentFunctions.fetchStudentsList(_userStream, widget.type, widget.status);
+  }
+
   @override
   void initState() {
     super.initState();
-    StudentFunctions.fetchStudentsList(_userStream, 2, widget.status);
+    StudentFunctions.fetchStudentsList(_userStream, widget.type, widget.status);
   }
 
   @override
@@ -35,7 +41,14 @@ class _StudentsPageState extends State<StudentsPage> {
     return Scaffold(
       appBar: AppBar(
         title:
-            Text(widget.status == 0 ? "ACTIVE STUDENTS" : "ARCHIVED STUDENTS"),
+            Text(widget.status == 1 ? "ACTIVE STUDENTS" : "ARCHIVED STUDENTS"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                reload();
+              },
+              icon: const Icon(Icons.refresh))
+        ],
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
@@ -57,8 +70,8 @@ class _StudentsPageState extends State<StudentsPage> {
                       return Column(
                         children: List.generate(
                             userlist.length,
-                            (index) =>
-                                _buidText(index, userlist, widget.status)),
+                            (index) => _buidText(
+                                index, userlist, widget.status, reload)),
                       );
                     } else if (snapshot.hasError) {
                       return Center(
@@ -78,7 +91,7 @@ class _StudentsPageState extends State<StudentsPage> {
   }
 }
 
-_buidText(index, userlist, status) {
+_buidText(index, userlist, status, reload) {
   final UserModel user = userlist[index];
   return Padding(
     padding: const EdgeInsets.all(10.0),
@@ -94,36 +107,41 @@ _buidText(index, userlist, status) {
       ),
       title: Text(user.username),
       subtitle: Text(user.email),
-      trailing: status == 0
-          ? Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text("Access to Files Repositories"),
-                Radio<int>(
-                  value: 0,
-                  groupValue: _selectedValue,
-                  onChanged: null,
-                  fillColor: MaterialStateProperty.all(Colors.blue),
-                ),
-                const Text("Public"),
-                const SizedBox(width: 8),
-                Radio<int>(
-                  value: 1,
-                  groupValue: _selectedValue,
-                  onChanged: null,
-                  fillColor: MaterialStateProperty.all(Colors.orange),
-                ),
-                const Text("Private"),
-                const SizedBox(width: 8),
-                Radio<int>(
-                  value: 1,
-                  groupValue: _selectedValue,
-                  onChanged: null,
-                  fillColor: MaterialStateProperty.all(Colors.green),
-                ),
-                const Text("Shared"),
-              ],
+      trailing: status == 1
+          ? DropdownStudentStatus(
+              id: user.id,
+              status: status == 1 ? 2 : status,
+              reload: reload,
             )
+          // Row(
+          //     mainAxisSize: MainAxisSize.min,
+          //     children: [
+          //       const Text("Access"),
+          //       Radio<int>(
+          //         value: 0,
+          //         groupValue: _selectedValue,
+          //         onChanged: null,
+          //         fillColor: MaterialStateProperty.all(Colors.blue),
+          //       ),
+          //       const Text("Public"),
+          //       const SizedBox(width: 8),
+          //       Radio<int>(
+          //         value: 1,
+          //         groupValue: _selectedValue,
+          //         onChanged: null,
+          //         fillColor: MaterialStateProperty.all(Colors.orange),
+          //       ),
+          //       const Text("Private"),
+          //       const SizedBox(width: 8),
+          //       Radio<int>(
+          //         value: 1,
+          //         groupValue: _selectedValue,
+          //         onChanged: null,
+          //         fillColor: MaterialStateProperty.all(Colors.green),
+          //       ),
+          //       const Text("Shared"),
+          //     ],
+          //   )
           : const Text("No email notification and access to Repository"),
     ),
   );

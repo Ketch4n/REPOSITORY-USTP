@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-Future confirmationDialog(
+Future<bool?> confirmationDialog(
     context, String title, String content, Function callback) async {
-  await showDialog<bool>(
+  return await showDialog<bool>(
     context: context,
     builder: (context) {
       return AlertDialog.adaptive(
@@ -12,8 +12,7 @@ Future confirmationDialog(
           TextButton(
             child: const Text('Yes'),
             onPressed: () async {
-              Navigator.of(context).pop(false);
-              callback();
+              Navigator.of(context).pop(true);
             },
           ),
           TextButton(
@@ -25,5 +24,10 @@ Future confirmationDialog(
         ],
       );
     },
-  );
+  ).then((value) {
+    if (value == true) {
+      callback();
+    }
+    return value;
+  });
 }

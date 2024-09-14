@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:repository_ustp/src/components/duck_404.dart';
 import 'package:repository_ustp/src/components/sidebar/sidebar.dart';
+import 'package:repository_ustp/src/data/database/backup.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
 import 'package:repository_ustp/src/data/provider/index_menu_item.dart';
 import 'package:repository_ustp/src/utils/screen_breakpoint.dart';
@@ -120,9 +120,9 @@ Widget _buildSubContent(onCardItemTap, onMenuItemTap) {
                 ),
                 RepositoryPage(projectType: CLickEventProjectType.quack),
                 const CapstoneTeamsPage(),
-                const StudentsPage(status: 0),
-                const StudentsPage(status: 1),
-                const Duck(status: "Cloud Backup", content: "Quack 5"),
+                const StudentsPage(type: 2, status: 1),
+                const StudentsPage(type: 2, status: 2),
+                const BackupScreen()
               ],
             ),
           ),
