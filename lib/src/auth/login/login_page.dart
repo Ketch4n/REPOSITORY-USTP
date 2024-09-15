@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CustomTextField(
-            label: "Username or Email",
+            label: "Username",
             controller: usernameController,
           ),
           const SizedBox(height: 10),
