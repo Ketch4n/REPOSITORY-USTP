@@ -9,14 +9,29 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # Essential
+  intl: ^0.18.1
   
   #Network
   http: ^1.2.2
+  
   #State Management
   provider: ^6.1.2
   flutter_bloc: ^8.1.6
+
+  # Firebase
+  firebase_core: ^2.31.0
+  firebase_storage: ^11.7.5
+
   #Storage
   shared_preferences: ^2.2.3
+
+  # Media
+  file_picker: ^8.0.5
+  url_launcher: ^6.0.9
+  video_player: ^2.5.0
+
   #Styling
   hexcolor: ^3.0.1
   loader_skeleton: ^0.0.4
