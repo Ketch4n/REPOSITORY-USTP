@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -116,7 +115,7 @@ class _RepositoryOpenState extends State<RepositoryOpen> {
                                   fileName: fileRef.name, fileUrl: url),
                               actions: <Widget>[
                                 TextButton(
-                                  child: Text('Close'),
+                                  child: const Text('Close'),
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
@@ -129,7 +128,7 @@ class _RepositoryOpenState extends State<RepositoryOpen> {
                         }
                       },
                       trailing: IconButton(
-                        icon: Icon(Icons.download),
+                        icon: const Icon(Icons.download),
                         onPressed: () async {
                           final url = await fileRef.getDownloadURL();
 

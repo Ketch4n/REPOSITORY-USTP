@@ -165,13 +165,14 @@ Widget _buildBody(index, projectList, context, reload) {
       width: 140,
       child: InkWell(
         onDoubleTap: () {
-          showCustomDialog(context, const RepositoryOpen());
+          showCustomDialog(context, RepositoryOpen(projectID: project.id));
         },
         child: PopupMenuButton<int>(
           onSelected: (value) async {
             switch (value) {
               case 0:
-                showCustomDialog(context, const RepositoryOpen());
+                showCustomDialog(
+                    context, RepositoryOpen(projectID: project.id));
                 break;
               case 1:
                 showCustomDialog(

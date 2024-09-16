@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
@@ -7,7 +6,7 @@ class FilePreview extends StatelessWidget {
   final String fileName;
   final String fileUrl;
 
-  FilePreview({required this.fileName, required this.fileUrl});
+  const FilePreview({super.key, required this.fileName, required this.fileUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class FilePreview extends StatelessWidget {
     } else if (fileName.endsWith('.docx') || fileName.endsWith('.doc')) {
       return DocumentViewer(fileUrl: fileUrl);
     } else {
-      return Center(child: Text('Unsupported file type'));
+      return const Center(child: Text('Unsupported file type'));
     }
   }
 }
@@ -29,7 +28,7 @@ class FilePreview extends StatelessWidget {
 class VideoPlayerWidget extends StatefulWidget {
   final String fileUrl;
 
-  VideoPlayerWidget({required this.fileUrl});
+  const VideoPlayerWidget({super.key, required this.fileUrl});
 
   @override
   _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
@@ -54,7 +53,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
             aspectRatio: _controller.value.aspectRatio,
             child: VideoPlayer(_controller),
           )
-        : Center(child: CircularProgressIndicator());
+        : const Center(child: CircularProgressIndicator());
   }
 
   @override
@@ -67,7 +66,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 class DocumentViewer extends StatelessWidget {
   final String fileUrl;
 
-  DocumentViewer({required this.fileUrl});
+  const DocumentViewer({super.key, required this.fileUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +79,7 @@ class DocumentViewer extends StatelessWidget {
             throw 'Could not open document';
           }
         },
-        child: Text('View Document'),
+        child: const Text('View Document'),
       ),
     );
   }
