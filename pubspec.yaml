@@ -31,6 +31,11 @@ dependencies:
   file_picker: ^8.0.5
   url_launcher: ^6.0.9
   video_player: ^2.5.0
+  open_file: ^3.3.2
+
+  # Documents
+  printing: ^5.5.0
+  pdf: ^3.6.0
 
   #Styling
   hexcolor: ^3.0.1

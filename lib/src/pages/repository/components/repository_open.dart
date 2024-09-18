@@ -63,8 +63,8 @@ class _RepositoryOpenState extends State<RepositoryOpen> {
   }
 
   Future<void> _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.file(url))) {
+      await canLaunchUrl(Uri.file(url));
     } else {
       throw 'Could not launch $url';
     }

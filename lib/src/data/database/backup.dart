@@ -8,10 +8,10 @@ class BackupScreen extends StatefulWidget {
   const BackupScreen({super.key});
 
   @override
-  _BackupScreenState createState() => _BackupScreenState();
+  BackupScreenState createState() => BackupScreenState();
 }
 
-class _BackupScreenState extends State<BackupScreen> {
+class BackupScreenState extends State<BackupScreen> {
   bool isLoading = false;
   String message = '';
 
@@ -56,6 +56,7 @@ class _BackupScreenState extends State<BackupScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Database Backup'),
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: isLoading

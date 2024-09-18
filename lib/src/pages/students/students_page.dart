@@ -14,7 +14,7 @@ class StudentsPage extends StatefulWidget {
   State<StudentsPage> createState() => _StudentsPageState();
 }
 
-const int _selectedValue = 0;
+// const int selectedValue = 0;
 
 class _StudentsPageState extends State<StudentsPage> {
   final StreamController<List<UserModel>> _userStream =

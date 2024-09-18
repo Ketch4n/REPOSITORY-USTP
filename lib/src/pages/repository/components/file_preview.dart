@@ -31,16 +31,16 @@ class VideoPlayerWidget extends StatefulWidget {
   const VideoPlayerWidget({super.key, required this.fileUrl});
 
   @override
-  _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
+  VideoPlayerWidgetState createState() => VideoPlayerWidgetState();
 }
 
-class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
+class VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   late VideoPlayerController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.fileUrl)
+    _controller = VideoPlayerController.networkUrl(Uri(path: widget.fileUrl))
       ..initialize().then((_) {
         setState(() {}); // Refresh UI after initialization
       });
@@ -73,8 +73,8 @@ class DocumentViewer extends StatelessWidget {
     return Center(
       child: ElevatedButton(
         onPressed: () async {
-          if (await canLaunch(fileUrl)) {
-            await launch(fileUrl);
+          if (await canLaunchUrl(Uri.directory(fileUrl))) {
+            await launchUrl(Uri.directory(fileUrl));
           } else {
             throw 'Could not open document';
           }

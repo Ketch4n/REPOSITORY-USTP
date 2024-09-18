@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:pdf/pdf.dart';
+import 'package:printing/printing.dart';
 import 'package:repository_ustp/src/components/confirmation_dialog.dart';
 import 'package:repository_ustp/src/components/duck_404.dart';
 import 'package:repository_ustp/src/components/show_dialog.dart';
@@ -12,11 +14,12 @@ import 'package:repository_ustp/src/pages/index/components/search_field_controll
 import 'package:repository_ustp/src/pages/projects/components/text_content.dart';
 import 'package:repository_ustp/src/pages/projects/project_function.dart';
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
-import 'package:repository_ustp/src/pages/repository/components/repository_add.dart';
 import 'package:repository_ustp/src/pages/repository/components/repository_open.dart';
 import 'package:repository_ustp/src/pages/repository/components/repository_update.dart';
+import 'package:repository_ustp/src/pages/repository/modules/top_buttons.dart';
 import 'package:repository_ustp/src/pages/repository/repository_function.dart';
 import 'package:repository_ustp/src/utils/palette.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class RepositoryPage extends StatefulWidget {
   const RepositoryPage({super.key, required this.projectType});
@@ -30,6 +33,8 @@ class RepositoryPage extends StatefulWidget {
 class _RepositoryPageState extends State<RepositoryPage> {
   final StreamController<List<ProjectModel>> _projectStream =
       StreamController<List<ProjectModel>>();
+
+  List<ProjectModel> projects = [];
 
   final _searchController = SearchFieldController().search;
 
@@ -48,8 +53,8 @@ class _RepositoryPageState extends State<RepositoryPage> {
   }
 
   // Method to fetch projects and reload
-  void _fetchProjects(quackType, quackKeyword, search) {
-    ProjectFunction.fetchProjects(
+  void _fetchProjects(quackType, quackKeyword, search) async {
+    await ProjectFunction.fetchProjects(
         _projectStream, quackType, quackKeyword, search);
   }
 
@@ -60,6 +65,46 @@ class _RepositoryPageState extends State<RepositoryPage> {
           ClickEventProjectKeyword.quack, _searchController.text);
       // print(_searchController.text);
     });
+  }
+
+  Future<void> exportToPDF() async {
+    final pdf = pw.Document();
+    pdf.addPage(
+      pw.Page(
+        build: (pw.Context context) {
+          return pw.Column(
+            children: [
+              pw.Text(
+                'Project Repository',
+                style:
+                    pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold),
+                textAlign: pw.TextAlign.center,
+              ),
+              pw.SizedBox(height: 20),
+              pw.TableHelper.fromTextArray(
+                headers: [
+                  'Title',
+                  'Year Published',
+                  'Project Type',
+                  'Group Name',
+                ],
+                data: projects.map((project) {
+                  return [
+                    project.title,
+                    project.year_published,
+                    project.project_type,
+                    project.group_name,
+                  ];
+                }).toList(),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+    await Printing.layoutPdf(
+      onLayout: (PdfPageFormat format) async => pdf.save(),
+    );
   }
 
   @override
@@ -76,33 +121,8 @@ class _RepositoryPageState extends State<RepositoryPage> {
                   child: SearchField(reload: reload),
                 ),
               ),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: MaterialButton(
-                    color: Colors.blue,
-                    onPressed: () {
-                      // widget.callback(4);
-                      // Navigator.pushNamed(context, '/repository/add');
-                      showCustomDialog(context, RepositoryAdd(reload: reload));
-                    },
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          "Add New Project",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        Icon(
-                          Icons.add,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              RepositoryTopButtons(
+                  reload: () => reload(), toPDF: () => exportToPDF()),
               Expanded(
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
@@ -112,14 +132,16 @@ class _RepositoryPageState extends State<RepositoryPage> {
                         stream: _projectStream.stream,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            final List<ProjectModel?> projectList =
+                            final List<ProjectModel> projectList =
                                 snapshot.data!;
+                            projects = projectList;
 
                             if (projectList.isEmpty) {
                               return const Duck(
                                   status: "NO REPOSITORY FOLDERS YET",
                                   content: "");
                             }
+
                             return Padding(
                               padding: const EdgeInsets.only(top: 10.0),
                               child: Wrap(
