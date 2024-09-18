@@ -6,16 +6,16 @@ AppBar addAppBar(onTapShowItems, showTopItems) {
   return AppBar(
     title: Text("PROJECT REPOSITORY", style: CustomTextStyle.iconLabel),
     centerTitle: true,
-    actions: [
-      IconButton(
-        onPressed: () {
-          onTapShowItems();
-        },
-        icon: showTopItems
-            ? const Icon(Icons.search_off)
-            : const Icon(Icons.search),
-      )
-    ],
+    // actions: [
+    //   IconButton(
+    //     onPressed: () {
+    //       onTapShowItems();
+    //     },
+    //     icon: showTopItems
+    //         ? const Icon(Icons.search_off)
+    //         : const Icon(Icons.search),
+    //   )
+    // ],
     backgroundColor: ColorPallete.secondary,
   );
 }
