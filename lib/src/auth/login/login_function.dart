@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/components/snackbar.dart';
+import 'package:repository_ustp/src/data/provider/index_menu_item.dart';
 import 'package:repository_ustp/src/data/server/url.dart';
 import 'package:repository_ustp/src/data/provider/user_session.dart';
 import 'package:http/http.dart' as http;
@@ -31,6 +32,7 @@ class LoginFunctions {
           UserSession.username = user["username"];
           UserSession.email = user["email"];
           UserSession.type = user['type'];
+          IndexMenuItem.quack = user['type'] == 2 ? 1 : 0;
           // const content = "Login Success";
           customSnackBar(context, 0, message);
           Navigator.pushNamedAndRemoveUntil(
