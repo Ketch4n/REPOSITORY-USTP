@@ -1,0 +1,20 @@
+[
+    {
+        "origin": [
+            "https://repository-ustp.web.app/"
+        ],
+        "method": [
+            "GET, POST"
+        ],
+        "maxAgeSeconds": 3600
+    },
+    {
+        "origin": [
+            "https://repository-ustp.firebaseapp.com/"
+        ],
+        "method": [
+            "GET, POST"
+        ],
+        "maxAgeSeconds": 3600
+    }
+]

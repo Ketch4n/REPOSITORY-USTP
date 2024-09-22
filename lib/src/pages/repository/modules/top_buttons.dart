@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:repository_ustp/src/components/show_dialog.dart';
-import 'package:repository_ustp/src/pages/repository/components/repository_add.dart';
+import 'package:repository_ustp/src/pages/repository/components/add_repo_index.dart';
 
 class RepositoryTopButtons extends StatefulWidget {
   const RepositoryTopButtons(
@@ -21,11 +20,10 @@ class _RepositoryTopButtonsState extends State<RepositoryTopButtons> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           MaterialButton(
-            color: Colors.blue,
+            color: Colors.green,
             onPressed: () {
-              // widget.callback(4);
-              // Navigator.pushNamed(context, '/repository/add');
-              showCustomDialog(context, RepositoryAdd(reload: widget.reload));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const AddRepoIndex()));
             },
             child: const Row(
               mainAxisSize: MainAxisSize.min,
@@ -41,8 +39,9 @@ class _RepositoryTopButtonsState extends State<RepositoryTopButtons> {
               ],
             ),
           ),
+          const SizedBox(width: 10),
           MaterialButton(
-            color: Colors.redAccent,
+            color: Colors.grey,
             onPressed: () {
               widget.toPDF();
             },
@@ -50,9 +49,10 @@ class _RepositoryTopButtonsState extends State<RepositoryTopButtons> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  "Export to PDF",
+                  "Report",
                   style: TextStyle(color: Colors.white),
                 ),
+                SizedBox(width: 10),
                 Icon(
                   Icons.picture_as_pdf,
                   color: Colors.white,

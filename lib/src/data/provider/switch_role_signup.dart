@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class SwitchRoleSignup with ChangeNotifier {
-  static bool type = false; // Private variable to hold the state.
+  static int role = 0;
 
-  bool get typeNew => type;
+  int get roleNew => role;
 
-  void toggleType() {
-    type = !type;
-    notifyListeners(); // Notify listeners when the state changes.
+  set value(int newValue) {
+    role = newValue;
+
+    notifyListeners();
   }
 }

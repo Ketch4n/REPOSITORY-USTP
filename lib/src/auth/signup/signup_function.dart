@@ -12,33 +12,28 @@ signupFunction(
   String username,
   String email,
   String password,
-  bool type,
+  int? role,
 ) async {
-  if (username.isEmpty || password.isEmpty || email.isEmpty) {
-    customSnackBar(context, 1, "Fields cannot be Empty !");
-  } else {
-    try {
-      final int value = type == true ? 1 : 2;
-      final response = await http.post(
-        Uri.parse("${Servername.host}user/register"),
-        body: {
-          'username': username,
-          'email': email,
-          'type': value.toString(),
-          'password': password,
-        },
-      );
-      Map<String, dynamic> jsonResponse = json.decode(response.body);
+  try {
+    final response = await http.post(
+      Uri.parse("${Servername.host}user/register"),
+      body: {
+        'username': username,
+        'email': email,
+        'type': role.toString(),
+        'password': password,
+      },
+    );
+    Map<String, dynamic> jsonResponse = json.decode(response.body);
 
-      bool quack = jsonResponse['quack'];
-      var message = jsonResponse['message'];
+    bool quack = jsonResponse['quack'];
+    var message = jsonResponse['message'];
 
-      if (quack) {
-        Navigator.of(context).pop();
-        customSnackBar(context, 0, message);
-      } else {}
-    } catch (e) {
-      customSnackBar(context, 2, e);
-    }
+    if (quack) {
+      Navigator.of(context).pop();
+      customSnackBar(context, 0, message);
+    } else {}
+  } catch (e) {
+    customSnackBar(context, 2, e);
   }
 }

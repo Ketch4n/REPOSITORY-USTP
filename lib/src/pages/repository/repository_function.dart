@@ -7,14 +7,13 @@ import 'package:repository_ustp/src/components/snackbar.dart';
 import 'package:repository_ustp/src/data/server/url.dart';
 
 class RepositoryFunction {
-  static Future postProject(BuildContext context, String title, int type,
-      int privacy, year, String gname, List<String?> m0) async {
+  static Future postProject(BuildContext context, String title, int type, year,
+      String gname, List<String?> m0) async {
     try {
       final response =
           await http.post(Uri.parse("${Servername.host}project"), body: {
         'title': title,
         'project_type': type.toString(),
-        'privacy': privacy.toString(),
         'year_published': year.toString(),
         'group_name': gname.toString(),
         'member_0': m0[0],

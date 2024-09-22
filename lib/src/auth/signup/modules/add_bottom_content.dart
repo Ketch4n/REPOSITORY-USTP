@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/components/button.dart';
-import 'package:repository_ustp/src/components/textbutton.dart';
+// import 'package:repository_ustp/src/components/textbutton.dart';
 
 Widget addBottomContent(context, callback) {
   return Column(
@@ -13,12 +13,12 @@ Widget addBottomContent(context, callback) {
           child: const Text("REGISTER"),
         ),
       ),
-      const SizedBox(height: 30),
-      CustomTextButton(
-          text: "Already have an account ?",
-          callback: () {
-            Navigator.of(context).pop();
-          })
+      // const SizedBox(height: 10),
+      // CustomTextButton(
+      //     text: "Already have an account ?",
+      //     callback: () {
+      //       Navigator.of(context).pop();
+      //     })
     ],
   );
 }

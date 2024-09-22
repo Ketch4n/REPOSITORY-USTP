@@ -1,14 +1,15 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
+import 'package:provider/provider.dart';
 import 'package:repository_ustp/src/components/confirmation_dialog.dart';
 import 'package:repository_ustp/src/components/duck_404.dart';
 import 'package:repository_ustp/src/components/show_dialog.dart';
-import 'package:repository_ustp/src/data/index/privacy_icon_value.dart';
+import 'package:repository_ustp/src/data/index/project_index_value.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
 import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
+import 'package:repository_ustp/src/pages/index/components/card_list.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field_controller.dart';
 import 'package:repository_ustp/src/pages/projects/components/text_content.dart';
@@ -92,7 +93,7 @@ class _RepositoryPageState extends State<RepositoryPage> {
                   return [
                     project.title,
                     project.year_published,
-                    project.project_type,
+                    projectTypeBinaryValue(project.project_type),
                     project.group_name,
                   ];
                 }).toList(),
@@ -116,9 +117,13 @@ class _RepositoryPageState extends State<RepositoryPage> {
             children: [
               Container(
                 decoration: BoxDecoration(color: ColorPallete.grey),
+                child: SearchField(reload: reload),
+              ),
+              Container(
+                decoration: BoxDecoration(color: ColorPallete.grey),
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: SearchField(reload: reload),
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: CardList(callback: reload),
                 ),
               ),
               RepositoryTopButtons(
@@ -137,9 +142,13 @@ class _RepositoryPageState extends State<RepositoryPage> {
                             projects = projectList;
 
                             if (projectList.isEmpty) {
-                              return const Duck(
-                                  status: "NO REPOSITORY FOLDERS YET",
-                                  content: "");
+                              return Consumer<CLickEventProjectType>(
+                                  builder: (context, value, child) {
+                                return Duck(
+                                    status:
+                                        "${projectTypeBinaryValue(value.quackNew)} EMPTY",
+                                    content: "");
+                              });
                             }
 
                             return Padding(
@@ -183,7 +192,7 @@ Widget _buildBody(index, projectList, context, reload) {
   return Padding(
     padding: const EdgeInsets.all(10.0),
     child: SizedBox(
-      height: 130,
+      height: 190,
       width: 140,
       child: InkWell(
         onDoubleTap: () {
@@ -231,30 +240,32 @@ Widget _buildBody(index, projectList, context, reload) {
             ),
           ],
           child: Stack(
-            alignment: Alignment.center,
             children: [
-              Image.asset(
-                "assets/folder.png",
-              ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: projectPrivacyValue(project.privacy, context),
-              ),
+              Image.asset("assets/hardbound.png"),
+              // Positioned(
+              //   right: 10,
+              //   bottom: 5,
+              //   child: Align(
+              //     alignment: Alignment.bottomRight,
+              //     child: projectPrivacyValue(project.privacy, context),
+              //   ),
+              // ),
               TextContent(
-                  alignment: Alignment.topLeft,
-                  title: project.year_published,
-                  size: 10),
+                alignment: Alignment.topCenter,
+                title:
+                    "${projectTypeBinaryValue(project.project_type).toString()}\n${project.year_published}",
+                size: 10,
+              ),
               TextContent(
                 alignment: Alignment.center,
                 title: project.title,
-                color: Colors.black,
-                size: 14,
+                color: Colors.yellow,
               ),
               TextContent(
-                  alignment: Alignment.bottomCenter,
-                  title: project.group_name,
-                  color: Colors.black,
-                  size: 10),
+                title: project.group_name,
+                size: 8,
+                alignment: Alignment.bottomCenter,
+              ),
             ],
           ),
         ),

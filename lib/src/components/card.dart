@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
+import 'package:repository_ustp/src/data/provider/card_click_event.dart';
 import 'package:repository_ustp/src/utils/palette.dart';
 
 class CustomCard extends StatefulWidget {
@@ -16,7 +17,8 @@ class _CustomCardState extends State<CustomCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        widget.callback(widget.child);
+        CLickEventProjectType.quack = widget.child;
+        widget.callback();
       },
       child: Container(
         height: 50,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({super.key, required this.child, required this.callback});
@@ -14,7 +15,7 @@ class CustomButton extends StatelessWidget {
         width: double.maxFinite,
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
+              backgroundColor: HexColor("4B97DE"),
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10), // Button border radius

@@ -6,7 +6,7 @@ class ProjectModel {
   final String year_published;
   final int project_type;
   final String group_name;
-  final int privacy;
+  // final int privacy;
   // final List<String> author;
 
   ProjectModel({
@@ -15,7 +15,7 @@ class ProjectModel {
     required this.year_published,
     required this.project_type,
     required this.group_name,
-    required this.privacy,
+    // required this.privacy,
     // required this.author,
   });
 
@@ -27,7 +27,7 @@ class ProjectModel {
       year_published: json['year_published'],
       project_type: json['project_type'],
       group_name: json['group_name'],
-      privacy: json['privacy'],
+      // privacy: json['privacy'],
       // author: List<String>.from(
       //     json['author']), // Convert JSON array to List<String>
     );
@@ -41,7 +41,7 @@ class ProjectModel {
       'year_published': year_published,
       'project_type': project_type,
       'group_name': group_name,
-      'privacy': privacy,
+      // 'privacy': privacy,
       // 'author': author,
     };
   }
