@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:repository_ustp/src/data/provider/adding_repo_controllers.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
 import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
 import 'package:repository_ustp/src/data/provider/index_menu_item.dart';
@@ -32,6 +33,7 @@ void main() async {
         ChangeNotifierProvider<SwitchRoleSignup>(
             create: (_) => SwitchRoleSignup()),
         ChangeNotifierProvider<IndexMenuItem>(create: (_) => IndexMenuItem()),
+        ChangeNotifierProvider(create: (_) => AddingRepo())
       ],
       child: const MainApp(),
     ),
@@ -46,7 +48,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'MontserratRegular'),
-      initialRoute: AppRoutes.index,
+      initialRoute: AppRoutes.repoAdd,
       onGenerateRoute: AppRoutes.onGenerateRoute,
       // home: const Auth(),
     );

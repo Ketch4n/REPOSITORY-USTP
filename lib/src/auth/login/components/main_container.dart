@@ -19,7 +19,7 @@ class LoginMainContainer extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return Container(
       height: height - 150,
-      constraints: const BoxConstraints(maxWidth: 450),
+      constraints: const BoxConstraints(maxWidth: 450, maxHeight: 600),
       decoration: BoxDecoration(
         color: ColorPallete.grey,
         borderRadius: BorderRadius.circular(radius ?? 50),

@@ -94,14 +94,17 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildButton() {
-    return CustomButton(
-      callback: () {
-        final username = usernameController.text.trim();
-        final password = passwordController.text.trim();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+      child: CustomButton(
+        callback: () {
+          final username = usernameController.text.trim();
+          final password = passwordController.text.trim();
 
-        LoginFunctions.fetchUserCredentials(context, username, password);
-      },
-      child: const Text("LOG IN"),
+          LoginFunctions.fetchUserCredentials(context, username, password);
+        },
+        child: const Text("LOG IN"),
+      ),
     );
   }
 }

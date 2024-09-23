@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:repository_ustp/src/pages/repository/components/add_repo_index.dart';
+import 'package:repository_ustp/src/pages/repository/components/repository_add.dart';
 
 class RepositoryTopButtons extends StatefulWidget {
   const RepositoryTopButtons(
@@ -23,7 +23,7 @@ class _RepositoryTopButtonsState extends State<RepositoryTopButtons> {
             color: Colors.green,
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const AddRepoIndex()));
+                  builder: (context) => RepositoryAdd(reload: widget.reload)));
             },
             child: const Row(
               mainAxisSize: MainAxisSize.min,

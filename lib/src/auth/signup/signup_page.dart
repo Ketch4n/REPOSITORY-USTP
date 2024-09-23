@@ -51,7 +51,7 @@ class _SignupPageState extends State<SignupPage> {
           child: LoginMainContainer(
             radius: 10.0,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 40.0, right: 40.0),

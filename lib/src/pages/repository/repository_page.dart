@@ -146,8 +146,8 @@ class _RepositoryPageState extends State<RepositoryPage> {
                                   builder: (context, value, child) {
                                 return Duck(
                                     status:
-                                        "${projectTypeBinaryValue(value.quackNew)} EMPTY",
-                                    content: "");
+                                        projectTypeBinaryValue(value.quackNew),
+                                    content: "No Repository Found !");
                               });
                             }
 

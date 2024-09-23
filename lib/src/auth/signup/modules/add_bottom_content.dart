@@ -8,9 +8,12 @@ Widget addBottomContent(context, callback) {
     children: [
       SizedBox(
         width: double.maxFinite,
-        child: CustomButton(
-          callback: callback,
-          child: const Text("REGISTER"),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 40.0),
+          child: CustomButton(
+            callback: callback,
+            child: const Text("REGISTER"),
+          ),
         ),
       ),
       // const SizedBox(height: 10),
