@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/components/button.dart';
 import 'package:repository_ustp/src/components/textbutton.dart';
+import 'package:repository_ustp/src/pages/repository/components/pages/components/container.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/components/text_editing_controller.dart';
 import 'package:repository_ustp/src/utils/palette.dart';
 
@@ -31,43 +32,79 @@ class _RepositoryConfirmState extends State<RepositoryConfirm> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
-                      height: 150,
-                      width: 100,
+                      height: 130,
+                      width: 80,
                       child: Image.asset("assets/hardbound.png")),
-                  Text(pages.capstoneTitle.text)
+                  Text(pages.capstoneTitle.text),
+                  Text("(Title)"),
                 ],
               ),
             ),
-            Container(
-              width: double.maxFinite,
-              color: ColorPallete.grey,
+            SizedBox(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
                 children: [
-                  ListTile(
-                      leading: const Text("PROJECT TYPE"),
-                      trailing: Text(pages.projectType.text)),
-                  ListTile(
-                    leading: const Text("YEAR PUBLISHED"),
-                    trailing: Text(pages.yearPublished.text),
+                  PageConfirmContainer(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("PROJECT TYPE"),
+                          Text(pages.projectType.text)
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("YEAR PUBLISHED"),
+                          Text(pages.yearPublished.text),
+                        ],
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            Container(
-              width: double.maxFinite,
-              color: ColorPallete.grey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ListTile(
-                      leading: const Text("GROUP NAME"),
-                      trailing: Text(pages.groupName.text)),
-                  ListTile(
-                    leading: const Text("AUTHORS"),
-                    trailing: Text(pages.authors.text[0]),
+                  SizedBox(height: 20),
+                  PageConfirmContainer(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("GROUP NAME"),
+                          Text(pages.groupName.text)
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("AUTHORS"),
+                          Text(pages.authors.text),
+                        ],
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  PageConfirmContainer(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("MANUSCRIPT"),
+                          Text(pages.projectType.text)
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("POSTER"),
+                          Text(pages.yearPublished.text),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("VIDEOS"),
+                          Text(pages.yearPublished.text),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),

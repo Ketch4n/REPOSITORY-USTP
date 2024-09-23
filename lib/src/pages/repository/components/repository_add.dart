@@ -71,9 +71,9 @@ class _RepositoryAddState extends State<RepositoryAdd> {
             SmoothPageIndicator(
               controller: pageController,
               count: 4,
-              onDotClicked: (index) {
-                pageController.jumpToPage(index);
-              },
+              // onDotClicked: (index) {
+              //   pageController.jumpToPage(index);
+              // },
             ),
           ],
         ),
