@@ -14,9 +14,15 @@ class Page3 extends StatefulWidget {
 }
 
 class _Page3State extends State<Page3> {
+  final pages = PagesTextEditingController();
+  // @override
+  // void dispose() {
+  //   pages.dispose();
+  //   super.dispose();
+  // }
+
   @override
   Widget build(BuildContext context) {
-    final pages = PagesTextEditingController();
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(

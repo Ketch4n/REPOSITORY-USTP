@@ -23,6 +23,11 @@ class RepositoryConfirm extends StatefulWidget {
 
 class _RepositoryConfirmState extends State<RepositoryConfirm> {
   final pages = PagesTextEditingController();
+  //  @override
+  // void dispose() {
+  //   pages.dispose();
+  //   super.dispose();
+  // }
 
   void submit(BuildContext context, int? projectType, List<String?> authors,
       reload) async {
@@ -46,6 +51,13 @@ class _RepositoryConfirmState extends State<RepositoryConfirm> {
       } catch (e) {
         print(e);
       }
+      // finally {
+      //   pages.capstoneTitle.clear();
+      //   pages.yearPublished.clear();
+      //   pages.groupName.clear();
+      //   pages.projectType.clear();
+      //   pages.authors.clear();
+      // }
     }
   }
 
