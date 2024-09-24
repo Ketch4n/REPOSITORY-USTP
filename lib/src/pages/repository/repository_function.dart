@@ -16,31 +16,29 @@ class RepositoryFunction {
         'project_type': type.toString(),
         'year_published': year.toString(),
         'group_name': gname.toString(),
-        'member_0': m0[0],
-        'member_1': m0[1],
-        'member_2': m0[2],
-        'member_3': m0[3],
+        for (int i = 0; i < m0.length; i++) 'member_$i': m0[i],
       });
 
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
 
-        String data = jsonResponse['message'];
+        String message = jsonResponse['message'];
         bool quack = jsonResponse['quack'];
+        int dataID = jsonResponse['data']['id'];
 
         if (quack) {
-          customSnackBar(context, 0, data);
+          customSnackBar(context, 0, message);
+          print(dataID);
           return quack;
-          // print(dataBack);
         } else {
-          customSnackBar(context, 1, data);
+          customSnackBar(context, 1, message);
           return quack;
         }
       } else {
-        // print("Error: ${response.statusCode} ${response.reasonPhrase}");
+        print("Error: ${response.statusCode} ${response.reasonPhrase}");
       }
     } catch (e) {
-      // print("An error occurred while fetching projects: $e");
+      print("An error occurred while fetching projects: $e");
     }
   }
 

@@ -63,6 +63,7 @@ class _RepositoryAddState extends State<RepositoryAdd> {
                       backward: () => pageController.previousPage(
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.easeIn),
+                      reload: () => widget.reload(),
                     )
                   ],
                 ),

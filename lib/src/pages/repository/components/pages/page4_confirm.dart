@@ -1,23 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:repository_ustp/src/components/snackbar.dart';
+import 'package:repository_ustp/src/data/provider/author_list.dart';
+import 'package:repository_ustp/src/data/provider/project_type_add.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/components/bottom_buttons.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/components/container.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/components/row_content.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/class/text_editing_controller.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/components/text_style.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/utils/page4_container_style.dart';
+import 'package:repository_ustp/src/pages/repository/repository_function.dart';
 
 class RepositoryConfirm extends StatefulWidget {
-  const RepositoryConfirm({super.key, required this.backward});
+  const RepositoryConfirm(
+      {super.key, required this.backward, required this.reload});
   final Function backward;
+  final Function reload;
 
   @override
   State<RepositoryConfirm> createState() => _RepositoryConfirmState();
 }
 
 class _RepositoryConfirmState extends State<RepositoryConfirm> {
+  final pages = PagesTextEditingController();
+
+  void submit(BuildContext context, int? projectType, List<String?> authors,
+      reload) async {
+    if (pages.capstoneTitle.text.isEmpty ||
+        projectType == null ||
+        pages.yearPublished.text.isEmpty ||
+        pages.groupName.text.isEmpty) {
+      customSnackBar(context, 1, "Cannot add empty fields");
+    } else {
+      try {
+        await RepositoryFunction.postProject(
+          context,
+          pages.capstoneTitle.text,
+          projectType,
+          pages.yearPublished.text,
+          pages.groupName.text,
+          authors,
+        );
+        Navigator.of(context).pop();
+        reload();
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final pages = PagesTextEditingController();
     return Container(
       decoration: Page4ContainerStyle.style,
       child: Padding(
@@ -37,12 +70,16 @@ class _RepositoryConfirmState extends State<RepositoryConfirm> {
                 ],
               ),
             ),
-            PageViewButtons(
-              flabel: "CONFIRM AND SAVE",
-              blabel: 'PREVIOUS',
-              ffunction: () {},
-              bfunction: () => widget.backward(),
-            ),
+            Consumer2<ProjectTypeAdd, AuthorList>(
+                builder: (context, value, value2, child) {
+              return PageViewButtons(
+                flabel: "CONFIRM AND SAVE",
+                blabel: 'PREVIOUS',
+                ffunction: () => submit(
+                    context, value.quackNew, value2.authors, widget.reload),
+                bfunction: () => widget.backward(),
+              );
+            }),
           ],
         ),
       ),

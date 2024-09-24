@@ -37,19 +37,19 @@ class _StepperAddState extends State<StepperAdd> {
 
   bool _visible = false;
 
-  void _onSubmit(context, reload) async {
-    await RepositoryFunction.postProject(
-      context,
-      _capstoneTitleController.text,
-      _selectedItem!,
-      _yearPublishedController.text,
-      _groupNameController.text,
-      lines,
-    );
+  // void _onSubmit(context, reload) async {
+  //   await RepositoryFunction.postProject(
+  //     context,
+  //     _capstoneTitleController.text,
+  //     _selectedItem!,
+  //     _yearPublishedController.text,
+  //     _groupNameController.text,
+  //     lines,
+  //   );
 
-    Navigator.of(context).pop();
-    reload();
-  }
+  //   Navigator.of(context).pop();
+  //   reload();
+  // }
 
   @override
   void initState() {
@@ -98,7 +98,7 @@ class _StepperAddState extends State<StepperAdd> {
                     _currentStep++;
                   });
                 } else if (_currentStep == 2) {
-                  _onSubmit(context, widget.reload);
+                  // _onSubmit(context, widget.reload);
                 }
               },
               onStepCancel: () {

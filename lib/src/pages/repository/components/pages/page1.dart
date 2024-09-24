@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/auth/login/modules/add_title.dart';
 import 'package:repository_ustp/src/components/textfield.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
+import 'package:repository_ustp/src/data/provider/project_type_add.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/class/text_editing_controller.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/components/bottom_buttons.dart';
 
@@ -14,8 +15,6 @@ class Page1 extends StatefulWidget {
 }
 
 class _Page1State extends State<Page1> {
-  int? selectedItem;
-
   final List<int> _items = [1, 2, 3];
 
   @override
@@ -40,7 +39,7 @@ class _Page1State extends State<Page1> {
                     icon: const Icon(Icons.arrow_drop_down_outlined),
                     onSelected: (int value) {
                       setState(() {
-                        selectedItem = value;
+                        ProjectTypeAdd.quack = value;
                         pages.projectType.text = projectTypeBinaryValue(value);
                       });
                     },

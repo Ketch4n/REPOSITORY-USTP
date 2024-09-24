@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/auth/login/modules/add_title.dart';
 import 'package:repository_ustp/src/components/textfield.dart';
+import 'package:repository_ustp/src/data/provider/author_list.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/class/text_editing_controller.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/components/bottom_buttons.dart';
 
@@ -15,8 +16,6 @@ class Page2 extends StatefulWidget {
 
 class _Page2State extends State<Page2> {
   bool _visible = false;
-
-  List<String?> lines = [];
 
   @override
   Widget build(BuildContext context) {
@@ -67,10 +66,10 @@ class _Page2State extends State<Page2> {
                     onChanged: (text) {
                       setState(
                         () {
-                          lines = text.split('\n');
-                          if (lines.length > 4) {
-                            lines = lines.sublist(0, 4);
-                            pages.authors.text = lines.join('\n');
+                          AuthorList.lines = text.split('\n');
+                          if (AuthorList.lines.length > 4) {
+                            AuthorList.lines = AuthorList.lines.sublist(0, 4);
+                            pages.authors.text = AuthorList.lines.join('\n');
                             pages.authors.selection =
                                 TextSelection.fromPosition(
                               TextPosition(offset: pages.authors.text.length),
