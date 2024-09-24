@@ -37,6 +37,7 @@ class _SearchFieldState extends State<SearchField> {
               child: CustomTextField(
                 controller: _searchController,
                 hint: "SEARCH",
+                readOnly: false,
               ),
             ),
             Container(

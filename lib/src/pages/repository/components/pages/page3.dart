@@ -4,7 +4,7 @@ import 'package:repository_ustp/src/components/button.dart';
 import 'package:repository_ustp/src/components/textbutton.dart';
 import 'package:repository_ustp/src/components/textfield.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
-import 'package:repository_ustp/src/pages/repository/components/pages/components/text_editing_controller.dart';
+import 'package:repository_ustp/src/pages/repository/components/pages/class/text_editing_controller.dart';
 
 class Page3 extends StatefulWidget {
   const Page3({super.key, required this.backward, required this.forward});
@@ -18,7 +18,7 @@ class Page3 extends StatefulWidget {
 class _Page3State extends State<Page3> {
   final _projectType = PagesTextEditingController().projectType;
 
-  int? _selectedItem;
+  int? selectedItem;
 
   final List<int> _items = [1, 2, 3];
   @override
@@ -36,11 +36,12 @@ class _Page3State extends State<Page3> {
                 CustomTextField(
                   controller: _projectType,
                   label: "Project Type",
+                  readOnly: true,
                   suffix: PopupMenuButton<int>(
                     icon: const Icon(Icons.menu),
                     onSelected: (int value) {
                       setState(() {
-                        _selectedItem = value;
+                        selectedItem = value;
                         _projectType.text = projectTypeBinaryValue(value);
                       });
                     },

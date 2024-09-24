@@ -65,21 +65,25 @@ class _SignupPageState extends State<SignupPage> {
                       CustomTextField(
                         controller: _usernameController,
                         label: "Username",
+                        readOnly: false,
                       ),
                       const SizedBox(height: 10),
                       CustomTextField(
                         controller: _emailController,
                         label: "Email",
+                        readOnly: false,
                       ),
                       const SizedBox(height: 10),
                       CustomTextField(
                         controller: _passwordController,
                         label: "Password",
+                        readOnly: false,
                       ),
                       const SizedBox(height: 10),
                       CustomTextField(
                         controller: _roleController,
                         label: "Role",
+                        readOnly: true,
                         suffix: PopupMenuButton<int>(
                           icon: const Icon(Icons.arrow_drop_down_outlined),
                           onSelected: (int value) {

@@ -129,11 +129,13 @@ class _StepperUpdateState extends State<StepperUpdate> {
                       CustomTextField(
                         controller: _capstoneTitleController,
                         label: "Capstone Title",
+                        readOnly: false,
                       ),
                       const SizedBox(height: 10),
                       CustomTextField(
                         controller: _projectTypeController,
                         label: "Project Type",
+                        readOnly: true,
                         suffix: PopupMenuButton<int>(
                           icon: const Icon(Icons.menu),
                           onSelected: (int value) {
@@ -165,6 +167,7 @@ class _StepperUpdateState extends State<StepperUpdate> {
                       CustomTextField(
                         controller: _yearPublishedController,
                         label: "Year Published",
+                        readOnly: false,
                       ),
                     ],
                   ),

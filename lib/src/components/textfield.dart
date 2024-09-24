@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomTextField extends StatefulWidget {
   const CustomTextField({
@@ -8,6 +9,8 @@ class CustomTextField extends StatefulWidget {
     required this.controller,
     this.obscure,
     this.suffix,
+    required this.readOnly,
+    this.index,
   });
   final String? label;
   final String? hint;
@@ -15,6 +18,8 @@ class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final bool? obscure;
   final Widget? suffix;
+  final bool readOnly;
+  final int? index;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -27,6 +32,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
       height: widget.hint == null ? 60 : 40,
       width: widget.hint == null ? null : 120,
       child: TextField(
+        keyboardType: widget.index == 1 ? TextInputType.number : null,
+        inputFormatters: widget.index == 1
+            ? [
+                LengthLimitingTextInputFormatter(4),
+                FilteringTextInputFormatter.digitsOnly,
+              ]
+            : null,
+        readOnly: widget.readOnly,
         obscureText: widget.obscure ?? false,
         controller: widget.controller,
         decoration: InputDecoration(

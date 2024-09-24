@@ -73,11 +73,13 @@ class _LoginPageState extends State<LoginPage> {
           CustomTextField(
             label: "Username",
             controller: usernameController,
+            readOnly: false,
           ),
           const SizedBox(height: 10),
           CustomTextField(
             obscure: _isObscure,
             label: "Password",
+            readOnly: false,
             controller: passwordController,
             suffix: IconButton(
               icon: Icon(_isObscure ? Icons.visibility_off : Icons.visibility),

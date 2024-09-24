@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/auth/login/modules/add_title.dart';
-import 'package:repository_ustp/src/components/button.dart';
-import 'package:repository_ustp/src/components/textbutton.dart';
 import 'package:repository_ustp/src/components/textfield.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
-import 'package:repository_ustp/src/pages/repository/components/pages/components/text_editing_controller.dart';
+import 'package:repository_ustp/src/pages/repository/components/pages/class/text_editing_controller.dart';
+import 'package:repository_ustp/src/pages/repository/components/pages/components/bottom_buttons.dart';
 
 class Page1 extends StatefulWidget {
   const Page1({super.key, required this.forward});
@@ -15,7 +14,7 @@ class Page1 extends StatefulWidget {
 }
 
 class _Page1State extends State<Page1> {
-  int? _selectedItem;
+  int? selectedItem;
 
   final List<int> _items = [1, 2, 3];
 
@@ -31,19 +30,17 @@ class _Page1State extends State<Page1> {
           SizedBox(
             child: Column(
               children: [
-                CustomTextField(
-                  controller: pages.capstoneTitle,
-                  label: "Capstone Title",
-                ),
+                _index1(pages.capstoneTitle),
                 const SizedBox(height: 10),
                 CustomTextField(
                   controller: pages.projectType,
+                  readOnly: true,
                   label: "Project Type",
                   suffix: PopupMenuButton<int>(
-                    icon: const Icon(Icons.menu),
+                    icon: const Icon(Icons.arrow_drop_down_outlined),
                     onSelected: (int value) {
                       setState(() {
-                        _selectedItem = value;
+                        selectedItem = value;
                         pages.projectType.text = projectTypeBinaryValue(value);
                       });
                     },
@@ -57,43 +54,36 @@ class _Page1State extends State<Page1> {
                     },
                   ),
                 ),
-                // Container(
-                //   height: 60,
-                //   width: double.maxFinite,
-                //   decoration: BoxDecoration(
-                //       color: Colors.white,
-                //       borderRadius: BorderRadius.circular(5)),
-                //   child: ProjectDropdownCategory(),
-                // ),
                 const SizedBox(height: 10),
-                CustomTextField(
-                  controller: pages.yearPublished,
-                  label: "Year Published",
-                ),
+                _index3(pages.yearPublished),
               ],
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                  flex: 2,
-                  child: CustomTextButton(
-                      text: 'CANCEL',
-                      callback: () {
-                        Navigator.of(context).pop();
-                      })),
-              Flexible(
-                  flex: 2,
-                  child: CustomButton(
-                      child: const Text("NEXT"),
-                      callback: () {
-                        widget.forward();
-                      }))
-            ],
-          )
+          PageViewButtons(
+            flabel: "NEXT",
+            blabel: 'CANCEL',
+            ffunction: () => widget.forward(),
+            bfunction: () => Navigator.of(context).pop(),
+          ),
         ],
       ),
     );
   }
+}
+
+Widget _index1(capstoneTitle) {
+  return CustomTextField(
+    controller: capstoneTitle,
+    label: "Capstone Title",
+    readOnly: false,
+  );
+}
+
+Widget _index3(yearPublished) {
+  return CustomTextField(
+    controller: yearPublished,
+    label: "Year Published",
+    readOnly: false,
+    index: 1,
+  );
 }
