@@ -26,9 +26,11 @@ class _RepositoryOpenState extends State<RepositoryOpen> {
 
     try {
       final listResult = await storage.ref(folderName).list();
-      setState(() {
-        _fileReferences = listResult.items;
-      });
+      if (mounted) {
+        setState(() {
+          _fileReferences = listResult.items;
+        });
+      }
     } catch (e) {
       print('Error listing files: $e');
     }
@@ -75,6 +77,11 @@ class _RepositoryOpenState extends State<RepositoryOpen> {
     super.initState();
 
     _getFileRef();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override

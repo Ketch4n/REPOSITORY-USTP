@@ -67,10 +67,10 @@ class RepositoryFunction {
           // return quack;
         }
       } else {
-        // print("Error: ${response.statusCode} ${response.reasonPhrase}");
+        print("Error: ${response.statusCode} ${response.reasonPhrase}");
       }
     } catch (e) {
-      // print("An error occurred while updating project: $e");
+      print("An error occurred while updating project: $e");
     }
   }
 

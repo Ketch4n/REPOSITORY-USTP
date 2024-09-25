@@ -16,11 +16,6 @@ class Page2 extends StatefulWidget {
 
 class _Page2State extends State<Page2> {
   final pages = PagesTextEditingController();
-  // @override
-  // void dispose() {
-  //   pages.dispose();
-  //   super.dispose();
-  // }
 
   bool _visible = false;
 

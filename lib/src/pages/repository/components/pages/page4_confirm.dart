@@ -23,18 +23,17 @@ class RepositoryConfirm extends StatefulWidget {
 
 class _RepositoryConfirmState extends State<RepositoryConfirm> {
   final pages = PagesTextEditingController();
-  //  @override
-  // void dispose() {
-  //   pages.dispose();
-  //   super.dispose();
-  // }
 
   void submit(BuildContext context, int? projectType, List<String?> authors,
       reload) async {
     if (pages.capstoneTitle.text.isEmpty ||
+        pages.capstoneTitle.text == "" ||
         projectType == null ||
+        projectType == 0 ||
         pages.yearPublished.text.isEmpty ||
-        pages.groupName.text.isEmpty) {
+        pages.yearPublished.text == "" ||
+        pages.groupName.text.isEmpty ||
+        pages.groupName.text == "") {
       customSnackBar(context, 1, "Cannot add empty fields");
     } else {
       try {
@@ -48,17 +47,22 @@ class _RepositoryConfirmState extends State<RepositoryConfirm> {
         );
         Navigator.of(context).pop();
         reload();
+        _clear();
       } catch (e) {
-        print(e);
+        print("This Error: ${e}");
       }
-      // finally {
-      //   pages.capstoneTitle.clear();
-      //   pages.yearPublished.clear();
-      //   pages.groupName.clear();
-      //   pages.projectType.clear();
-      //   pages.authors.clear();
-      // }
     }
+  }
+
+  void _clear() {
+    pages.capstoneTitle.clear();
+    pages.yearPublished.clear();
+    pages.groupName.clear();
+    pages.projectType.clear();
+    pages.authors.clear();
+    pages.manuscript.clear();
+    pages.video.clear();
+    pages.poster.clear();
   }
 
   @override
@@ -78,7 +82,8 @@ class _RepositoryConfirmState extends State<RepositoryConfirm> {
                   const SizedBox(height: 20),
                   _index2(pages.groupName.text, pages.authors.text),
                   const SizedBox(height: 20),
-                  _index3(),
+                  _index3(pages.manuscript.text, pages.poster.text,
+                      pages.video.text),
                 ],
               ),
             ),
@@ -150,25 +155,25 @@ Widget _index2(gname, authors) {
   );
 }
 
-Widget _index3() {
-  return const PageConfirmContainer(
+Widget _index3(doc, img, clip) {
+  return PageConfirmContainer(
     children: [
       Page4RowContent(
         children: [
-          Text("MANUSCRIPT"),
-          // Text(pages.projectType.text),
+          const Text("MANUSCRIPT"),
+          Page4TextModule(string: doc),
         ],
       ),
       Page4RowContent(
         children: [
-          Text("POSTER"),
-          // Text(pages.yearPublished.text),
+          const Text("POSTER"),
+          Page4TextModule(string: img),
         ],
       ),
       Page4RowContent(
         children: [
-          Text("VIDEOS"),
-          // Text(pages.yearPublished.text),
+          const Text("VIDEOS"),
+          Page4TextModule(string: clip),
         ],
       ),
     ],

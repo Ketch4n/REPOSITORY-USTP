@@ -16,13 +16,30 @@ class Page1 extends StatefulWidget {
 
 class _Page1State extends State<Page1> {
   final pages = PagesTextEditingController();
-  // @override
-  // void dispose() {
-  //   pages.dispose();
-  //   super.dispose();
-  // }
 
   final List<int> _items = [1, 2, 3];
+
+  void _cancel() {
+    Navigator.of(context).pop();
+    _clear();
+  }
+
+  void _clear() {
+    pages.capstoneTitle.clear();
+    pages.yearPublished.clear();
+    pages.groupName.clear();
+    pages.projectType.clear();
+    pages.authors.clear();
+    pages.manuscript.clear();
+    pages.video.clear();
+    pages.poster.clear();
+  }
+
+  @override
+  void initState() {
+    _clear();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +85,7 @@ class _Page1State extends State<Page1> {
             flabel: "NEXT",
             blabel: 'CANCEL',
             ffunction: () => widget.forward(),
-            bfunction: () => Navigator.of(context).pop(),
+            bfunction: () => _cancel(),
           ),
         ],
       ),

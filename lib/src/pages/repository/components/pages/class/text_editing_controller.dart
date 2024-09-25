@@ -17,6 +17,10 @@ class PagesTextEditingController {
   TextEditingController groupName = TextEditingController();
   TextEditingController authors = TextEditingController();
 
+  TextEditingController manuscript = TextEditingController();
+  TextEditingController poster = TextEditingController();
+  TextEditingController video = TextEditingController();
+
   // Dispose method to clean up resources
   void dispose() {
     capstoneTitle.dispose();
@@ -24,5 +28,9 @@ class PagesTextEditingController {
     yearPublished.dispose();
     groupName.dispose();
     authors.dispose();
+
+    manuscript.dispose();
+    poster.dispose();
+    video.dispose();
   }
 }
