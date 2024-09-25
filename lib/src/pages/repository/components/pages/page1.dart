@@ -7,8 +7,9 @@ import 'package:repository_ustp/src/pages/repository/components/pages/class/text
 import 'package:repository_ustp/src/pages/repository/components/pages/components/bottom_buttons.dart';
 
 class Page1 extends StatefulWidget {
-  const Page1({super.key, required this.forward});
+  const Page1({super.key, required this.forward, required this.reload});
   final Function forward;
+  final Function reload;
 
   @override
   State<Page1> createState() => _Page1State();
@@ -19,9 +20,10 @@ class _Page1State extends State<Page1> {
 
   final List<int> _items = [1, 2, 3];
 
-  void _cancel() {
-    Navigator.of(context).pop();
+  void _cancel() async {
     _clear();
+    Navigator.of(context).pop();
+    widget.reload();
   }
 
   void _clear() {
@@ -33,12 +35,6 @@ class _Page1State extends State<Page1> {
     pages.manuscript.clear();
     pages.video.clear();
     pages.poster.clear();
-  }
-
-  @override
-  void initState() {
-    _clear();
-    super.initState();
   }
 
   @override

@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/auth/login/modules/add_title.dart';
 import 'package:repository_ustp/src/components/snackbar.dart';
@@ -69,6 +72,34 @@ class _Page3State extends State<Page3> {
         customSnackBar(context, 1, "Invalid Video Clip format");
         pages.video.clear();
       }
+    }
+  }
+
+  void uploadFile(context, result) async {
+    // Pick a file
+    final result = await FilePicker.platform.pickFiles();
+    if (result == null || result.files.isEmpty) return;
+
+    final file = result.files.single;
+
+    // Access file bytes
+    final Uint8List fileBytes = file.bytes!;
+
+    // Define file name and create a reference
+    // final projectID = widget.projectID;
+    final fileName = file.name;
+    final storageRef =
+        FirebaseStorage.instance.ref().child('uploads/$fileName');
+
+    try {
+      // Upload file bytes
+      await storageRef.putData(fileBytes);
+      // print('File uploaded successfully');
+      // _getFileRef();
+      customSnackBar(context, 0, "File uploaded successfully");
+    } catch (e) {
+      print('Error uploading file: $e');
+      // customSnackBar(context, 0, "File uploaded successfully");
     }
   }
 

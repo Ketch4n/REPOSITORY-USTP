@@ -17,11 +17,6 @@ class RepositoryAdd extends StatefulWidget {
 
 class _RepositoryAddState extends State<RepositoryAdd> {
   final PageController pageController = PageController();
-  @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +37,7 @@ class _RepositoryAddState extends State<RepositoryAdd> {
                       forward: () => pageController.nextPage(
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.easeIn),
+                      reload: () => widget.reload(),
                     ),
                     Page2(
                       forward: () => pageController.nextPage(

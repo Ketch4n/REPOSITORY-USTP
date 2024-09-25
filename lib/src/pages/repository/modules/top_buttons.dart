@@ -23,7 +23,8 @@ class _RepositoryTopButtonsState extends State<RepositoryTopButtons> {
             color: Colors.green,
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => RepositoryAdd(reload: widget.reload)));
+                  builder: (context) =>
+                      RepositoryAdd(reload: () => widget.reload)));
             },
             child: const Row(
               mainAxisSize: MainAxisSize.min,

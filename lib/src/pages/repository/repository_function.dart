@@ -28,11 +28,10 @@ class RepositoryFunction {
 
         if (quack) {
           customSnackBar(context, 0, message);
-          print(dataID);
-          return quack;
+          return dataID;
         } else {
           customSnackBar(context, 1, message);
-          return quack;
+          return 0;
         }
       } else {
         print("Error: ${response.statusCode} ${response.reasonPhrase}");

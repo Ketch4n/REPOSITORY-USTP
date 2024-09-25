@@ -12,8 +12,11 @@ import 'package:repository_ustp/src/pages/repository/components/pages/utils/page
 import 'package:repository_ustp/src/pages/repository/repository_function.dart';
 
 class RepositoryConfirm extends StatefulWidget {
-  const RepositoryConfirm(
-      {super.key, required this.backward, required this.reload});
+  const RepositoryConfirm({
+    super.key,
+    required this.backward,
+    required this.reload,
+  });
   final Function backward;
   final Function reload;
 
@@ -25,32 +28,44 @@ class _RepositoryConfirmState extends State<RepositoryConfirm> {
   final pages = PagesTextEditingController();
 
   void submit(BuildContext context, int? projectType, List<String?> authors,
-      reload) async {
-    if (pages.capstoneTitle.text.isEmpty ||
-        pages.capstoneTitle.text == "" ||
+      Function reload) async {
+    // Storing text input to variables for readability
+    final capstoneTitle = pages.capstoneTitle.text;
+    final yearPublished = pages.yearPublished.text;
+    final groupName = pages.groupName.text;
+
+    // Input validation
+    if (capstoneTitle.isEmpty ||
         projectType == null ||
         projectType == 0 ||
-        pages.yearPublished.text.isEmpty ||
-        pages.yearPublished.text == "" ||
-        pages.groupName.text.isEmpty ||
-        pages.groupName.text == "") {
+        yearPublished.isEmpty ||
+        groupName.isEmpty) {
       customSnackBar(context, 1, "Cannot add empty fields");
-    } else {
-      try {
-        await RepositoryFunction.postProject(
-          context,
-          pages.capstoneTitle.text,
-          projectType,
-          pages.yearPublished.text,
-          pages.groupName.text,
-          authors,
-        );
-        Navigator.of(context).pop();
-        reload();
-        _clear();
-      } catch (e) {
-        print("This Error: ${e}");
+      return;
+    }
+
+    try {
+      // Call the repository function to submit the project
+      var output = await RepositoryFunction.postProject(
+        context,
+        capstoneTitle,
+        projectType,
+        yearPublished,
+        groupName,
+        authors,
+      );
+
+      if (!context.mounted) return;
+
+      if (output != false) {
+        // await widget.upload();
       }
+
+      Navigator.of(context).pop(); // Close dialog or navigate back
+      reload(); // Trigger a reload
+      _clear(); // Clear fields
+    } catch (e) {
+      print("Submission Error: $e"); // Log error
     }
   }
 
