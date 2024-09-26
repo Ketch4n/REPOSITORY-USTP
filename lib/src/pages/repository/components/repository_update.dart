@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/auth/login/components/main_container.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
 import 'package:repository_ustp/src/data/provider/author_list.dart';
+import 'package:repository_ustp/src/data/provider/project_type_add.dart';
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/class/text_editing_controller.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/functions/get_files.dart';
@@ -35,9 +36,11 @@ class _RepositoryUpdateState extends State<RepositoryUpdate> {
       pages.capstoneTitle.text = widget.instance.title;
       pages.projectType.text =
           projectTypeBinaryValue(widget.instance.project_type);
+      ProjectTypeAdd.quack = widget.instance.project_type;
       pages.yearPublished.text = widget.instance.year_published;
       pages.groupName.text = widget.instance.group_name;
-      AuthorList.lines = widget.instance.authors;
+      AuthorList.lines =
+          widget.instance.authors.where((element) => element != null).toList();
       pages.authors.text = AuthorList.lines.join('\n');
     });
     super.initState();

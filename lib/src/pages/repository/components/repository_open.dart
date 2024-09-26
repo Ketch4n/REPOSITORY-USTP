@@ -40,6 +40,7 @@ class _RepositoryOpenState extends State<RepositoryOpen> {
   //     // customSnackBar(context, 0, "File uploaded successfully");
   //   }
   // }
+  bool isLoading = true;
 
   Future<void> _launchURL(String url) async {
     final Uri uri = Uri.parse(url); // Use parse for web URLs
@@ -51,12 +52,19 @@ class _RepositoryOpenState extends State<RepositoryOpen> {
     }
   }
 
+  Future<void> _loadFiles() async {
+    await PagesGetFiles.getFileRef(widget.projectID);
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    if (mounted) {
-      PagesGetFiles.getFileRef(widget.projectID);
-    }
+    _loadFiles();
   }
 
   @override
@@ -66,6 +74,14 @@ class _RepositoryOpenState extends State<RepositoryOpen> {
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return Container(
+          constraints: const BoxConstraints(maxHeight: 400, maxWidth: 400),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: const Center(child: CircularProgressIndicator()));
+    }
     return Container(
       // height: 800,
       // width: 800,

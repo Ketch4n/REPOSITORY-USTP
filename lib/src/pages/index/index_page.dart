@@ -116,9 +116,6 @@ Widget _buildSubContent(onCardItemTap, onMenuItemTap) {
             child: IndexedStack(
               index: value.quackNew,
               children: <Widget>[
-                ProjectPage(
-                  projectType: CLickEventProjectType.quack,
-                ),
                 RepositoryPage(projectType: CLickEventProjectType.quack),
                 const CapstoneTeamsPage(),
                 const StudentsPage(type: 2, status: 1),

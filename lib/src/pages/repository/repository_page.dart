@@ -9,6 +9,7 @@ import 'package:repository_ustp/src/components/show_dialog.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
 import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
+import 'package:repository_ustp/src/data/provider/project_purpose.dart';
 import 'package:repository_ustp/src/pages/index/components/card_list.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field_controller.dart';
@@ -206,6 +207,7 @@ Widget _buildBody(index, projectList, context, reload) {
                     context, RepositoryOpen(projectID: project.id));
                 break;
               case 1:
+                ProjectPurpose.quack = 1;
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => RepositoryUpdate(

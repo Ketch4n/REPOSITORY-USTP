@@ -7,7 +7,10 @@ import 'package:repository_ustp/src/data/server/url.dart';
 
 class SendMailFunction {
   static Future<void> sendEmail(
-      String name, String email, String message) async {
+    String name,
+    String email,
+    String message,
+  ) async {
     final response = await http.post(
       Uri.parse("${Servername.host}sendmail"),
       headers: <String, String>{
@@ -27,13 +30,19 @@ class SendMailFunction {
     }
   }
 
-  static Future<void> sendEmailTypeStatus() async {
-    final response = await http.post(
-      Uri.parse("${Servername.host}sendmailTypeStatus"),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-      },
-    );
+  static Future<void> sendEmailTypeStatus(
+    String link,
+    String title,
+    String type,
+    String year,
+  ) async {
+    final response = await http
+        .post(Uri.parse("${Servername.host}sendmailTypeStatus"), body: {
+      'link': link,
+      'title': title,
+      'type': type,
+      'year': year,
+    });
 
     if (response.statusCode == 200) {
       print('Email sent successfully!');

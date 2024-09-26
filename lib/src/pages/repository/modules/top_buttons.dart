@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:repository_ustp/src/components/snackbar.dart';
+import 'package:repository_ustp/src/data/provider/project_purpose.dart';
+import 'package:repository_ustp/src/data/provider/user_session.dart';
 import 'package:repository_ustp/src/pages/repository/components/repository_add.dart';
 
 class RepositoryTopButtons extends StatefulWidget {
@@ -22,9 +25,18 @@ class _RepositoryTopButtonsState extends State<RepositoryTopButtons> {
           MaterialButton(
             color: Colors.green,
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>
-                      RepositoryAdd(reload: () => widget.reload())));
+              if (UserSession.type == 0) {
+                ProjectPurpose.quack = 0;
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => RepositoryAdd(
+                      reload: () => widget.reload(),
+                    ),
+                  ),
+                );
+              } else {
+                customSnackBar(context, 1, "Administrator Access Only");
+              }
             },
             child: const Row(
               mainAxisSize: MainAxisSize.min,
@@ -44,7 +56,11 @@ class _RepositoryTopButtonsState extends State<RepositoryTopButtons> {
           MaterialButton(
             color: Colors.grey,
             onPressed: () {
-              widget.toPDF();
+              if (UserSession.type == 0) {
+                widget.toPDF();
+              } else {
+                customSnackBar(context, 1, "Administrator Access Only");
+              }
             },
             child: const Row(
               mainAxisSize: MainAxisSize.min,

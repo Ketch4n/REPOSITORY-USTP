@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:repository_ustp/src/components/snackbar.dart';
+import 'package:repository_ustp/src/data/provider/user_session.dart';
 import 'package:repository_ustp/src/data/server/url.dart';
 
 class BackupScreen extends StatefulWidget {
@@ -65,7 +67,13 @@ class BackupScreenState extends State<BackupScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: triggerBackup,
+                    onPressed: () {
+                      if (UserSession.type == 0) {
+                        triggerBackup();
+                      } else {
+                        customSnackBar(context, 1, "Administrator Access Only");
+                      }
+                    },
                     child: const Text('Start Backup'),
                   ),
                   const SizedBox(height: 20),

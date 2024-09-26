@@ -4,6 +4,7 @@ import 'package:repository_ustp/src/components/textfield.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/class/access_controller_instance.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/components/bottom_buttons.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/functions/upload_files.dart';
+import 'package:repository_ustp/src/pages/repository/components/pages/modules/pages_title.dart';
 
 class Page3 extends StatefulWidget {
   const Page3({super.key, required this.backward, required this.forward});
@@ -22,7 +23,7 @@ class _Page3State extends State<Page3> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          addTitle("ADD NEW REPOSITORY", 20),
+          const PagesTitle(),
           SizedBox(
             child: Column(
               children: [

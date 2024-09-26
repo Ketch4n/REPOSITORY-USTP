@@ -21,7 +21,7 @@ class _CapstoneTeamsPageState extends State<CapstoneTeamsPage> {
   @override
   void initState() {
     super.initState();
-    AuthorsFunction.fetchAuthors(_teamStream);
+    reload();
   }
 
   @override
@@ -46,15 +46,23 @@ class _CapstoneTeamsPageState extends State<CapstoneTeamsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("CAPSTONE TEAMS / AUTHORS"),
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text("CAPSTONE TEAMS / AUTHORS"),
+            IconButton(
               onPressed: () {
                 clear();
               },
-              icon: const Icon(Icons.refresh))
-        ],
+              icon: const Icon(
+                Icons.refresh,
+                color: Colors.blue,
+              ),
+            )
+          ],
+        ),
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,

@@ -32,6 +32,7 @@ class SideBarHeaderContainer extends StatelessWidget {
                 subtitle: Text(
                   value.emailValue ?? UserSession.email,
                   style: const TextStyle(color: Colors.white),
+                  textScaler: const TextScaler.linear(1),
                 ),
               ),
             ],

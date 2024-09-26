@@ -6,6 +6,8 @@ import 'package:repository_ustp/src/data/provider/author_list.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
 import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
 import 'package:repository_ustp/src/data/provider/index_menu_item.dart';
+import 'package:repository_ustp/src/data/provider/loading_notifier.dart';
+import 'package:repository_ustp/src/data/provider/project_purpose.dart';
 import 'package:repository_ustp/src/data/provider/project_type_add.dart';
 import 'package:repository_ustp/src/data/provider/switch_role_signup.dart';
 import 'package:repository_ustp/src/data/provider/user_session.dart';
@@ -37,7 +39,9 @@ void main() async {
         ChangeNotifierProvider<IndexMenuItem>(create: (_) => IndexMenuItem()),
         ChangeNotifierProvider(create: (_) => AddingRepo()),
         ChangeNotifierProvider(create: (_) => ProjectTypeAdd()),
-        ChangeNotifierProvider(create: (_) => AuthorList())
+        ChangeNotifierProvider(create: (_) => AuthorList()),
+        ChangeNotifierProvider(create: (_) => ProjectPurpose()),
+        ChangeNotifierProvider(create: (_) => RepositoryConfirmState())
       ],
       child: const MainApp(),
     ),

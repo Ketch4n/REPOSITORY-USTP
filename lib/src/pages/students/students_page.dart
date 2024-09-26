@@ -40,15 +40,21 @@ class _StudentsPageState extends State<StudentsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
+          children: [
             Text(widget.status == 1 ? "ACTIVE STUDENTS" : "ARCHIVED STUDENTS"),
-        actions: [
-          IconButton(
-              onPressed: () {
-                reload();
-              },
-              icon: const Icon(Icons.refresh))
-        ],
+            IconButton(
+                onPressed: () {
+                  reload();
+                },
+                icon: const Icon(
+                  Icons.refresh,
+                  color: Colors.blue,
+                ))
+          ],
+        ),
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
@@ -110,7 +116,7 @@ _buidText(index, userlist, status, reload) {
       trailing: status == 1
           ? DropdownStudentStatus(
               id: user.id,
-              status: status == 1 ? 2 : status,
+              status: 2,
               reload: reload,
             )
           // Row(
@@ -142,7 +148,11 @@ _buidText(index, userlist, status, reload) {
           //       const Text("Shared"),
           //     ],
           //   )
-          : const Text("No email notification and access to Repository"),
+          : DropdownStudentStatus(
+              id: user.id,
+              status: 1,
+              reload: reload,
+            ),
     ),
   );
 }
