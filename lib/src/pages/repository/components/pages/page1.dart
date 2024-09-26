@@ -3,7 +3,8 @@ import 'package:repository_ustp/src/auth/login/modules/add_title.dart';
 import 'package:repository_ustp/src/components/textfield.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
 import 'package:repository_ustp/src/data/provider/project_type_add.dart';
-import 'package:repository_ustp/src/pages/repository/components/pages/class/text_editing_controller.dart';
+import 'package:repository_ustp/src/pages/repository/components/pages/class/access_controller_instance.dart';
+import 'package:repository_ustp/src/pages/repository/components/pages/class/clear_controllers.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/components/bottom_buttons.dart';
 
 class Page1 extends StatefulWidget {
@@ -16,25 +17,12 @@ class Page1 extends StatefulWidget {
 }
 
 class _Page1State extends State<Page1> {
-  final pages = PagesTextEditingController();
-
   final List<int> _items = [1, 2, 3];
 
   void _cancel() async {
-    _clear();
+    ClearTextEditingControllers.clear();
     Navigator.of(context).pop();
     widget.reload();
-  }
-
-  void _clear() {
-    pages.capstoneTitle.clear();
-    pages.yearPublished.clear();
-    pages.groupName.clear();
-    pages.projectType.clear();
-    pages.authors.clear();
-    pages.manuscript.clear();
-    pages.video.clear();
-    pages.poster.clear();
   }
 
   @override

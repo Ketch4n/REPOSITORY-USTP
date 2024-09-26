@@ -10,14 +10,19 @@ class FilePreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (fileName.endsWith('.jpg') || fileName.endsWith('.png')) {
+    // Convert fileName to lowercase for consistent comparison
+    final lowerCaseFileName = fileName.toLowerCase();
+
+    if (lowerCaseFileName.endsWith('.jpg') ||
+        lowerCaseFileName.endsWith('.png')) {
       return Image.network(
         fileUrl,
         fit: BoxFit.scaleDown,
       );
-    } else if (fileName.endsWith('.mp4')) {
+    } else if (lowerCaseFileName.endsWith('.mp4')) {
       return VideoPlayerWidget(fileUrl: fileUrl);
-    } else if (fileName.endsWith('.docx') || fileName.endsWith('.doc')) {
+    } else if (lowerCaseFileName.endsWith('.docx') ||
+        lowerCaseFileName.endsWith('.pdf')) {
       return DocumentViewer(fileUrl: fileUrl);
     } else {
       return const Center(child: Text('Unsupported file type'));
@@ -40,7 +45,7 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.networkUrl(Uri(path: widget.fileUrl))
+    _controller = VideoPlayerController.network(widget.fileUrl)
       ..initialize().then((_) {
         setState(() {}); // Refresh UI after initialization
       });
@@ -73,8 +78,10 @@ class DocumentViewer extends StatelessWidget {
     return Center(
       child: ElevatedButton(
         onPressed: () async {
-          if (await canLaunchUrl(Uri.directory(fileUrl))) {
-            await launchUrl(Uri.directory(fileUrl));
+          final uri = Uri.parse(fileUrl); // Corrected here
+          if (await canLaunch(uri.toString())) {
+            // Launching the URL
+            await launch(uri.toString());
           } else {
             throw 'Could not open document';
           }

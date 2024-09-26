@@ -109,9 +109,9 @@ _buildContent(index, teamList) {
       title: Text(team.group_name),
       trailing: Text("${team.title} - ${team.year_published}"),
       children: List.generate(
-        team.author.where((author) => author != null).length,
+        team.authors.where((author) => author != null).length,
         (index) => _buildExpandedContent(
-            index, team.author.where((author) => author != null).toList()),
+            index, team.authors.where((author) => author != null).toList()),
       ),
 
       // ListTile(

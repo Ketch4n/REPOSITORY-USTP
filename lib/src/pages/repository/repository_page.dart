@@ -206,12 +206,14 @@ Widget _buildBody(index, projectList, context, reload) {
                     context, RepositoryOpen(projectID: project.id));
                 break;
               case 1:
-                showCustomDialog(
-                    context,
-                    RepositoryUpdate(
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => RepositoryUpdate(
                       reload: reload,
                       instance: project,
-                    ));
+                    ),
+                  ),
+                );
                 break;
               case 2:
                 const title = "Delete this Project ?";

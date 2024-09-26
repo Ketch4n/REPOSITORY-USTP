@@ -9,7 +9,7 @@ class AuthorsModel {
   final String year_published;
   // final String member_3;
 
-  final List<String?> author;
+  final List<String?> authors;
 
   AuthorsModel({
     required this.id,
@@ -20,7 +20,7 @@ class AuthorsModel {
     required this.year_published,
     // required this.member_3,
 
-    required this.author,
+    required this.authors,
   });
 
   // Factory method to create a AuthorsModel instance from a JSON map
@@ -34,8 +34,8 @@ class AuthorsModel {
       year_published: json['year_published'],
       // member_3: json['member_3'],
 
-      author: List<String?>.from(
-          json['author']), // Convert JSON array to List<String>
+      authors: List<String?>.from(
+          json['authors']), // Convert JSON array to List<String>
     );
   }
 
@@ -50,7 +50,7 @@ class AuthorsModel {
       'year_published': year_published,
       // 'member_3': member_3,
 
-      'author': author,
+      'authors': authors,
     };
   }
 }

@@ -24,7 +24,7 @@ class _RepositoryTopButtonsState extends State<RepositoryTopButtons> {
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) =>
-                      RepositoryAdd(reload: () => widget.reload)));
+                      RepositoryAdd(reload: () => widget.reload())));
             },
             child: const Row(
               mainAxisSize: MainAxisSize.min,

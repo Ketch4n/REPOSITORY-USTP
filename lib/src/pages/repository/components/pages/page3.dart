@@ -1,13 +1,9 @@
-import 'dart:typed_data';
-
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/auth/login/modules/add_title.dart';
-import 'package:repository_ustp/src/components/snackbar.dart';
 import 'package:repository_ustp/src/components/textfield.dart';
-import 'package:repository_ustp/src/pages/repository/components/pages/class/text_editing_controller.dart';
+import 'package:repository_ustp/src/pages/repository/components/pages/class/access_controller_instance.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/components/bottom_buttons.dart';
+import 'package:repository_ustp/src/pages/repository/components/pages/functions/upload_files.dart';
 
 class Page3 extends StatefulWidget {
   const Page3({super.key, required this.backward, required this.forward});
@@ -19,90 +15,6 @@ class Page3 extends StatefulWidget {
 }
 
 class _Page3State extends State<Page3> {
-  final pages = PagesTextEditingController();
-  PlatformFile? _selectedImg;
-  PlatformFile? _selectedDoc;
-  PlatformFile? _selectedClip;
-
-  Future<void> _selectImg() async {
-    final result = await FilePicker.platform.pickFiles();
-
-    if (result != null) {
-      _selectedImg = result.files.first;
-
-      final fileExtension = _selectedImg!.extension?.toLowerCase();
-      if (['jpg', 'jpeg', 'png', 'gif'].contains(fileExtension)) {
-        customSnackBar(context, 0, "Added");
-        pages.poster.text = _selectedImg!.name;
-      } else {
-        customSnackBar(context, 1, "Invalid Image format");
-        pages.poster.clear();
-      }
-    }
-  }
-
-  Future<void> _selectDoc() async {
-    final result = await FilePicker.platform.pickFiles();
-
-    if (result != null) {
-      _selectedDoc = result.files.first;
-
-      final fileExtension = _selectedDoc!.extension?.toLowerCase();
-      if (['docx', 'pdf'].contains(fileExtension)) {
-        customSnackBar(context, 0, "Added");
-        pages.manuscript.text = _selectedDoc!.name;
-      } else {
-        customSnackBar(context, 1, "Invalid Document format");
-        pages.manuscript.clear();
-      }
-    }
-  }
-
-  Future<void> _selectClip() async {
-    final result = await FilePicker.platform.pickFiles();
-
-    if (result != null) {
-      _selectedClip = result.files.first;
-
-      final fileExtension = _selectedClip!.extension?.toLowerCase();
-      if (['mp4'].contains(fileExtension)) {
-        customSnackBar(context, 0, "Added");
-        pages.video.text = _selectedClip!.name;
-      } else {
-        customSnackBar(context, 1, "Invalid Video Clip format");
-        pages.video.clear();
-      }
-    }
-  }
-
-  void uploadFile(context, result) async {
-    // Pick a file
-    final result = await FilePicker.platform.pickFiles();
-    if (result == null || result.files.isEmpty) return;
-
-    final file = result.files.single;
-
-    // Access file bytes
-    final Uint8List fileBytes = file.bytes!;
-
-    // Define file name and create a reference
-    // final projectID = widget.projectID;
-    final fileName = file.name;
-    final storageRef =
-        FirebaseStorage.instance.ref().child('uploads/$fileName');
-
-    try {
-      // Upload file bytes
-      await storageRef.putData(fileBytes);
-      // print('File uploaded successfully');
-      // _getFileRef();
-      customSnackBar(context, 0, "File uploaded successfully");
-    } catch (e) {
-      print('Error uploading file: $e');
-      // customSnackBar(context, 0, "File uploaded successfully");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -121,7 +33,7 @@ class _Page3State extends State<Page3> {
                   suffix: IconButton(
                       icon: const Icon(Icons.file_upload_sharp),
                       onPressed: () {
-                        _selectDoc();
+                        PagesUploadFiles.selectDoc(context);
                       }),
                 ),
                 const SizedBox(height: 10),
@@ -132,7 +44,7 @@ class _Page3State extends State<Page3> {
                   suffix: IconButton(
                       icon: const Icon(Icons.file_upload_sharp),
                       onPressed: () {
-                        _selectImg();
+                        PagesUploadFiles.selectImg(context);
                       }),
                 ),
                 const SizedBox(height: 10),
@@ -143,7 +55,7 @@ class _Page3State extends State<Page3> {
                   suffix: IconButton(
                     icon: const Icon(Icons.file_upload_sharp),
                     onPressed: () {
-                      _selectClip();
+                      PagesUploadFiles.selectClip(context);
                     },
                   ),
                 ),

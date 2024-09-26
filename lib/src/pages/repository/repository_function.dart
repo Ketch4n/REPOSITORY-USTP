@@ -27,11 +27,19 @@ class RepositoryFunction {
         int dataID = jsonResponse['data']['id'];
 
         if (quack) {
-          customSnackBar(context, 0, message);
-          return dataID;
+          // customSnackBar(context, 0, message);
+          // return dataID;
+          return {
+            'message': message,
+            'dataID': dataID,
+          };
         } else {
-          customSnackBar(context, 1, message);
-          return 0;
+          // customSnackBar(context, 1, message);
+          // return 0;
+          return {
+            'message': message,
+            'dataID': 0,
+          };
         }
       } else {
         print("Error: ${response.statusCode} ${response.reasonPhrase}");
@@ -42,28 +50,37 @@ class RepositoryFunction {
   }
 
   static Future updateProject(BuildContext context, int id, String title,
-      int? projectType, String year, int privacy) async {
+      int? projectType, String year, String groupName, List<String?> m0) async {
     try {
       final response =
           await http.put(Uri.parse("${Servername.host}project/$id"), body: {
         'title': title,
         'project_type': projectType?.toString(),
         'year_published': year.toString(),
-        'privacy': privacy.toString(),
+        'group_name': groupName.toString(),
+        for (int i = 0; i < m0.length; i++) 'member_$i': m0[i],
       });
 
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
 
-        String data = jsonResponse['message'];
+        String message = jsonResponse['message'];
         bool quack = jsonResponse['quack'];
 
         if (quack) {
-          customSnackBar(context, 0, data);
+          // customSnackBar(context, 0, data);
           // return quack;
+          return {
+            'message': message,
+            'quack': quack,
+          };
         } else {
-          customSnackBar(context, 1, data);
+          // customSnackBar(context, 1, data);
           // return quack;
+          return {
+            'message': message,
+            'quack': quack,
+          };
         }
       } else {
         print("Error: ${response.statusCode} ${response.reasonPhrase}");

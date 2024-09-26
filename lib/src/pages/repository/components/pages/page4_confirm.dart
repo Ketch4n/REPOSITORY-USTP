@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:repository_ustp/src/components/snackbar.dart';
 import 'package:repository_ustp/src/data/provider/author_list.dart';
 import 'package:repository_ustp/src/data/provider/project_type_add.dart';
+import 'package:repository_ustp/src/pages/repository/components/pages/class/access_controller_instance.dart';
+import 'package:repository_ustp/src/pages/repository/components/pages/class/clear_controllers.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/components/bottom_buttons.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/components/container.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/components/row_content.dart';
-import 'package:repository_ustp/src/pages/repository/components/pages/class/text_editing_controller.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/components/text_style.dart';
+import 'package:repository_ustp/src/pages/repository/components/pages/functions/upload_files.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/utils/page4_container_style.dart';
 import 'package:repository_ustp/src/pages/repository/repository_function.dart';
 
@@ -16,18 +19,18 @@ class RepositoryConfirm extends StatefulWidget {
     super.key,
     required this.backward,
     required this.reload,
+    required this.purposeID,
   });
   final Function backward;
   final Function reload;
+  final int purposeID;
 
   @override
   State<RepositoryConfirm> createState() => _RepositoryConfirmState();
 }
 
 class _RepositoryConfirmState extends State<RepositoryConfirm> {
-  final pages = PagesTextEditingController();
-
-  void submit(BuildContext context, int? projectType, List<String?> authors,
+  submit(BuildContext context, int? projectType, List<String?> authors,
       Function reload) async {
     // Storing text input to variables for readability
     final capstoneTitle = pages.capstoneTitle.text;
@@ -45,39 +48,50 @@ class _RepositoryConfirmState extends State<RepositoryConfirm> {
     }
 
     try {
-      // Call the repository function to submit the project
-      var output = await RepositoryFunction.postProject(
-        context,
-        capstoneTitle,
-        projectType,
-        yearPublished,
-        groupName,
-        authors,
-      );
+      if (widget.purposeID == 0) {
+        var postOutput = {};
+        // Call the repository function to submit the project
+        postOutput = await RepositoryFunction.postProject(
+          context,
+          capstoneTitle,
+          projectType,
+          yearPublished,
+          groupName,
+          authors,
+        );
 
-      if (!context.mounted) return;
+        if (postOutput['dataID'] != 0) {
+          await PagesUploadFiles.uploadFile(context, postOutput['dataID']);
+          customSnackBar(context, 0, postOutput['message']);
+        } else {
+          customSnackBar(context, 1, postOutput['message']);
+        }
+      } else {
+        var updateOutput = {};
+        updateOutput = await RepositoryFunction.updateProject(
+          context,
+          widget.purposeID,
+          capstoneTitle,
+          projectType,
+          yearPublished,
+          groupName,
+          authors,
+        );
 
-      if (output != false) {
-        // await widget.upload();
+        if (updateOutput['quack']) {
+          customSnackBar(context, 0, updateOutput['message']);
+        } else {
+          customSnackBar(context, 1, updateOutput['message']);
+        }
       }
 
-      Navigator.of(context).pop(); // Close dialog or navigate back
-      reload(); // Trigger a reload
-      _clear(); // Clear fields
+      if (!context.mounted) return;
+      Navigator.of(context).pop();
+      reload();
+      ClearTextEditingControllers.clear();
     } catch (e) {
       print("Submission Error: $e"); // Log error
     }
-  }
-
-  void _clear() {
-    pages.capstoneTitle.clear();
-    pages.yearPublished.clear();
-    pages.groupName.clear();
-    pages.projectType.clear();
-    pages.authors.clear();
-    pages.manuscript.clear();
-    pages.video.clear();
-    pages.poster.clear();
   }
 
   @override

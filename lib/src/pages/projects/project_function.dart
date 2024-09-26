@@ -46,7 +46,7 @@ class ProjectFunction {
             "Error: ${response.statusCode} ${response.reasonPhrase}");
       }
     } catch (e) {
-      // print("An error occurred while fetching projects: $e");
+      print("An error occurred while fetching projects: $e");
     }
   }
 }
