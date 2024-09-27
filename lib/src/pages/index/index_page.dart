@@ -7,7 +7,6 @@ import 'package:repository_ustp/src/data/provider/index_menu_item.dart';
 import 'package:repository_ustp/src/pages/index/modules/add_appbar.dart';
 import 'package:repository_ustp/src/utils/screen_breakpoint.dart';
 import 'package:repository_ustp/src/pages/capstone_teams/capstone_teams_page.dart';
-import 'package:repository_ustp/src/pages/projects/project_page.dart';
 import 'package:repository_ustp/src/pages/repository/repository_page.dart';
 import 'package:repository_ustp/src/pages/students/students_page.dart';
 import 'package:repository_ustp/src/utils/palette.dart';

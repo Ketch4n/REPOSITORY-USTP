@@ -14,24 +14,23 @@ class PagesUploadFiles {
   static PlatformFile? selectedDoc;
   static PlatformFile? selectedClip;
 
-  static Future<void> selectImg(context) async {
+  static Future<void> selectImg(BuildContext context) async {
     final result = await FilePicker.platform.pickFiles();
 
     if (result != null) {
       selectedImg = result.files.first;
-
       final fileExtension = selectedImg!.extension?.toLowerCase();
       if (['jpg', 'jpeg', 'png', 'gif'].contains(fileExtension)) {
-        customSnackBar(context, 0, "Added");
         pages.poster.text = selectedImg!.name;
       } else {
+        if (!context.mounted) return;
         customSnackBar(context, 1, "Invalid Image format");
-        pages.poster.clear();
+        // selectedImg == null;
       }
     }
   }
 
-  static Future<void> selectDoc(context) async {
+  static Future<void> selectDoc(BuildContext context) async {
     final result = await FilePicker.platform.pickFiles();
 
     if (result != null) {
@@ -39,16 +38,16 @@ class PagesUploadFiles {
 
       final fileExtension = selectedDoc!.extension?.toLowerCase();
       if (['docx', 'pdf'].contains(fileExtension)) {
-        customSnackBar(context, 0, "Added");
         pages.manuscript.text = selectedDoc!.name;
       } else {
+        if (!context.mounted) return;
         customSnackBar(context, 1, "Invalid Document format");
-        pages.manuscript.clear();
+        // selectedDoc == null;
       }
     }
   }
 
-  static Future<void> selectClip(context) async {
+  static Future<void> selectClip(BuildContext context) async {
     final result = await FilePicker.platform.pickFiles();
 
     if (result != null) {
@@ -56,17 +55,16 @@ class PagesUploadFiles {
 
       final fileExtension = selectedClip!.extension?.toLowerCase();
       if (['mp4'].contains(fileExtension)) {
-        customSnackBar(context, 0, "Added");
         pages.video.text = selectedClip!.name;
       } else {
+        if (!context.mounted) return;
         customSnackBar(context, 1, "Invalid Video Clip format");
-        pages.video.clear();
+        // selectedClip == null;
       }
     }
   }
 
-  static uploadFile(BuildContext context, int outputID) async {
-    // Check if _selectedDoc is not null and has bytes
+  static Future<void> uploadFile(BuildContext context, int outputID) async {
     if (selectedDoc != null && selectedDoc!.bytes != null) {
       final Uint8List fileBytesDoc = selectedDoc!.bytes!;
       final fileNameDoc = selectedDoc!.name;
@@ -75,18 +73,14 @@ class PagesUploadFiles {
           .child('repository/$outputID/$fileNameDoc');
 
       try {
-        // Upload document file bytes
         await docStorageRef.putData(fileBytesDoc);
-        customSnackBar(context, 0, "Document uploaded successfully");
       } catch (e) {
         print('Error uploading document: $e');
-        customSnackBar(context, 1, "Error uploading document");
       }
     } else {
-      customSnackBar(context, 1, "No document selected for upload");
+      // customSnackBar(context, 1, "No document selected for upload");
     }
 
-    // Check if _selectedImg is not null and has bytes
     if (selectedImg != null && selectedImg!.bytes != null) {
       final Uint8List fileBytesImg = selectedImg!.bytes!;
       final fileNameImg = selectedImg!.name;
@@ -95,18 +89,14 @@ class PagesUploadFiles {
           .child('repository/$outputID/$fileNameImg');
 
       try {
-        // Upload image file bytes
         await imgStorageRef.putData(fileBytesImg);
-        customSnackBar(context, 0, "Image uploaded successfully");
       } catch (e) {
         print('Error uploading image: $e');
-        customSnackBar(context, 1, "Error uploading image");
       }
     } else {
-      customSnackBar(context, 1, "No image selected for upload");
+      // customSnackBar(context, 1, "No image selected for upload");
     }
 
-    // Check if _selectedClip is not null and has bytes
     if (selectedClip != null && selectedClip!.bytes != null) {
       final Uint8List fileBytesClip = selectedClip!.bytes!;
       final fileNameClip = selectedClip!.name;
@@ -115,15 +105,12 @@ class PagesUploadFiles {
           .child('repository/$outputID/$fileNameClip');
 
       try {
-        // Upload video clip file bytes
         await clipStorageRef.putData(fileBytesClip);
-        customSnackBar(context, 0, "Video uploaded successfully");
       } catch (e) {
         print('Error uploading video: $e');
-        customSnackBar(context, 1, "Error uploading video");
       }
     } else {
-      customSnackBar(context, 1, "No video clip selected for upload");
+      // customSnackBar(context, 1, "No video clip selected for upload");
     }
   }
 }

@@ -1,7 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:repository_ustp/src/data/provider/user_session.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/functions/get_files.dart';
+import 'package:repository_ustp/src/pages/repository/components/pages/functions/viewed_repo.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RepositoryOpen extends StatefulWidget {
@@ -108,6 +110,7 @@ class _RepositoryOpenState extends State<RepositoryOpen> {
                         return Card(
                           child: ListTile(
                             title: Text(fileRef.name),
+
                             // onTap: () async {
                             //   try {
                             //     final url = await fileRef.getDownloadURL();
@@ -135,6 +138,11 @@ class _RepositoryOpenState extends State<RepositoryOpen> {
                               icon: const Icon(Icons.download),
                               onPressed: () async {
                                 final url = await fileRef.getDownloadURL();
+                                ViewedRepo.store(
+                                  widget.projectID.toInt(),
+                                  UserSession.id.toInt(),
+                                  fileRef.name.toString(),
+                                );
 
                                 _launchURL(url);
                               },

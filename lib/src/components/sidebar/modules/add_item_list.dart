@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:repository_ustp/src/components/confirmation_dialog.dart';
 import 'package:repository_ustp/src/components/sidebar/modules/add_footer_icon.dart';
-import 'package:repository_ustp/src/components/snackbar.dart';
 import 'package:repository_ustp/src/components/textbutton_icon.dart';
-import 'package:repository_ustp/src/data/mail/sendmail.dart';
 import 'package:repository_ustp/src/utils/screen_breakpoint.dart';
 
-import 'package:repository_ustp/src/data/provider/user_session.dart';
 
 Widget addItemList(callback, context) {
   final width = MediaQuery.of(context).size.width;

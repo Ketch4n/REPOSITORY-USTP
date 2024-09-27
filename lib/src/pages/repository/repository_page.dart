@@ -10,6 +10,7 @@ import 'package:repository_ustp/src/data/index/project_index_value.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
 import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
 import 'package:repository_ustp/src/data/provider/project_purpose.dart';
+import 'package:repository_ustp/src/data/provider/user_session.dart';
 import 'package:repository_ustp/src/pages/index/components/card_list.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field_controller.dart';
@@ -234,14 +235,16 @@ Widget _buildBody(index, projectList, context, reload) {
               value: 0,
               child: Text('Open'),
             ),
-            const PopupMenuItem<int>(
-              value: 1,
-              child: Text('Edit'),
-            ),
-            const PopupMenuItem<int>(
-              value: 2,
-              child: Text('Delete'),
-            ),
+            if (UserSession.type == 0)
+              const PopupMenuItem<int>(
+                value: 1,
+                child: Text('Edit'),
+              ),
+            if (UserSession.type == 0)
+              const PopupMenuItem<int>(
+                value: 2,
+                child: Text('Delete'),
+              ),
           ],
           child: Stack(
             children: [

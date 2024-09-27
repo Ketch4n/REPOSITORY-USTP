@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:repository_ustp/src/auth/login/modules/add_title.dart';
 import 'package:repository_ustp/src/components/textfield.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
-import 'package:repository_ustp/src/data/provider/project_purpose.dart';
 import 'package:repository_ustp/src/data/provider/project_type_add.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/class/access_controller_instance.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/class/clear_controllers.dart';

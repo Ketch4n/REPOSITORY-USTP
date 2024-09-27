@@ -27,15 +27,11 @@ class RepositoryFunction {
         int dataID = jsonResponse['data']['id'];
 
         if (quack) {
-          // customSnackBar(context, 0, message);
-          // return dataID;
           return {
             'message': message,
             'dataID': dataID,
           };
         } else {
-          // customSnackBar(context, 1, message);
-          // return 0;
           return {
             'message': message,
             'dataID': 0,
