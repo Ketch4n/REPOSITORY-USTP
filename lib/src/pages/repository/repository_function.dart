@@ -7,8 +7,17 @@ import 'package:repository_ustp/src/components/snackbar.dart';
 import 'package:repository_ustp/src/data/server/url.dart';
 
 class RepositoryFunction {
-  static Future postProject(BuildContext context, String title, int type, year,
-      String gname, List<String?> m0) async {
+  static Future postProject(
+    BuildContext context,
+    String title,
+    int type,
+    year,
+    String gname,
+    List<String?> m0,
+    String? doc,
+    String? img,
+    String? clip,
+  ) async {
     try {
       final response =
           await http.post(Uri.parse("${Servername.host}project"), body: {
@@ -16,6 +25,9 @@ class RepositoryFunction {
         'project_type': type.toString(),
         'year_published': year.toString(),
         'group_name': gname.toString(),
+        'manuscript': doc,
+        'poster': img,
+        'video': clip,
         for (int i = 0; i < m0.length; i++) 'member_$i': m0[i],
       });
 
@@ -98,11 +110,11 @@ class RepositoryFunction {
 
         if (quack) {
           customSnackBar(context, 0, data);
-          // return quack;
+          return quack;
           // print(dataBack);
         } else {
           customSnackBar(context, 1, data);
-          // return quack;
+          return false;
         }
       } else {
         // print("Error: ${response.statusCode} ${response.reasonPhrase}");

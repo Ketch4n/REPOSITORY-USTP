@@ -8,6 +8,7 @@ class ProjectFunction {
     projectStream,
     int projectType,
     int projectKeyword,
+    int projectCollection,
     String? keyword,
   ) async {
     try {
@@ -21,19 +22,37 @@ class ProjectFunction {
           final List<ProjectModel> projects =
               data.map((data) => ProjectModel.fromJson(data)).toList();
 
-          if (keyword == null && projectType == 0 && projectKeyword == 0) {
+          if (keyword == null &&
+              projectType == 0 &&
+              projectKeyword == 0 &&
+              projectCollection == 0) {
             projectStream.add(projects);
           } else {
             final List<ProjectModel> filtered = projects.where((u) {
-              final titleMatches = keyword != null && u.title.contains(keyword);
+              final titleMatched = keyword != null && u.title.contains(keyword);
+              final titleMatches =
+                  projectKeyword == 1 && u.title.contains(keyword!);
               final yearMatches =
-                  keyword != null && u.year_published == keyword;
+                  projectKeyword == 3 && u.year_published == keyword;
               final typeMatches =
                   projectType == 0 || u.project_type == projectType;
+
+              final docCollection = projectCollection == 1 &&
+                  (u.manuscript?.contains(keyword!) ?? false);
+              final imgCollection = projectCollection == 2 &&
+                  (u.poster?.contains(keyword!) ?? false);
+              final clipCollection = projectCollection == 3 &&
+                  (u.video?.contains(keyword!) ?? false);
               // final keywordMatches =
               //     projectKeyword == 0 || u.title.contains(keyword!);
 
-              return (titleMatches || yearMatches) && typeMatches;
+              return (titleMatches ||
+                      titleMatched ||
+                      yearMatches ||
+                      docCollection ||
+                      imgCollection ||
+                      clipCollection) &&
+                  typeMatches;
             }).toList();
 
             projectStream.add(filtered);

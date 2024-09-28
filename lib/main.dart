@@ -4,11 +4,13 @@ import 'package:provider/provider.dart';
 import 'package:repository_ustp/src/data/provider/adding_repo_controllers.dart';
 import 'package:repository_ustp/src/data/provider/author_list.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
+import 'package:repository_ustp/src/data/provider/click_event_collection.dart';
 import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
 import 'package:repository_ustp/src/data/provider/index_menu_item.dart';
 import 'package:repository_ustp/src/data/provider/loading_notifier.dart';
 import 'package:repository_ustp/src/data/provider/project_purpose.dart';
 import 'package:repository_ustp/src/data/provider/project_type_add.dart';
+import 'package:repository_ustp/src/data/provider/show_top_items.dart';
 import 'package:repository_ustp/src/data/provider/switch_role_signup.dart';
 import 'package:repository_ustp/src/data/provider/user_session.dart';
 import 'package:repository_ustp/src/routes/routes.dart';
@@ -41,7 +43,9 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ProjectTypeAdd()),
         ChangeNotifierProvider(create: (_) => AuthorList()),
         ChangeNotifierProvider(create: (_) => ProjectPurpose()),
-        ChangeNotifierProvider(create: (_) => RepositoryConfirmState())
+        ChangeNotifierProvider(create: (_) => RepositoryConfirmState()),
+        ChangeNotifierProvider(create: (_) => ShowTopItems()),
+        ChangeNotifierProvider(create: (_) => ClickEventProjectCollection())
       ],
       child: const MainApp(),
     ),

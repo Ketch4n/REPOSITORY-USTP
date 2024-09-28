@@ -32,6 +32,9 @@ class ProjectFunction {
         pages.yearPublished.text,
         pages.groupName.text,
         authors,
+        pages.manuscript.text,
+        pages.poster.text,
+        pages.video.text,
       );
 
       if (postOutput['dataID'] != 0) {

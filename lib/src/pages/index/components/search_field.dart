@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/components/textfield.dart';
+import 'package:repository_ustp/src/pages/index/components/dropdown_project_collection.dart';
 import 'package:repository_ustp/src/pages/index/components/dropdown_project_keyword.dart';
 import 'package:repository_ustp/src/pages/index/components/dropdown_project_type.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field_controller.dart';
@@ -53,6 +54,13 @@ class _SearchFieldState extends State<SearchField> {
                 color: Colors.white,
               ),
               child: DropdownProjectKeyword(reload: widget.reload),
+            ),
+            Container(
+              height: 40,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+              child: DropdownProjectCollection(reload: widget.reload),
             ),
             Container(
               decoration: const BoxDecoration(

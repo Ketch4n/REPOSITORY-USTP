@@ -25,7 +25,7 @@ class PagesUploadFiles {
       } else {
         if (!context.mounted) return;
         customSnackBar(context, 1, "Invalid Image format");
-        // selectedImg == null;
+        selectedImg = null;
       }
     }
   }
@@ -42,7 +42,7 @@ class PagesUploadFiles {
       } else {
         if (!context.mounted) return;
         customSnackBar(context, 1, "Invalid Document format");
-        // selectedDoc == null;
+        selectedDoc = null;
       }
     }
   }
@@ -59,7 +59,7 @@ class PagesUploadFiles {
       } else {
         if (!context.mounted) return;
         customSnackBar(context, 1, "Invalid Video Clip format");
-        // selectedClip == null;
+        selectedClip = null;
       }
     }
   }
@@ -76,6 +76,8 @@ class PagesUploadFiles {
         await docStorageRef.putData(fileBytesDoc);
       } catch (e) {
         print('Error uploading document: $e');
+      } finally {
+        selectedDoc = null;
       }
     } else {
       // customSnackBar(context, 1, "No document selected for upload");
@@ -92,6 +94,8 @@ class PagesUploadFiles {
         await imgStorageRef.putData(fileBytesImg);
       } catch (e) {
         print('Error uploading image: $e');
+      } finally {
+        selectedImg = null;
       }
     } else {
       // customSnackBar(context, 1, "No image selected for upload");
@@ -108,6 +112,8 @@ class PagesUploadFiles {
         await clipStorageRef.putData(fileBytesClip);
       } catch (e) {
         print('Error uploading video: $e');
+      } finally {
+        selectedClip = null;
       }
     } else {
       // customSnackBar(context, 1, "No video clip selected for upload");

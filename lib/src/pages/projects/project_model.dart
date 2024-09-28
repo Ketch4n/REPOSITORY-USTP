@@ -6,6 +6,9 @@ class ProjectModel {
   final String year_published;
   final int project_type;
   final String group_name;
+  final String? manuscript;
+  final String? poster;
+  final String? video;
   // final int privacy;
   final List<String?> authors;
 
@@ -15,6 +18,9 @@ class ProjectModel {
     required this.year_published,
     required this.project_type,
     required this.group_name,
+    this.manuscript,
+    this.poster,
+    this.video,
     // required this.privacy,
     required this.authors,
   });
@@ -27,6 +33,9 @@ class ProjectModel {
       year_published: json['year_published'],
       project_type: json['project_type'],
       group_name: json['group_name'],
+      manuscript: json['manuscript'],
+      poster: json['poster'],
+      video: json['video'],
       // privacy: json['privacy'],
       authors: List<String?>.from(json['authors'] ?? []),
     );
@@ -40,6 +49,9 @@ class ProjectModel {
       'year_published': year_published,
       'project_type': project_type,
       'group_name': group_name,
+      'manuscript': manuscript,
+      'poster': poster,
+      'video': video,
       // 'privacy': privacy,
       'authors': authors,
     };

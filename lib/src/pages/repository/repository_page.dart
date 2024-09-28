@@ -8,8 +8,10 @@ import 'package:repository_ustp/src/components/duck_404.dart';
 import 'package:repository_ustp/src/components/show_dialog.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
+import 'package:repository_ustp/src/data/provider/click_event_collection.dart';
 import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
 import 'package:repository_ustp/src/data/provider/project_purpose.dart';
+import 'package:repository_ustp/src/data/provider/show_top_items.dart';
 import 'package:repository_ustp/src/data/provider/user_session.dart';
 import 'package:repository_ustp/src/pages/index/components/card_list.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field.dart';
@@ -17,12 +19,14 @@ import 'package:repository_ustp/src/pages/index/components/search_field_controll
 import 'package:repository_ustp/src/pages/projects/components/text_content.dart';
 import 'package:repository_ustp/src/pages/projects/project_function.dart';
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
+import 'package:repository_ustp/src/pages/repository/components/pages/functions/get_files.dart';
 import 'package:repository_ustp/src/pages/repository/components/repository_open.dart';
 import 'package:repository_ustp/src/pages/repository/components/repository_update.dart';
 import 'package:repository_ustp/src/pages/repository/modules/top_buttons.dart';
 import 'package:repository_ustp/src/pages/repository/repository_function.dart';
 import 'package:repository_ustp/src/utils/palette.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:repository_ustp/src/utils/screen_breakpoint.dart';
 
 class RepositoryPage extends StatefulWidget {
   const RepositoryPage({super.key, required this.projectType});
@@ -45,8 +49,12 @@ class _RepositoryPageState extends State<RepositoryPage> {
   void initState() {
     super.initState();
 
-    _fetchProjects(CLickEventProjectType.quack, ClickEventProjectKeyword.quack,
-        _searchController.text);
+    _fetchProjects(
+      CLickEventProjectType.quack,
+      ClickEventProjectKeyword.quack,
+      ClickEventProjectCollection.quack,
+      _searchController.text,
+    );
   }
 
   @override
@@ -56,16 +64,20 @@ class _RepositoryPageState extends State<RepositoryPage> {
   }
 
   // Method to fetch projects and reload
-  void _fetchProjects(quackType, quackKeyword, search) async {
+  void _fetchProjects(quackType, quackKeyword, quackCollection, search) async {
     await ProjectFunction.fetchProjects(
-        _projectStream, quackType, quackKeyword, search);
+        _projectStream, quackType, quackKeyword, quackCollection, search);
   }
 
   // Method to reload the data
   void reload() {
     setState(() {
-      _fetchProjects(CLickEventProjectType.quack,
-          ClickEventProjectKeyword.quack, _searchController.text);
+      _fetchProjects(
+        CLickEventProjectType.quack,
+        ClickEventProjectKeyword.quack,
+        ClickEventProjectCollection.quack,
+        _searchController.text,
+      );
       // print(_searchController.text);
     });
   }
@@ -112,76 +124,83 @@ class _RepositoryPageState extends State<RepositoryPage> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Stack(
       children: [
         Scaffold(
-          body: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(color: ColorPallete.grey),
-                child: SearchField(reload: reload),
-              ),
-              Container(
-                decoration: BoxDecoration(color: ColorPallete.grey),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: CardList(callback: reload),
-                ),
-              ),
-              RepositoryTopButtons(
-                  reload: () => reload(), toPDF: () => exportToPDF()),
-              Expanded(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: StreamBuilder<List<ProjectModel>>(
-                        stream: _projectStream.stream,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            final List<ProjectModel> projectList =
-                                snapshot.data!;
-                            projects = projectList;
+          body: Consumer<ShowTopItems>(builder: (context, value, child) {
+            return Column(
+              children: [
+                value.isShow || width > tabletBreakpoint
+                    ? Container(
+                        decoration: BoxDecoration(color: ColorPallete.grey),
+                        child: SearchField(reload: reload),
+                      )
+                    : const SizedBox(),
+                value.isShow || width > tabletBreakpoint
+                    ? Container(
+                        decoration: BoxDecoration(color: ColorPallete.grey),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20.0),
+                          child: CardList(callback: reload),
+                        ),
+                      )
+                    : const SizedBox(),
+                RepositoryTopButtons(
+                    reload: () => reload(), toPDF: () => exportToPDF()),
+                Expanded(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: StreamBuilder<List<ProjectModel>>(
+                          stream: _projectStream.stream,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              final List<ProjectModel> projectList =
+                                  snapshot.data!;
+                              projects = projectList;
 
-                            if (projectList.isEmpty) {
-                              return Consumer<CLickEventProjectType>(
-                                  builder: (context, value, child) {
-                                return Duck(
-                                    status:
-                                        projectTypeBinaryValue(value.quackNew),
-                                    content: "No Repository Found !");
-                              });
-                            }
+                              if (projectList.isEmpty) {
+                                return Consumer<CLickEventProjectType>(
+                                    builder: (context, value, child) {
+                                  return Duck(
+                                      status: projectTypeBinaryValue(
+                                          value.quackNew),
+                                      content: "No Repository Found !");
+                                });
+                              }
 
-                            return Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: Wrap(
-                                alignment: WrapAlignment.center,
-                                runAlignment: WrapAlignment.center,
-                                runSpacing: 10.0,
-                                spacing: 10.0,
-                                children: List.generate(
-                                  projectList.length,
-                                  (index) => _buildBody(
-                                      index, projectList, context, reload),
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 10.0),
+                                child: Wrap(
+                                  alignment: WrapAlignment.center,
+                                  runAlignment: WrapAlignment.center,
+                                  runSpacing: 10.0,
+                                  spacing: 10.0,
+                                  children: List.generate(
+                                    projectList.length,
+                                    (index) => _buildBody(
+                                        index, projectList, context, reload),
+                                  ),
                                 ),
-                              ),
-                            );
-                          } else if (snapshot.hasError) {
-                            return Center(
-                              child: Text("Error: ${snapshot.error}"),
-                            );
-                          } else {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        }),
+                              );
+                            } else if (snapshot.hasError) {
+                              return Center(
+                                child: Text("Error: ${snapshot.error}"),
+                              );
+                            } else {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          }),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            );
+          }),
         ),
       ],
     );
@@ -222,10 +241,14 @@ Widget _buildBody(index, projectList, context, reload) {
                 const title = "Delete this Project ?";
                 const content =
                     "this will also delete Authors and Project Data";
-                confirmationDialog(context, title, content, () {
+                var quack =
+                    await confirmationDialog(context, title, content, () {
                   RepositoryFunction.deleteProject(context, project.id.toInt())
                       .then((value) => reload());
                 });
+                if (quack == true) {
+                  await PagesGetFiles.deleteFolder('${project.id}');
+                }
 
                 break;
             }

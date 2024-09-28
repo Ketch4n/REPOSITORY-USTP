@@ -5,6 +5,7 @@ import 'package:repository_ustp/src/components/duck_404.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
 import 'package:repository_ustp/src/data/index/project_keyword_value.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
+import 'package:repository_ustp/src/data/provider/click_event_collection.dart';
 import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field_controller.dart';
@@ -31,8 +32,12 @@ class _ProjectPageState extends State<ProjectPage> {
   void initState() {
     super.initState();
 
-    _fetchProjects(CLickEventProjectType.quack, ClickEventProjectKeyword.quack,
-        _searchController.text);
+    _fetchProjects(
+      CLickEventProjectType.quack,
+      ClickEventProjectKeyword.quack,
+      ClickEventProjectCollection.quack,
+      _searchController.text,
+    );
   }
 
   @override
@@ -42,16 +47,20 @@ class _ProjectPageState extends State<ProjectPage> {
   }
 
   // Method to fetch projects and reload
-  void _fetchProjects(quackType, quackKeyword, search) {
+  void _fetchProjects(quackType, quackKeyword, quackCollection, search) {
     ProjectFunction.fetchProjects(
-        _projectStream, quackType, quackKeyword, search);
+        _projectStream, quackType, quackKeyword, quackCollection, search);
   }
 
   // Method to reload the data
   void reload() {
     setState(() {
-      _fetchProjects(CLickEventProjectType.quack,
-          ClickEventProjectKeyword.quack, _searchController.text);
+      _fetchProjects(
+        CLickEventProjectType.quack,
+        ClickEventProjectKeyword.quack,
+        ClickEventProjectCollection.quack,
+        _searchController.text,
+      );
       // print(_searchController.text);
     });
   }

@@ -20,7 +20,6 @@ class IndexPage extends StatefulWidget {
 }
 
 // int widgetIndex = 0;
-bool showTopItems = true;
 
 class _IndexPageState extends State<IndexPage> {
   void _onMenuItemTap(int index) {
@@ -35,33 +34,24 @@ class _IndexPageState extends State<IndexPage> {
     });
   }
 
-  _onTapShowItems() {
-    setState(() {
-      showTopItems = !showTopItems;
-      // customSnackBar(context, 0, "Clicked");
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: ColorPallete.grey,
-      appBar: width <= tabletBreakpoint
-          ? addAppBar(_onTapShowItems, showTopItems)
-          : null,
+      appBar: width <= tabletBreakpoint ? addAppBar(context) : null,
       drawer:
           width <= tabletBreakpoint ? SideBar(callback: _onMenuItemTap) : null,
-      body: _buildBody(width, _onMenuItemTap, _onCardItemTap, _onTapShowItems),
+      body: _buildBody(width, _onMenuItemTap, _onCardItemTap),
     );
   }
 }
 
-Widget _buildBody(width, onMenuItemTap, onCardItemTap, onTapShowItems) {
+Widget _buildBody(width, onMenuItemTap, onCardItemTap) {
   return Row(
     children: <Widget>[
       _buildSidebar(width, onMenuItemTap),
-      _buildContent(width, onCardItemTap, onTapShowItems, onMenuItemTap),
+      _buildContent(width, onCardItemTap, onMenuItemTap),
     ],
   );
 }
@@ -72,7 +62,7 @@ Widget _buildSidebar(width, onMenuItemTap) {
       : const SizedBox();
 }
 
-Widget _buildContent(width, onCardItemTap, onTapShowItems, onMenuItemTap) {
+Widget _buildContent(width, onCardItemTap, onMenuItemTap) {
   return Expanded(
     child: Scaffold(
       backgroundColor: ColorPallete.grey,
