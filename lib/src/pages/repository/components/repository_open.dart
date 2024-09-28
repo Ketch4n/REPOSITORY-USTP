@@ -1,9 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:repository_ustp/src/components/snackbar.dart';
 import 'package:repository_ustp/src/data/provider/user_session.dart';
+import 'package:repository_ustp/src/pages/repository/components/model/download_model.dart';
+import 'package:repository_ustp/src/pages/repository/components/pages/functions/generate_pdf.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/functions/get_files.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/functions/viewed_repo.dart';
+import 'package:repository_ustp/src/pages/repository/components/stream/download_stream.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RepositoryOpen extends StatefulWidget {
@@ -15,33 +19,7 @@ class RepositoryOpen extends StatefulWidget {
 }
 
 class _RepositoryOpenState extends State<RepositoryOpen> {
-  // void uploadFile(context) async {
-  //   // Pick a file
-  //   final result = await FilePicker.platform.pickFiles();
-  //   if (result == null || result.files.isEmpty) return;
-
-  //   final file = result.files.single;
-
-  //   // Access file bytes
-  //   final Uint8List fileBytes = file.bytes!;
-
-  //   // Define file name and create a reference
-  //   final projectID = widget.projectID;
-  //   final fileName = file.name;
-  //   final storageRef =
-  //       FirebaseStorage.instance.ref().child('uploads/$projectID/$fileName');
-
-  //   try {
-  //     // Upload file bytes
-  //     await storageRef.putData(fileBytes);
-  //     // print('File uploaded successfully');
-  //     _getFileRef();
-  //     customSnackBar(context, 0, "File uploaded successfully");
-  //   } catch (e) {
-  //     print('Error uploading file: $e');
-  //     // customSnackBar(context, 0, "File uploaded successfully");
-  //   }
-  // }
+  late DownloadStream _downloadStream;
   bool isLoading = true;
 
   Future<void> _launchURL(String url) async {
@@ -67,10 +45,13 @@ class _RepositoryOpenState extends State<RepositoryOpen> {
   void initState() {
     super.initState();
     _loadFiles();
+    _downloadStream = DownloadStream();
+    _downloadStream.fetchDownloads(widget.projectID);
   }
 
   @override
   void dispose() {
+    _downloadStream.dispose();
     super.dispose();
   }
 
@@ -94,9 +75,10 @@ class _RepositoryOpenState extends State<RepositoryOpen> {
       child: PagesGetFiles.fileReferences.isEmpty
           ? const Center(child: Text("No files available"))
           : Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 40.0),
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
                   child: Text("REPOSITORY FILES"),
                 ),
                 Padding(
@@ -110,30 +92,6 @@ class _RepositoryOpenState extends State<RepositoryOpen> {
                         return Card(
                           child: ListTile(
                             title: Text(fileRef.name),
-
-                            // onTap: () async {
-                            //   try {
-                            //     final url = await fileRef.getDownloadURL();
-                            //     showDialog(
-                            //       context: context,
-                            //       builder: (context) => AlertDialog(
-                            //         title: Text(fileRef.name),
-                            //         content: FilePreview(
-                            //             fileName: fileRef.name, fileUrl: url),
-                            //         actions: <Widget>[
-                            //           TextButton(
-                            //             child: const Text('Close'),
-                            //             onPressed: () {
-                            //               Navigator.of(context).pop();
-                            //             },
-                            //           ),
-                            //         ],
-                            //       ),
-                            //     );
-                            //   } catch (e) {
-                            //     print('Error fetching file URL: $e');
-                            //   }
-                            // },
                             trailing: IconButton(
                               icon: const Icon(Icons.download),
                               onPressed: () async {
@@ -153,6 +111,64 @@ class _RepositoryOpenState extends State<RepositoryOpen> {
                     ),
                   ),
                 ),
+                StreamBuilder<List<Download>>(
+                    stream: _downloadStream.stream,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      }
+
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Text("Counting...");
+                      }
+
+                      if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return const Text("Total Downloads: 0");
+                      }
+                      List<Download> downloads = snapshot.data!;
+                      int totalDownloads = snapshot.data!
+                          .fold(0, (sum, download) => sum + download.downloads);
+                      return Column(
+                        children: [
+                          SizedBox(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text("Total Downloads :"),
+                                const SizedBox(width: 10),
+                                Text(totalDownloads.toString()),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          MaterialButton(
+                            color: Colors.grey,
+                            onPressed: () {
+                              if (UserSession.type == 0) {
+                                generatePdf(downloads);
+                              } else {
+                                customSnackBar(
+                                    context, 1, "Administrator Access Only");
+                              }
+                            },
+                            child: const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  "Report",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                SizedBox(width: 10),
+                                Icon(
+                                  Icons.picture_as_pdf,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
               ],
             ),
     );
