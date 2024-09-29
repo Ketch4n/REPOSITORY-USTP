@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repository_ustp/src/data/provider/author_list.dart';
-import 'package:repository_ustp/src/data/provider/loading_notifier.dart';
 import 'package:repository_ustp/src/data/provider/project_purpose.dart';
 import 'package:repository_ustp/src/data/provider/project_type_add.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/class/access_controller_instance.dart';
@@ -28,64 +27,51 @@ class RepositoryConfirm extends StatefulWidget {
 }
 
 class _RepositoryConfirmState extends State<RepositoryConfirm> {
-  // final state = Provider.of<RepositoryConfirmState>(context, listen: false);
-  bool isLoading = false;
-
   @override
   Widget build(BuildContext context) {
-    return Consumer<RepositoryConfirmState>(builder: (context, value, child) {
-      return value.isLoading
-          ? Container(
-              decoration: Page4ContainerStyle.style,
-              child: const Center(child: CircularProgressIndicator()),
-            )
-          : Container(
-              decoration: Page4ContainerStyle.style,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+    return Container(
+      decoration: Page4ContainerStyle.style,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _topContent(pages.capstoneTitle.text),
+            Consumer<ProjectPurpose>(builder: (context, value, child) {
+              return SizedBox(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    _topContent(pages.capstoneTitle.text),
-                    Consumer<ProjectPurpose>(builder: (context, value, child) {
-                      return SizedBox(
-                        child: Column(
-                          children: [
-                            _index1(pages.projectType.text,
-                                pages.yearPublished.text),
-                            const SizedBox(height: 20),
-                            _index2(pages.groupName.text, pages.authors.text),
-                            const SizedBox(height: 20),
-                            value.quackNew == 0
-                                ? _index3(pages.manuscript.text,
-                                    pages.poster.text, pages.video.text)
-                                : const SizedBox(),
-                          ],
-                        ),
-                      );
-                    }),
-                    Consumer2<ProjectTypeAdd, AuthorList>(
-                        builder: (context, value, value2, child) {
-                      return PageViewButtons(
-                        flabel: "CONFIRM AND SAVE",
-                        blabel: 'PREVIOUS',
-                        ffunction: () => widget.purposeID == 0
-                            ? ProjectFunction.submit(context, value.quackNew,
-                                value2.authors, widget.reload)
-                            : ProjectFunction.update(
-                                context,
-                                value.quackNew,
-                                value2.authors,
-                                widget.reload,
-                                widget.purposeID),
-                        bfunction: () => widget.backward(),
-                      );
-                    }),
+                    _index1(pages.projectType.text, pages.yearPublished.text),
+                    const SizedBox(height: 20),
+                    _index2(pages.groupName.text, pages.authors.text),
+                    const SizedBox(height: 20),
+                    value.quackNew == 0
+                        ? _index3(pages.manuscript.text, pages.poster.text,
+                            pages.video.text)
+                        : const SizedBox(),
                   ],
                 ),
-              ),
-            );
-    });
+              );
+            }),
+            Consumer2<ProjectTypeAdd, AuthorList>(
+                builder: (context, value, value2, child) {
+              return PageViewButtons(
+                flabel: "CONFIRM AND SAVE",
+                blabel: 'PREVIOUS',
+                ffunction: () {
+                  widget.purposeID == 0
+                      ? ProjectFunction.submit(context, value.quackNew,
+                          value2.authors, widget.reload)
+                      : ProjectFunction.update(context, value.quackNew,
+                          value2.authors, widget.reload, widget.purposeID);
+                },
+                bfunction: () => widget.backward(),
+              );
+            }),
+          ],
+        ),
+      ),
+    );
   }
 }
 

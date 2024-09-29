@@ -12,8 +12,8 @@ class ProjectFunction {
   var postOutput = {};
   var updateOutput = {};
 
-  static submit(BuildContext context, int? projectType, List<String?> authors,
-      Function reload) async {
+  static void submit(BuildContext context, int? projectType,
+      List<String?> authors, Function reload) async {
     if (pages.capstoneTitle.text.isEmpty ||
         projectType == null ||
         projectType == 0 ||
@@ -23,7 +23,6 @@ class ProjectFunction {
       return;
     }
 
-    // state.startLoading();
     try {
       var postOutput = await RepositoryFunction.postProject(
         context,
@@ -38,6 +37,8 @@ class ProjectFunction {
       );
 
       if (postOutput['dataID'] != 0) {
+        customSnackBar(context, 0, "Uploading Please wait...");
+        await PagesUploadFiles.uploadFile(context, postOutput['dataID']);
         SendMailFunction.sendEmailTypeStatus(
           link,
           pages.capstoneTitle.text,
@@ -45,18 +46,15 @@ class ProjectFunction {
           pages.yearPublished.text,
         );
 
-        await PagesUploadFiles.uploadFile(context, postOutput['dataID']);
-
         customSnackBar(context, 0, postOutput['message']);
+        Navigator.of(context).pop();
+        reload();
+        ClearTextEditingControllers.clear();
       } else {
         customSnackBar(context, 1, postOutput['message']);
       }
     } catch (e) {
       print("Submission Error: $e");
-    } finally {
-      Navigator.of(context).pop();
-      reload();
-      ClearTextEditingControllers.clear();
     }
   }
 

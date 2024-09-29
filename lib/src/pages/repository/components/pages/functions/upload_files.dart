@@ -74,13 +74,14 @@ class PagesUploadFiles {
 
       try {
         await docStorageRef.putData(fileBytesDoc);
+        customSnackBar(context, 1, "Manuscript Upload Done");
       } catch (e) {
         print('Error uploading document: $e');
       } finally {
         selectedDoc = null;
       }
     } else {
-      // customSnackBar(context, 1, "No document selected for upload");
+      customSnackBar(context, 1, "No document selected for upload");
     }
 
     if (selectedImg != null && selectedImg!.bytes != null) {
@@ -92,13 +93,14 @@ class PagesUploadFiles {
 
       try {
         await imgStorageRef.putData(fileBytesImg);
+        customSnackBar(context, 1, "Poster Upload Done");
       } catch (e) {
         print('Error uploading image: $e');
       } finally {
         selectedImg = null;
       }
     } else {
-      // customSnackBar(context, 1, "No image selected for upload");
+      customSnackBar(context, 1, "No image selected for upload");
     }
 
     if (selectedClip != null && selectedClip!.bytes != null) {
@@ -110,13 +112,14 @@ class PagesUploadFiles {
 
       try {
         await clipStorageRef.putData(fileBytesClip);
+        customSnackBar(context, 1, "Video Upload Done");
       } catch (e) {
         print('Error uploading video: $e');
       } finally {
         selectedClip = null;
       }
     } else {
-      // customSnackBar(context, 1, "No video clip selected for upload");
+      customSnackBar(context, 1, "No video clip selected for upload");
     }
   }
 }
