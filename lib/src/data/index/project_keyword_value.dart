@@ -1,7 +1,7 @@
 String projectKeywordBinaryValue(int type) {
   switch (type) {
     case 0:
-      return "ALL";
+      return "KEYWORD";
     case 1:
       return "TITLE";
     case 2:

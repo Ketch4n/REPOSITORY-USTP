@@ -1,7 +1,7 @@
 String projectTypeBinaryValue(int type) {
   switch (type) {
     case 0:
-      return "ALL";
+      return "PROJECT TYPE";
     case 1:
       return "IOT CAPSTONE";
     case 2:

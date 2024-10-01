@@ -1,7 +1,7 @@
 String projectCollectionBinaryValue(int type) {
   switch (type) {
     case 0:
-      return "ALL";
+      return "COLLECTION";
     case 1:
       return "MANUSCRIPT";
     case 2:

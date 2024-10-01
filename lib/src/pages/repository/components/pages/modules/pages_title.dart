@@ -10,7 +10,7 @@ class PagesTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ProjectPurpose>(builder: (context, value, child) {
       return addTitle(
-        value.quackNew == 0 ? "ADD NEW REPOSITORY" : "UPDATE REPOSITORY",
+        value.quackNew == 0 ? "ADD NEW PROJECT" : "UPDATE PROJECT",
         20,
       );
     });
