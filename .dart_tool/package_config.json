@@ -141,9 +141,9 @@
     },
     {
       "name": "flutter",
-      "rootUri": "file:///C:/flutter/packages/flutter",
+      "rootUri": "file:///C:/Users/camchristian/fvm/versions/3.19.6/packages/flutter",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.2"
     },
     {
       "name": "flutter_bloc",
@@ -165,13 +165,13 @@
     },
     {
       "name": "flutter_test",
-      "rootUri": "file:///C:/flutter/packages/flutter_test",
+      "rootUri": "file:///C:/Users/camchristian/fvm/versions/3.19.6/packages/flutter_test",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.2"
     },
     {
       "name": "flutter_web_plugins",
-      "rootUri": "file:///C:/flutter/packages/flutter_web_plugins",
+      "rootUri": "file:///C:/Users/camchristian/fvm/versions/3.19.6/packages/flutter_web_plugins",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -219,21 +219,21 @@
     },
     {
       "name": "leak_tracker",
-      "rootUri": "file:///C:/Users/camchristian/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker-10.0.5",
+      "rootUri": "file:///C:/Users/camchristian/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker-10.0.0",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.1"
     },
     {
       "name": "leak_tracker_flutter_testing",
-      "rootUri": "file:///C:/Users/camchristian/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_flutter_testing-3.0.5",
+      "rootUri": "file:///C:/Users/camchristian/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_flutter_testing-2.0.1",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.1"
     },
     {
       "name": "leak_tracker_testing",
-      "rootUri": "file:///C:/Users/camchristian/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_testing-3.0.1",
+      "rootUri": "file:///C:/Users/camchristian/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_testing-2.0.1",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.1"
     },
     {
       "name": "lints",
@@ -255,13 +255,13 @@
     },
     {
       "name": "material_color_utilities",
-      "rootUri": "file:///C:/Users/camchristian/AppData/Local/Pub/Cache/hosted/pub.dev/material_color_utilities-0.11.1",
+      "rootUri": "file:///C:/Users/camchristian/AppData/Local/Pub/Cache/hosted/pub.dev/material_color_utilities-0.8.0",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "meta",
-      "rootUri": "file:///C:/Users/camchristian/AppData/Local/Pub/Cache/hosted/pub.dev/meta-1.15.0",
+      "rootUri": "file:///C:/Users/camchristian/AppData/Local/Pub/Cache/hosted/pub.dev/meta-1.11.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -441,7 +441,7 @@
     },
     {
       "name": "sky_engine",
-      "rootUri": "file:///C:/flutter/bin/cache/pkg/sky_engine",
+      "rootUri": "file:///C:/Users/camchristian/fvm/versions/3.19.6/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -483,9 +483,9 @@
     },
     {
       "name": "test_api",
-      "rootUri": "file:///C:/Users/camchristian/AppData/Local/Pub/Cache/hosted/pub.dev/test_api-0.7.2",
+      "rootUri": "file:///C:/Users/camchristian/AppData/Local/Pub/Cache/hosted/pub.dev/test_api-0.6.1",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.0"
     },
     {
       "name": "typed_data",
@@ -579,9 +579,9 @@
     },
     {
       "name": "vm_service",
-      "rootUri": "file:///C:/Users/camchristian/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-14.2.5",
+      "rootUri": "file:///C:/Users/camchristian/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-13.0.0",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.0"
     },
     {
       "name": "web",
@@ -614,10 +614,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-10-01T05:26:13.307505Z",
+  "generated": "2024-10-01T07:03:02.049460Z",
   "generator": "pub",
-  "generatorVersion": "3.5.3",
-  "flutterRoot": "file:///C:/flutter",
-  "flutterVersion": "3.24.3",
-  "pubCache": "file:///C:/Users/camchristian/AppData/Local/Pub/Cache"
+  "generatorVersion": "3.3.4"
 }

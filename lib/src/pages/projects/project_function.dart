@@ -23,7 +23,7 @@ class ProjectFunction {
               data.map((data) => ProjectModel.fromJson(data)).toList();
 
           if (keyword == null &&
-              projectType == 0 &&
+              (projectType == 0 || projectType == 4) &&
               projectKeyword == 0 &&
               projectCollection == 0) {
             projectStream.add(projects);
@@ -34,8 +34,8 @@ class ProjectFunction {
                   projectKeyword == 1 && u.title.contains(keyword!);
               final yearMatches =
                   projectKeyword == 3 && u.year_published == keyword;
-              final typeMatches =
-                  projectType == 0 || u.project_type == projectType;
+              final typeMatches = (projectType == 0 || projectType == 4) ||
+                  u.project_type == projectType;
 
               final docCollection = projectCollection == 1 &&
                   (u.manuscript?.contains(keyword!) ?? false);

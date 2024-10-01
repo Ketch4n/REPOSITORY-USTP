@@ -20,7 +20,7 @@ class _CardListState extends State<CardList> {
         direction: Axis.horizontal,
         alignment: WrapAlignment.center,
         children: [
-          CustomCard(child: 0, callback: widget.callback),
+          CustomCard(child: 4, callback: widget.callback),
           CustomCard(child: 1, callback: widget.callback),
           CustomCard(child: 2, callback: widget.callback),
           CustomCard(child: 3, callback: widget.callback),

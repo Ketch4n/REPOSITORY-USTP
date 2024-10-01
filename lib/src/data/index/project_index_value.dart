@@ -8,6 +8,8 @@ String projectTypeBinaryValue(int type) {
       return "WEB APP CAPSTONE";
     case 3:
       return "PIT PROJECT";
+    case 4:
+      return "RECENTLY ADDED";
     default:
       return "INVALID PROJECT TYPE";
   }
