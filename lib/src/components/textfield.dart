@@ -29,7 +29,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: widget.hint == null ? 60 : 40,
+      height: 60,
       width: widget.hint == null ? null : 120,
       child: TextField(
         keyboardType: widget.index == 1 ? TextInputType.number : null,
@@ -43,6 +43,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
         obscureText: widget.obscure ?? false,
         controller: widget.controller,
         decoration: InputDecoration(
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+          isDense: true,
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
           ),

@@ -28,7 +28,16 @@
     },
     {
         "origin": [
-            "http://localhost:52971/"
+            "http://localhost:54131/"
+        ],
+        "method": [
+            "GET, POST"
+        ],
+        "maxAgeSeconds": 3600
+    },
+    {
+        "origin": [
+            "*"
         ],
         "method": [
             "GET, POST"

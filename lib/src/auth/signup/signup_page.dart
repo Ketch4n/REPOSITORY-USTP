@@ -67,19 +67,19 @@ class _SignupPageState extends State<SignupPage> {
                         label: "Username",
                         readOnly: false,
                       ),
-                      const SizedBox(height: 10),
+
                       CustomTextField(
                         controller: _emailController,
                         label: "Email",
                         readOnly: false,
                       ),
-                      const SizedBox(height: 10),
+
                       CustomTextField(
                         controller: _passwordController,
                         label: "Password",
                         readOnly: false,
                       ),
-                      const SizedBox(height: 10),
+
                       CustomTextField(
                         controller: _roleController,
                         label: "Role",
@@ -106,7 +106,6 @@ class _SignupPageState extends State<SignupPage> {
                       //   controller: _roleController,
                       //   label: "Role",
                       // ),
-                      const SizedBox(height: 20),
                     ],
                   ),
                 ),

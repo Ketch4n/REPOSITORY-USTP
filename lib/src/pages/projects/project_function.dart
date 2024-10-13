@@ -28,26 +28,28 @@ class ProjectFunction {
               projectCollection == 0) {
             projectStream.add(projects);
           } else {
+            final String? lowerCaseKeyword = keyword?.toLowerCase();
+
             final List<ProjectModel> filtered = projects.where((u) {
-              final titleMatched = keyword != null && u.title.contains(keyword);
-              final titleMatches =
-                  projectKeyword == 1 && u.title.contains(keyword!);
-              final yearMatches =
-                  projectKeyword == 3 && u.year_published == keyword;
+              final titleMatched = lowerCaseKeyword != null &&
+                  u.title.toLowerCase().contains(lowerCaseKeyword);
+              // final titleMatches = projectKeyword == 1 &&
+              //     u.title.toLowerCase().contains(lowerCaseKeyword!);
+              final yearMatches = projectKeyword == 3 &&
+                  u.year_published.toLowerCase() == lowerCaseKeyword;
               final typeMatches = (projectType == 0 || projectType == 4) ||
                   u.project_type == projectType;
 
               final docCollection = projectCollection == 1 &&
-                  (u.manuscript?.contains(keyword!) ?? false);
+                  (u.manuscript?.toLowerCase().contains(lowerCaseKeyword!) ??
+                      false);
               final imgCollection = projectCollection == 2 &&
-                  (u.poster?.contains(keyword!) ?? false);
+                  (u.poster?.toLowerCase().contains(lowerCaseKeyword!) ??
+                      false);
               final clipCollection = projectCollection == 3 &&
-                  (u.video?.contains(keyword!) ?? false);
-              // final keywordMatches =
-              //     projectKeyword == 0 || u.title.contains(keyword!);
+                  (u.video?.toLowerCase().contains(lowerCaseKeyword!) ?? false);
 
-              return (titleMatches ||
-                      titleMatched ||
+              return (titleMatched ||
                       yearMatches ||
                       docCollection ||
                       imgCollection ||

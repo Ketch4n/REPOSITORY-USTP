@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/components/snackbar.dart';
 import 'package:repository_ustp/src/data/provider/user_session.dart';
+import 'package:repository_ustp/src/pages/repository/components/file_preview.dart';
 import 'package:repository_ustp/src/pages/repository/components/model/download_model.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/functions/generate_pdf.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/functions/get_files.dart';
@@ -93,16 +94,20 @@ class _RepositoryOpenState extends State<RepositoryOpen> {
                           child: ListTile(
                             title: Text(fileRef.name),
                             trailing: IconButton(
-                              icon: const Icon(Icons.download),
+                              icon: const Icon(Icons.remove_red_eye),
                               onPressed: () async {
                                 final url = await fileRef.getDownloadURL();
-                                ViewedRepo.store(
-                                  widget.projectID.toInt(),
-                                  UserSession.id.toInt(),
-                                  fileRef.name.toString(),
+                                await ViewedRepo.store(
+                                  widget.projectID,
+                                  UserSession.id,
+                                  fileRef.name,
                                 );
-
-                                _launchURL(url);
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => FilePreview(
+                                          fileName: fileRef.name,
+                                          fileUrl: url,
+                                        )));
+                                // _launchURL(url);
                               },
                             ),
                           ),
@@ -123,7 +128,7 @@ class _RepositoryOpenState extends State<RepositoryOpen> {
                       }
 
                       if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const Text("Total Downloads: 0");
+                        return const Text("Total Views: 0");
                       }
                       List<Download> downloads = snapshot.data!;
                       int totalDownloads = snapshot.data!
@@ -134,7 +139,7 @@ class _RepositoryOpenState extends State<RepositoryOpen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text("Total Downloads :"),
+                                const Text("Total Views :"),
                                 const SizedBox(width: 10),
                                 Text(totalDownloads.toString()),
                               ],

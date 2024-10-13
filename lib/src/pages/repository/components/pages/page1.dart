@@ -37,7 +37,6 @@ class _Page1State extends State<Page1> {
             child: Column(
               children: [
                 _index1(pages.capstoneTitle),
-                const SizedBox(height: 10),
                 CustomTextField(
                   controller: pages.projectType,
                   readOnly: true,
@@ -60,7 +59,6 @@ class _Page1State extends State<Page1> {
                     },
                   ),
                 ),
-                const SizedBox(height: 10),
                 _index3(pages.yearPublished),
               ],
             ),

@@ -13,7 +13,7 @@ class DropdownProjectKeyword extends StatefulWidget {
 class _DropdownProjectKeywordState extends State<DropdownProjectKeyword> {
   int? _selectedKeyword;
 
-  final List<int> _keywords = [0, 1, 3];
+  final List<int> _keywords = [0, 3];
   @override
   Widget build(BuildContext context) {
     return DropdownButton<int>(

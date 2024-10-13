@@ -28,7 +28,7 @@ class _Page3State extends State<Page3> {
               children: [
                 CustomTextField(
                   controller: pages.manuscript,
-                  label: "Manuscript - (PDF/DOCX)",
+                  label: "Manuscript - (PDF/DOCX/PROJ-SHEET)",
                   readOnly: true,
                   suffix: IconButton(
                       icon: const Icon(Icons.file_upload_sharp),
@@ -36,7 +36,6 @@ class _Page3State extends State<Page3> {
                         PagesUploadFiles.selectDoc(context);
                       }),
                 ),
-                const SizedBox(height: 10),
                 CustomTextField(
                   controller: pages.poster,
                   label: "Poster - (JPG/PNG)",
@@ -47,7 +46,6 @@ class _Page3State extends State<Page3> {
                         PagesUploadFiles.selectImg(context);
                       }),
                 ),
-                const SizedBox(height: 10),
                 CustomTextField(
                   controller: pages.video,
                   label: "Video Clip - (MP4)",

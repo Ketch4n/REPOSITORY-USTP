@@ -33,7 +33,6 @@ class _Page2State extends State<Page2> {
                   label: "Group Name",
                   readOnly: false,
                 ),
-                const SizedBox(height: 10),
                 Container(
                   color: Colors.white,
                   child: TextField(

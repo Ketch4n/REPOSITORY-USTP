@@ -28,7 +28,6 @@ class _SearchFieldState extends State<SearchField> {
       child: Align(
         alignment: Alignment.topCenter,
         child: Wrap(
-          runSpacing: 10.0,
           spacing: 10.0,
           direction: Axis.horizontal,
           alignment: WrapAlignment.center,
@@ -39,6 +38,11 @@ class _SearchFieldState extends State<SearchField> {
                 controller: _searchController,
                 hint: "SEARCH",
                 readOnly: false,
+                suffix: IconButton(
+                    onPressed: () {
+                      widget.reload();
+                    },
+                    icon: const Icon(Icons.search)),
               ),
             ),
             Container(

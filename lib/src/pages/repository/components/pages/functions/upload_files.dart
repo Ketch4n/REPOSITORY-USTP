@@ -37,12 +37,12 @@ class PagesUploadFiles {
       selectedDoc = result.files.first;
 
       final fileExtension = selectedDoc!.extension?.toLowerCase();
-      if (['docx', 'pdf'].contains(fileExtension)) {
-        pages.manuscript.text = selectedDoc!.name;
-      } else {
+      if (['jpg', 'jpeg', 'png', 'gif', 'mp4'].contains(fileExtension)) {
         if (!context.mounted) return;
         customSnackBar(context, 1, "Invalid Document format");
         selectedDoc = null;
+      } else {
+        pages.manuscript.text = selectedDoc!.name;
       }
     }
   }
