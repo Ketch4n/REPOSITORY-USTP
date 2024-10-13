@@ -10,12 +10,15 @@ import 'package:repository_ustp/src/data/index/project_index_value.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
 import 'package:repository_ustp/src/data/provider/click_event_collection.dart';
 import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
+import 'package:repository_ustp/src/data/provider/index_menu_item.dart';
+import 'package:repository_ustp/src/data/provider/project_id.dart';
 import 'package:repository_ustp/src/data/provider/project_purpose.dart';
 import 'package:repository_ustp/src/data/provider/show_top_items.dart';
 import 'package:repository_ustp/src/data/provider/user_session.dart';
 import 'package:repository_ustp/src/pages/index/components/card_list.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field_controller.dart';
+import 'package:repository_ustp/src/pages/index/index_page.dart';
 import 'package:repository_ustp/src/pages/projects/components/text_content.dart';
 import 'package:repository_ustp/src/pages/projects/project_function.dart';
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
@@ -29,9 +32,11 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:repository_ustp/src/utils/screen_breakpoint.dart';
 
 class RepositoryPage extends StatefulWidget {
-  const RepositoryPage({super.key, required this.projectType});
+  const RepositoryPage(
+      {super.key, required this.projectType, required this.indexPage});
 
   final int projectType;
+  final Function indexPage;
 
   @override
   State<RepositoryPage> createState() => _RepositoryPageState();
@@ -180,8 +185,8 @@ class _RepositoryPageState extends State<RepositoryPage> {
                                   spacing: 10.0,
                                   children: List.generate(
                                     projectList.length,
-                                    (index) => _buildBody(
-                                        index, projectList, context, reload),
+                                    (index) => _buildBody(index, projectList,
+                                        context, reload, widget.indexPage),
                                   ),
                                 ),
                               );
@@ -207,7 +212,7 @@ class _RepositoryPageState extends State<RepositoryPage> {
   }
 }
 
-Widget _buildBody(index, projectList, context, reload) {
+Widget _buildBody(index, projectList, context, reload, indexpage) {
   final ProjectModel project = projectList[index];
 
   return Padding(
@@ -217,14 +222,20 @@ Widget _buildBody(index, projectList, context, reload) {
       width: 140,
       child: InkWell(
         onDoubleTap: () {
-          showCustomDialog(context, RepositoryOpen(projectID: project.id));
+          // showCustomDialog(context, RepositoryOpen(projectID: project.id));
+          indexpage(5);
+          Provider.of<ProjectIDClickEvent>(context, listen: false)
+              .selectProject(project);
         },
         child: PopupMenuButton<int>(
           onSelected: (value) async {
             switch (value) {
               case 0:
-                showCustomDialog(
-                    context, RepositoryOpen(projectID: project.id));
+                // showCustomDialog(
+                //     context, RepositoryOpen(projectID: project.id));
+                indexpage(5);
+                Provider.of<ProjectIDClickEvent>(context, listen: false)
+                    .selectProject(project);
                 break;
               case 1:
                 ProjectPurpose.quack = 1;

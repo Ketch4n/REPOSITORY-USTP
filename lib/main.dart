@@ -7,6 +7,7 @@ import 'package:repository_ustp/src/data/provider/card_click_event.dart';
 import 'package:repository_ustp/src/data/provider/click_event_collection.dart';
 import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
 import 'package:repository_ustp/src/data/provider/index_menu_item.dart';
+import 'package:repository_ustp/src/data/provider/project_id.dart';
 import 'package:repository_ustp/src/data/provider/project_purpose.dart';
 import 'package:repository_ustp/src/data/provider/project_type_add.dart';
 import 'package:repository_ustp/src/data/provider/show_top_items.dart';
@@ -43,7 +44,8 @@ void main() async {
         ChangeNotifierProvider(create: (_) => AuthorList()),
         ChangeNotifierProvider(create: (_) => ProjectPurpose()),
         ChangeNotifierProvider(create: (_) => ShowTopItems()),
-        ChangeNotifierProvider(create: (_) => ClickEventProjectCollection())
+        ChangeNotifierProvider(create: (_) => ClickEventProjectCollection()),
+        ChangeNotifierProvider(create: (_) => ProjectIDClickEvent())
       ],
       child: const MainApp(),
     ),

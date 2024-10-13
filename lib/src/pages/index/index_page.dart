@@ -5,6 +5,7 @@ import 'package:repository_ustp/src/data/database/backup.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
 import 'package:repository_ustp/src/data/provider/index_menu_item.dart';
 import 'package:repository_ustp/src/pages/index/modules/add_appbar.dart';
+import 'package:repository_ustp/src/pages/repository/components/repository_details.dart';
 import 'package:repository_ustp/src/utils/screen_breakpoint.dart';
 import 'package:repository_ustp/src/pages/capstone_teams/capstone_teams_page.dart';
 import 'package:repository_ustp/src/pages/repository/repository_page.dart';
@@ -105,11 +106,15 @@ Widget _buildSubContent(onCardItemTap, onMenuItemTap) {
             child: IndexedStack(
               index: value.quackNew,
               children: <Widget>[
-                RepositoryPage(projectType: CLickEventProjectType.quack),
+                RepositoryPage(
+                  projectType: CLickEventProjectType.quack,
+                  indexPage: onMenuItemTap,
+                ),
                 const CapstoneTeamsPage(),
                 const StudentsPage(type: 2, status: 1),
                 const StudentsPage(type: 2, status: 2),
-                const BackupScreen()
+                const BackupScreen(),
+                RepositoryDetails()
               ],
             ),
           ),
