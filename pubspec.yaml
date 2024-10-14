@@ -14,9 +14,9 @@ dependencies:
   intl: ^0.18.1
   
   # Network
-  http: ^1.2.2
+  http: ^0.13.6
   
-  # tate Management
+  # State Management
   provider: ^6.1.2
   flutter_bloc: ^8.1.6
 
@@ -34,6 +34,8 @@ dependencies:
   video_player: ^2.5.0
   pdf_render: ^1.4.12
   webview_flutter: ^4.8.0
+  syncfusion_flutter_pdfviewer: ^20.4.42
+  syncfusion_flutter_core: ^20.4.42
 
   # Documents
   printing: ^5.5.0

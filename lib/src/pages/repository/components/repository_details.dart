@@ -9,6 +9,7 @@ import 'package:repository_ustp/src/data/provider/project_id.dart';
 import 'package:repository_ustp/src/pages/projects/components/text_content.dart';
 import 'package:repository_ustp/src/pages/repository/components/functions/get_likecomment.dart';
 import 'package:repository_ustp/src/pages/repository/components/model/likecomment_model.dart';
+import 'package:repository_ustp/src/pages/repository/components/repository_open.dart';
 
 class RepositoryDetails extends StatefulWidget {
   const RepositoryDetails({
@@ -129,6 +130,17 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
                           ),
                         ],
                       ),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: ((context) => RepositoryOpen(
+                                      projectID: project.id,
+                                    )),
+                              ),
+                            );
+                          },
+                          child: const Text("File Details"))
                     ],
                   ),
                 ],
