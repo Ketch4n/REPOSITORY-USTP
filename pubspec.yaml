@@ -13,10 +13,10 @@ dependencies:
   # Essential
   intl: ^0.18.1
   
-  #Network
+  # Network
   http: ^1.2.2
   
-  #State Management
+  # tate Management
   provider: ^6.1.2
   flutter_bloc: ^8.1.6
 
@@ -24,7 +24,7 @@ dependencies:
   firebase_core: ^2.31.0
   firebase_storage: ^11.7.5
 
-  #Storage
+  # Storage
   shared_preferences: ^2.2.3
 
   # Media
@@ -39,10 +39,13 @@ dependencies:
   printing: ^5.5.0
   pdf: ^3.6.0
 
-  #Styling
+  # Styling
   hexcolor: ^3.0.1
   loader_skeleton: ^0.0.4
   smooth_page_indicator: ^1.2.0+3
+
+  # Widgets
+  flutter_rating_bar: ^4.0.1
 
 
 dev_dependencies:
