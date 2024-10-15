@@ -4,13 +4,12 @@ import 'package:repository_ustp/src/data/server/url.dart';
 import 'package:http/http.dart' as http;
 import 'package:repository_ustp/src/pages/repository/components/model/likecomment_model.dart';
 
-Future getLikeComment(
-  likecommentStream,
-) async {
+Future getLikeComment(likecommentStream, id) async {
   try {
-    final response = await http.get(
-      Uri.parse("${Servername.host}likecomment"),
-    );
+    final response = await http
+        .post(Uri.parse("${Servername.host}likecomment/rating"), body: {
+      "project_id": id.toString(),
+    });
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonResponse = json.decode(response.body);

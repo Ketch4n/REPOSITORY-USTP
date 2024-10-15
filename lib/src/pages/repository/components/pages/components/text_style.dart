@@ -10,6 +10,7 @@ class Page4TextModule extends StatelessWidget {
     return Text(
       string.toUpperCase(),
       style: Page4TextUtils.lt,
+      overflow: TextOverflow.ellipsis,
     );
   }
 }

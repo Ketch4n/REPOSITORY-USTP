@@ -1,9 +1,7 @@
-// ignore_for_file: use_build_context_synchronously
-
-import 'dart:typed_data';
-
+import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/components/snackbar.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/class/text_editing_controller.dart';
@@ -64,62 +62,59 @@ class PagesUploadFiles {
     }
   }
 
+  static String getContentType(String? extension) {
+    switch (extension?.toLowerCase()) {
+      case 'jpg':
+      case 'jpeg':
+        return 'image/jpeg';
+      case 'png':
+        return 'image/png';
+      case 'gif':
+        return 'image/gif';
+      case 'pdf':
+        return 'application/pdf';
+      case 'mp4':
+        return 'video/mp4';
+      default:
+        return 'application/octet-stream';
+    }
+  }
+
   static Future<void> uploadFile(BuildContext context, int outputID) async {
-    if (selectedDoc != null && selectedDoc!.bytes != null) {
-      final Uint8List fileBytesDoc = selectedDoc!.bytes!;
-      final fileNameDoc = selectedDoc!.name;
-      final docStorageRef = FirebaseStorage.instance
-          .ref()
-          .child('repository/$outputID/$fileNameDoc');
+    Future<void> uploadFileToFirebase(
+        PlatformFile? file, String fileType) async {
+      if (file != null) {
+        final fileName = file.name;
+        final storageRef = FirebaseStorage.instance
+            .ref()
+            .child('repository/$outputID/$fileName');
 
-      try {
-        await docStorageRef.putData(fileBytesDoc);
-        customSnackBar(context, 1, "Manuscript Upload Done");
-      } catch (e) {
-        print('Error uploading document: $e');
-      } finally {
-        selectedDoc = null;
+        try {
+          if (kIsWeb) {
+            await storageRef.putData(file.bytes!,
+                SettableMetadata(contentType: getContentType(file.extension)));
+          } else {
+            await storageRef.putFile(File(file.path!),
+                SettableMetadata(contentType: getContentType(file.extension)));
+          }
+          customSnackBar(context, 1, "$fileType Upload Done");
+        } catch (e) {
+          print('Error uploading $fileType: $e');
+        } finally {
+          // Clear the selected file after upload
+          if (fileType == "document")
+            selectedDoc = null;
+          else if (fileType == "image")
+            selectedImg = null;
+          else if (fileType == "video") selectedClip = null;
+        }
+      } else {
+        customSnackBar(context, 1, "No $fileType selected for upload");
       }
-    } else {
-      customSnackBar(context, 1, "No document selected for upload");
     }
 
-    if (selectedImg != null && selectedImg!.bytes != null) {
-      final Uint8List fileBytesImg = selectedImg!.bytes!;
-      final fileNameImg = selectedImg!.name;
-      final imgStorageRef = FirebaseStorage.instance
-          .ref()
-          .child('repository/$outputID/$fileNameImg');
-
-      try {
-        await imgStorageRef.putData(fileBytesImg);
-        customSnackBar(context, 1, "Poster Upload Done");
-      } catch (e) {
-        print('Error uploading image: $e');
-      } finally {
-        selectedImg = null;
-      }
-    } else {
-      customSnackBar(context, 1, "No image selected for upload");
-    }
-
-    if (selectedClip != null && selectedClip!.bytes != null) {
-      final Uint8List fileBytesClip = selectedClip!.bytes!;
-      final fileNameClip = selectedClip!.name;
-      final clipStorageRef = FirebaseStorage.instance
-          .ref()
-          .child('repository/$outputID/$fileNameClip');
-
-      try {
-        await clipStorageRef.putData(fileBytesClip);
-        customSnackBar(context, 1, "Video Upload Done");
-      } catch (e) {
-        print('Error uploading video: $e');
-      } finally {
-        selectedClip = null;
-      }
-    } else {
-      customSnackBar(context, 1, "No video clip selected for upload");
-    }
+    await uploadFileToFirebase(selectedDoc, "document");
+    await uploadFileToFirebase(selectedImg, "image");
+    await uploadFileToFirebase(selectedClip, "video");
   }
 }

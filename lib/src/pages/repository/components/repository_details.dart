@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:repository_ustp/src/components/duck_404.dart';
@@ -26,12 +27,7 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
   final StreamController<List<LikecommentModel>> _likecommentStream =
       StreamController<List<LikecommentModel>>();
   // List<LikecommentModel> likecomment = [];
-
-  @override
-  void initState() {
-    super.initState();
-    getLikeComment(_likecommentStream);
-  }
+  bool _openEye = false;
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +147,16 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("Viewers Comments"),
+                  Row(
+                    children: [
+                      const Text("Viewers Comments"),
+                      const SizedBox(width: 10),
+                      Icon(
+                        _openEye ? Icons.visibility : Icons.visibility_off,
+                        color: Colors.grey,
+                      )
+                    ],
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -180,34 +185,53 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
               ),
             ),
             const SizedBox(height: 20),
-            StreamBuilder<List<LikecommentModel>>(
-              stream: _likecommentStream.stream,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
+            Expanded(
+              child: StreamBuilder<List<LikecommentModel>>(
+                stream: _likecommentStream.stream,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          getLikeComment(_likecommentStream, project.id);
+                          setState(() {
+                            _openEye = true;
+                          });
+                        },
+                        child: const Text("Show Comments"),
+                      ),
+                    );
+                  }
 
-                if (snapshot.hasError) {
-                  return Center(
-                    child: Text("Error: ${snapshot.error}"),
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text("Error: ${snapshot.error}"),
+                    );
+                  }
+
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Duck(status: "NO COMMENT YET", content: "");
+                  }
+
+                  if (snapshot.hasData || snapshot.data!.isNotEmpty) {
+                    final List<LikecommentModel> likecommentList =
+                        snapshot.data!;
+
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: List.generate(
+                          likecommentList.length,
+                          (index) =>
+                              _buildBody(index, context, likecommentList),
+                        ),
+                      ),
+                    );
+                  }
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
-                }
-
-                if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Duck(status: "NO COMMENT YET", content: "");
-                }
-
-                final List<LikecommentModel> likecommentList = snapshot.data!;
-
-                return SingleChildScrollView(
-                  child: Column(
-                    children: List.generate(
-                      likecommentList.length,
-                      (index) => _buildBody(index, context, likecommentList),
-                    ),
-                  ),
-                );
-              },
+                },
+              ),
             )
           ],
         ),

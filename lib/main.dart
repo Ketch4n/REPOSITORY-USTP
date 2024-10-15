@@ -45,7 +45,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ProjectPurpose()),
         ChangeNotifierProvider(create: (_) => ShowTopItems()),
         ChangeNotifierProvider(create: (_) => ClickEventProjectCollection()),
-        ChangeNotifierProvider(create: (_) => ProjectIDClickEvent())
+        ChangeNotifierProvider(create: (_) => ProjectIDClickEvent()),
       ],
       child: const MainApp(),
     ),

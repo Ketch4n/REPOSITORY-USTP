@@ -220,6 +220,7 @@ Widget _buildBody(index, projectList, context, reload, indexpage) {
         onDoubleTap: () {
           // showCustomDialog(context, RepositoryOpen(projectID: project.id));
           indexpage(5);
+
           Provider.of<ProjectIDClickEvent>(context, listen: false)
               .selectProject(project);
         },
@@ -230,6 +231,7 @@ Widget _buildBody(index, projectList, context, reload, indexpage) {
                 // showCustomDialog(
                 //     context, RepositoryOpen(projectID: project.id));
                 indexpage(5);
+
                 Provider.of<ProjectIDClickEvent>(context, listen: false)
                     .selectProject(project);
                 break;
