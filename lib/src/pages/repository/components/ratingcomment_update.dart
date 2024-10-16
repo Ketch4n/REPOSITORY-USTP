@@ -86,7 +86,7 @@ class _RatingCommentUpdateState extends State<RatingCommentUpdate> {
                         color: Colors.amber,
                       ),
                       onRatingUpdate: (rating) {
-                        print("Rating: $rating");
+                        // print("Rating: $rating");
                         ratingValue = rating.toInt();
                       },
                     ),
@@ -138,10 +138,6 @@ class _RatingCommentUpdateState extends State<RatingCommentUpdate> {
                         final projid = widget.projID;
                         final ratingIndex = ratingValue;
                         final commentValue = comment.text.trim();
-                        print("pid:${projid}");
-                        print("r:${ratingIndex}");
-                        print("c:${commentValue}");
-                        print("likeid:${widget.id}");
 
                         updateRatingComment(
                           context,

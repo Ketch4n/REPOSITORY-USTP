@@ -21,9 +21,9 @@ Future updateRatingComment(
   circularLoading(context);
 
   try {
-    final response =
-        await http.put(Uri.parse("${Servername.host}likecomment/$id"), body: {
-      'rating': rating,
+    final response = await http
+        .post(Uri.parse("${Servername.host}likecomment/$id/update"), body: {
+      'rating': rating.toString(),
       'comment': comment,
     });
 
