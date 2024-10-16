@@ -1,16 +1,21 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:repository_ustp/src/components/duck_404.dart';
+import 'package:repository_ustp/src/components/confirmation_dialog.dart';
+import 'package:repository_ustp/src/components/show_dialog.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
 import 'package:repository_ustp/src/data/provider/project_id.dart';
+import 'package:repository_ustp/src/data/provider/user_session.dart';
 import 'package:repository_ustp/src/pages/projects/components/text_content.dart';
+import 'package:repository_ustp/src/pages/repository/components/functions/delete_ratingcomment.dart';
 import 'package:repository_ustp/src/pages/repository/components/functions/get_likecomment.dart';
 import 'package:repository_ustp/src/pages/repository/components/model/likecomment_model.dart';
+import 'package:repository_ustp/src/pages/repository/components/ratingcomment_update.dart';
 import 'package:repository_ustp/src/pages/repository/components/repository_open.dart';
+import 'package:repository_ustp/src/pages/repository/components/repository_ratings_add.dart';
+import 'package:repository_ustp/src/utils/palette.dart';
 
 class RepositoryDetails extends StatefulWidget {
   const RepositoryDetails({
@@ -28,6 +33,9 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
       StreamController<List<LikecommentModel>>();
   // List<LikecommentModel> likecomment = [];
   bool _openEye = false;
+  fetchLikeComment(id) {
+    getLikeComment(_likecommentStream, id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,20 +46,27 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: const Text("DETAILS"),
+        title: const Text(
+          "DETAILS",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
+        backgroundColor: ColorPallete.skyblueLite,
         automaticallyImplyLeading: false,
         leading: IconButton(
             onPressed: () {
               widget.indexPage(0);
             },
-            icon: const Icon(Icons.arrow_back_ios_new_sharp)),
+            icon: const Icon(
+              Icons.arrow_back_ios_new_sharp,
+              color: Colors.white,
+            )),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            Padding(
+      body: Column(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -88,7 +103,7 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
                     children: [
                       Row(
                         children: [
-                          const Text("Project Title:      "),
+                          const Text("Project Title: ------ "),
                           Text(
                             project.title.toUpperCase(),
                             style: const TextStyle(
@@ -98,7 +113,7 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
                       ),
                       Row(
                         children: [
-                          const Text("Project Type:     "),
+                          const Text("Project Type: ----- "),
                           Text(
                             projectTypeBinaryValue(project.project_type),
                             style: const TextStyle(
@@ -108,7 +123,7 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
                       ),
                       Row(
                         children: [
-                          const Text("Year Published: "),
+                          const Text("Year Published: -- "),
                           Text(
                             project.year_published.toString(),
                             style: const TextStyle(
@@ -118,7 +133,7 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
                       ),
                       Row(
                         children: [
-                          const Text("Group Name:     "),
+                          const Text("Group Name: ----- "),
                           Text(
                             project.group_name.toUpperCase(),
                             style: const TextStyle(
@@ -126,24 +141,50 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
                           ),
                         ],
                       ),
-                      TextButton(
+                      Row(
+                        children: [
+                          const Text("Authors: ----------- "),
+                          Text(
+                            project.authors
+                                .where((author) => author != null)
+                                .join(', ')
+                                .toUpperCase(),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      MaterialButton(
+                          color: Colors.blue,
                           onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: ((context) => RepositoryOpen(
-                                      projectID: project.id,
-                                    )),
+                            showCustomDialog(
+                              context,
+                              RepositoryOpen(
+                                projectID: project.id,
                               ),
                             );
+                            // Navigator.of(context).push(
+                            //   MaterialPageRoute(
+                            //     builder: ((context) => RepositoryOpen(
+                            //           projectID: project.id,
+                            //         )),
+                            //   ),
+                            // );
                           },
-                          child: const Text("File Details"))
+                          child: const Text(
+                            "View Files",
+                            style: TextStyle(color: Colors.white),
+                          ))
                     ],
                   ),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          ),
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: SingleChildScrollView(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -176,7 +217,7 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
                           color: Colors.amber,
                         ),
                         onRatingUpdate: (rating) {
-                          print("Rating: $rating");
+                          // print("Rating: $rating");
                         },
                       ),
                     ],
@@ -184,21 +225,29 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
                 ],
               ),
             ),
-            const SizedBox(height: 20),
-            Expanded(
+          ),
+          const SizedBox(height: 20),
+          Expanded(
+            child: Container(
+              color: ColorPallete.grey,
               child: StreamBuilder<List<LikecommentModel>>(
                 stream: _likecommentStream.stream,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
-                      child: ElevatedButton(
+                      child: MaterialButton(
+                        color: Colors.blue,
                         onPressed: () async {
-                          getLikeComment(_likecommentStream, project.id);
+                          fetchLikeComment(project.id);
+
                           setState(() {
                             _openEye = true;
                           });
                         },
-                        child: const Text("Show Comments"),
+                        child: const Text(
+                          "Show Comments",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     );
                   }
@@ -210,19 +259,68 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
                   }
 
                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return const Duck(status: "NO COMMENT YET", content: "");
+                    return Container(
+                      color: ColorPallete.grey,
+                      child: Scaffold(
+                        backgroundColor: Colors.transparent,
+                        floatingActionButton: _openEye
+                            ? FloatingActionButton(
+                                onPressed: () {
+                                  showCustomDialog(
+                                      context,
+                                      RepositoryRatingsAdd(
+                                        projID: project.id,
+                                        reload: () {
+                                          fetchLikeComment(project.id);
+                                        },
+                                      ));
+                                },
+                                child: const Icon(Icons.add))
+                            : null,
+                        body: const Center(
+                          child: Text("NO COMMENTS YET"),
+                        ),
+                      ),
+                    );
                   }
 
                   if (snapshot.hasData || snapshot.data!.isNotEmpty) {
                     final List<LikecommentModel> likecommentList =
                         snapshot.data!;
 
-                    return SingleChildScrollView(
-                      child: Column(
-                        children: List.generate(
-                          likecommentList.length,
-                          (index) =>
-                              _buildBody(index, context, likecommentList),
+                    return Container(
+                      color: ColorPallete.grey,
+                      child: Scaffold(
+                        backgroundColor: Colors.transparent,
+                        floatingActionButton: _openEye
+                            ? FloatingActionButton(
+                                onPressed: () {
+                                  showCustomDialog(
+                                      context,
+                                      RepositoryRatingsAdd(
+                                        projID: project.id,
+                                        reload: () {
+                                          fetchLikeComment(project.id);
+                                        },
+                                      ));
+                                },
+                                child: const Icon(Icons.add))
+                            : null,
+                        body: SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: Column(
+                              children: List.generate(
+                                likecommentList.length,
+                                (index) => _buildBody(
+                                    index,
+                                    context,
+                                    likecommentList,
+                                    fetchLikeComment,
+                                    project.id),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     );
@@ -232,15 +330,15 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
                   );
                 },
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
 }
 
-Widget _buildBody(index, context, likecommentList) {
+Widget _buildBody(index, context, likecommentList, reload, projid) {
   final LikecommentModel likecomment = likecommentList[index];
 
   return Card(
@@ -255,22 +353,58 @@ Widget _buildBody(index, context, likecommentList) {
         '"${likecomment.comment}"',
         style: const TextStyle(fontStyle: FontStyle.italic),
       ),
-      trailing: RatingBar.builder(
-        ignoreGestures: true,
-        initialRating: likecomment.rating.toDouble(),
-        minRating: 1,
-        direction: Axis.horizontal,
-        allowHalfRating: false,
-        itemCount: 5,
-        itemSize: 20.0,
-        itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-        itemBuilder: (context, _) => const Icon(
-          Icons.star,
-          color: Colors.amber,
-        ),
-        onRatingUpdate: (rating) {
-          // print("Rating: $rating");
-        },
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          RatingBar.builder(
+            ignoreGestures: true,
+            initialRating: likecomment.rating.toDouble(),
+            minRating: 1,
+            direction: Axis.horizontal,
+            allowHalfRating: false,
+            itemCount: 5,
+            itemSize: 15.0,
+            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+            itemBuilder: (context, _) => const Icon(
+              Icons.star,
+              color: Colors.amber,
+            ),
+            onRatingUpdate: (rating) {
+              // print("Rating: $rating");
+            },
+          ),
+          const SizedBox(width: 10),
+          UserSession.id == likecomment.userId
+              ? IconButton(
+                  onPressed: () {
+                    showCustomDialog(
+                        context,
+                        RatingCommentUpdate(
+                          projID: projid,
+                          id: likecomment.id,
+                          reload: () {
+                            reload(projid);
+                          },
+                          rating: likecomment.rating,
+                          comment: likecomment.comment,
+                        ));
+                  },
+                  icon: const Icon(Icons.edit, color: Colors.grey))
+              : const SizedBox(),
+          UserSession.id == likecomment.userId
+              ? IconButton(
+                  onPressed: () {
+                    confirmationDialog(
+                        context,
+                        "Delete your Comment and Rating ?",
+                        "Click Yes to confirm", () {
+                      deleteRatingComment(
+                          context, likecomment.id, reload, projid);
+                    });
+                  },
+                  icon: const Icon(Icons.delete, color: Colors.grey))
+              : const SizedBox(),
+        ],
       ),
     ),
   );

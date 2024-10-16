@@ -1,4 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:repository_ustp/src/components/snackbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DocumentViewer extends StatefulWidget {
@@ -15,50 +18,40 @@ class _DocumentViewerState extends State<DocumentViewer> {
     return widget.fileUrl;
   }
 
-  // final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
+  viewDocs() async {
+    final modifiedUrl = modifyUrlForViewer(widget.fileUrl);
+    final uri = Uri.parse(modifiedUrl);
+    if (await canLaunch(uri.toString())) {
+      await launch(
+        uri.toString(),
+        forceSafariVC: false,
+        forceWebView: true,
+      );
+    } else {
+      customSnackBar(context, 1, 'Could not open document');
+    }
+  }
+
+  @override
+  void initState() {
+    viewDocs();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ElevatedButton(
-        onPressed: () async {
-          final modifiedUrl = modifyUrlForViewer(widget.fileUrl);
-          final uri = Uri.parse(modifiedUrl);
-          if (await canLaunch(uri.toString())) {
-            await launch(
-              uri.toString(),
-              forceSafariVC: false,
-              forceWebView: true,
-            );
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Could not open document')),
-            );
-          }
+    return Scaffold(
+      body: Center(
+          child: MaterialButton(
+        color: Colors.blue,
+        onPressed: () {
+          Navigator.of(context).pop();
         },
-        child: const Text('View Document'),
-      ),
+        child: const Text(
+          "Back to Recent Page",
+          style: TextStyle(color: Colors.white),
+        ),
+      )),
     );
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     title: const Text('Syncfusion Flutter PDF Viewer'),
-    //     actions: <Widget>[
-    //       IconButton(
-    //         icon: const Icon(
-    //           Icons.bookmark,
-    //           color: Colors.white,
-    //           semanticLabel: 'Bookmark',
-    //         ),
-    //         onPressed: () {
-    //           _pdfViewerKey.currentState?.openBookmarkView();
-    //         },
-    //       ),
-    //     ],
-    //   ),
-    //   body: SfPdfViewer.network(
-    //     widget.fileUrl,
-    //     key: _pdfViewerKey,
-    //   ),
-    // );
   }
 }

@@ -60,16 +60,14 @@ class _RepositoryOpenState extends State<RepositoryOpen> {
   Widget build(BuildContext context) {
     if (isLoading) {
       return Container(
-          constraints: const BoxConstraints(maxHeight: 400, maxWidth: 400),
+          constraints: const BoxConstraints(maxHeight: 500, maxWidth: 500),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: const Center(child: CircularProgressIndicator()));
     }
     return Container(
-      // height: 800,
-      // width: 800,
-      constraints: const BoxConstraints(maxHeight: 400, maxWidth: 400),
+      constraints: const BoxConstraints(maxHeight: 500, maxWidth: 500),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
       ),
