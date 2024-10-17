@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:repository_ustp/src/components/textfield.dart';
+import 'package:repository_ustp/src/data/provider/search_suggestion.dart';
 import 'package:repository_ustp/src/pages/index/components/dropdown_project_collection.dart';
 import 'package:repository_ustp/src/pages/index/components/dropdown_project_keyword.dart';
 import 'package:repository_ustp/src/pages/index/components/dropdown_project_type.dart';
@@ -14,12 +14,22 @@ class SearchField extends StatefulWidget {
 }
 
 class _SearchFieldState extends State<SearchField> {
-  // final TextEditingController _searchController = TextEditingController();
-  // final TextEditingController _allController = TextEditingController();
-  // final TextEditingController _keywordController = TextEditingController();
-  // final TextEditingController _filesController = TextEditingController();
-
   final _searchController = SearchFieldController().search;
+  List<String> _suggestions = [];
+
+  void _updateSuggestions(String query) {
+    if (query.isEmpty) {
+      setState(() {
+        _suggestions = [];
+      });
+    } else {
+      setState(() {
+        _suggestions = SearchSuggestion.allItems
+            .where((item) => item.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +44,56 @@ class _SearchFieldState extends State<SearchField> {
           children: [
             SizedBox(
               width: 200,
-              child: CustomTextField(
-                controller: _searchController,
-                hint: "SEARCH",
-                readOnly: false,
-                suffix: IconButton(
-                    onPressed: () {
-                      widget.reload();
-                    },
-                    icon: const Icon(Icons.search)),
+              child: Column(
+                children: [
+                  TextField(
+                    onChanged: _updateSuggestions,
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 10.0),
+                      isDense: true,
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      hintText: "SEARCH",
+                      hintStyle: const TextStyle(fontSize: 15),
+                      labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+                      fillColor: Colors.white,
+                      filled: true,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          widget.reload();
+                        },
+                        icon: const Icon(Icons.search),
+                      ),
+                    ),
+                  ),
+                  if (_suggestions.isNotEmpty) ...[
+                    Container(
+                      height: 100,
+                      color: Colors.white,
+                      child: ListView.builder(
+                        itemCount: _suggestions.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(_suggestions[index]),
+                            onTap: () {
+                              _searchController.text = _suggestions[index];
+                              setState(() {
+                                _suggestions = [];
+                              });
+                              widget.reload();
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ],
               ),
             ),
             Container(
@@ -65,18 +116,6 @@ class _SearchFieldState extends State<SearchField> {
                 color: Colors.white,
               ),
               child: DropdownProjectCollection(reload: widget.reload),
-            ),
-            Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-              ),
-              child: IconButton(
-                onPressed: () {
-                  widget.reload();
-                },
-                icon: const Icon(Icons.search),
-              ),
             ),
           ],
         ),

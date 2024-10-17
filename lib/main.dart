@@ -10,6 +10,7 @@ import 'package:repository_ustp/src/data/provider/index_menu_item.dart';
 import 'package:repository_ustp/src/data/provider/project_id.dart';
 import 'package:repository_ustp/src/data/provider/project_purpose.dart';
 import 'package:repository_ustp/src/data/provider/project_type_add.dart';
+import 'package:repository_ustp/src/data/provider/search_suggestion.dart';
 import 'package:repository_ustp/src/data/provider/show_top_items.dart';
 import 'package:repository_ustp/src/data/provider/switch_role_signup.dart';
 import 'package:repository_ustp/src/data/provider/user_session.dart';
@@ -46,6 +47,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ShowTopItems()),
         ChangeNotifierProvider(create: (_) => ClickEventProjectCollection()),
         ChangeNotifierProvider(create: (_) => ProjectIDClickEvent()),
+        ChangeNotifierProvider(create: (_) => SearchSuggestion())
       ],
       child: const MainApp(),
     ),
@@ -60,7 +62,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'MontserratRegular'),
-      initialRoute: AppRoutes.index,
+      initialRoute: AppRoutes.login,
       onGenerateRoute: AppRoutes.onGenerateRoute,
       // home: const Auth(),
     );

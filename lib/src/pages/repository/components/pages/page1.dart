@@ -78,7 +78,7 @@ class _Page1State extends State<Page1> {
 Widget _index1(capstoneTitle) {
   return CustomTextField(
     controller: capstoneTitle,
-    label: "Capstone Title",
+    label: "Project Title",
     readOnly: false,
   );
 }

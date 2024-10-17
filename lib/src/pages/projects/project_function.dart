@@ -1,16 +1,17 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:repository_ustp/src/data/provider/search_suggestion.dart';
 import 'package:repository_ustp/src/data/server/url.dart';
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
 
 class ProjectFunction {
   static Future<void> fetchProjects(
-    projectStream,
-    int projectType,
-    int projectKeyword,
-    int projectCollection,
-    String? keyword,
-  ) async {
+      projectStream,
+      int projectType,
+      int projectKeyword,
+      int projectCollection,
+      String? keyword,
+      SearchSuggestion searchSuggestion) async {
     try {
       final response = await http.get(Uri.parse("${Servername.host}project"));
 
@@ -21,7 +22,9 @@ class ProjectFunction {
           final List<dynamic> data = jsonResponse['data'];
           final List<ProjectModel> projects =
               data.map((data) => ProjectModel.fromJson(data)).toList();
-
+          final List<String> projectTitles =
+              projects.map((project) => project.title).toList();
+          searchSuggestion.addItems(projectTitles);
           if (keyword == null &&
               (projectType == 0 || projectType == 4) &&
               projectKeyword == 0 &&

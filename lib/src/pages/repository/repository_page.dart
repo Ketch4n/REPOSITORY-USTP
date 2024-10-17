@@ -11,6 +11,7 @@ import 'package:repository_ustp/src/data/provider/click_event_collection.dart';
 import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
 import 'package:repository_ustp/src/data/provider/project_id.dart';
 import 'package:repository_ustp/src/data/provider/project_purpose.dart';
+import 'package:repository_ustp/src/data/provider/search_suggestion.dart';
 import 'package:repository_ustp/src/data/provider/show_top_items.dart';
 import 'package:repository_ustp/src/data/provider/user_session.dart';
 import 'package:repository_ustp/src/pages/index/components/card_list.dart';
@@ -45,6 +46,7 @@ class _RepositoryPageState extends State<RepositoryPage> {
   List<ProjectModel> projects = [];
 
   final _searchController = SearchFieldController().search;
+  final searchSuggestion = SearchSuggestion();
 
   @override
   void initState() {
@@ -66,8 +68,8 @@ class _RepositoryPageState extends State<RepositoryPage> {
 
   // Method to fetch projects and reload
   void _fetchProjects(quackType, quackKeyword, quackCollection, search) async {
-    await ProjectFunction.fetchProjects(
-        _projectStream, quackType, quackKeyword, quackCollection, search);
+    await ProjectFunction.fetchProjects(_projectStream, quackType, quackKeyword,
+        quackCollection, search, searchSuggestion);
   }
 
   // Method to reload the data

@@ -20,6 +20,7 @@ class PagesTextEditingController {
   TextEditingController manuscript = TextEditingController();
   TextEditingController poster = TextEditingController();
   TextEditingController video = TextEditingController();
+  TextEditingController zip = TextEditingController();
 
   // Dispose method to clean up resources
   void dispose() {
@@ -32,5 +33,6 @@ class PagesTextEditingController {
     manuscript.dispose();
     poster.dispose();
     video.dispose();
+    zip.dispose();
   }
 }

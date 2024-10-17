@@ -11,6 +11,7 @@ class PagesUploadFiles {
   static PlatformFile? selectedImg;
   static PlatformFile? selectedDoc;
   static PlatformFile? selectedClip;
+  static PlatformFile? selectedZip;
 
   static Future<void> selectImg(BuildContext context) async {
     final result = await FilePicker.platform.pickFiles();
@@ -62,6 +63,23 @@ class PagesUploadFiles {
     }
   }
 
+  static Future<void> selectZip(BuildContext context) async {
+    final result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      selectedZip = result.files.first;
+
+      final fileExtension = selectedZip!.extension?.toLowerCase();
+      if (['zip'].contains(fileExtension)) {
+        pages.zip.text = selectedZip!.name;
+      } else {
+        if (!context.mounted) return;
+        customSnackBar(context, 1, "Invalid source code format");
+        selectedZip = null;
+      }
+    }
+  }
+
   static String getContentType(String? extension) {
     switch (extension?.toLowerCase()) {
       case 'jpg':
@@ -73,8 +91,12 @@ class PagesUploadFiles {
         return 'image/gif';
       case 'pdf':
         return 'application/pdf';
+      case 'docx':
+        return 'application/docx';
       case 'mp4':
         return 'video/mp4';
+      case 'zip':
+        return 'zip';
       default:
         return 'application/octet-stream';
     }
@@ -106,7 +128,9 @@ class PagesUploadFiles {
             selectedDoc = null;
           else if (fileType == "image")
             selectedImg = null;
-          else if (fileType == "video") selectedClip = null;
+          else if (fileType == "video")
+            selectedClip = null;
+          else if (fileType == "zip") selectedZip = null;
         }
       } else {
         customSnackBar(context, 1, "No $fileType selected for upload");
@@ -116,5 +140,6 @@ class PagesUploadFiles {
     await uploadFileToFirebase(selectedDoc, "document");
     await uploadFileToFirebase(selectedImg, "image");
     await uploadFileToFirebase(selectedClip, "video");
+    await uploadFileToFirebase(selectedZip, "source code");
   }
 }

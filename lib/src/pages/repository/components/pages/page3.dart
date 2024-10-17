@@ -57,6 +57,16 @@ class _Page3State extends State<Page3> {
                     },
                   ),
                 ),
+                CustomTextField(
+                  controller: pages.zip,
+                  label: "Source Code - (ZIP)",
+                  readOnly: true,
+                  suffix: IconButton(
+                      icon: const Icon(Icons.file_upload_sharp),
+                      onPressed: () {
+                        PagesUploadFiles.selectZip(context);
+                      }),
+                ),
               ],
             ),
           ),
