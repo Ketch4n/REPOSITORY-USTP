@@ -110,7 +110,8 @@ class PagesUploadFiles {
         final storageRef = FirebaseStorage.instance
             .ref()
             .child('repository/$outputID/$fileName');
-
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        customSnackBar(context, 1, "Uploading $fileType Please wait...");
         try {
           if (kIsWeb) {
             await storageRef.putData(file.bytes!,
@@ -119,7 +120,7 @@ class PagesUploadFiles {
             await storageRef.putFile(File(file.path!),
                 SettableMetadata(contentType: getContentType(file.extension)));
           }
-          customSnackBar(context, 1, "$fileType Upload Done");
+          customSnackBar(context, 0, "$fileType Upload Done");
         } catch (e) {
           print('Error uploading $fileType: $e');
         } finally {
@@ -133,7 +134,7 @@ class PagesUploadFiles {
           else if (fileType == "zip") selectedZip = null;
         }
       } else {
-        customSnackBar(context, 1, "No $fileType selected for upload");
+        // customSnackBar(context, 1, "No $fileType selected for upload");
       }
     }
 

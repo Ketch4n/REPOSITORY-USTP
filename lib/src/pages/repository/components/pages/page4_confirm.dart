@@ -47,7 +47,7 @@ class _RepositoryConfirmState extends State<RepositoryConfirm> {
                     const SizedBox(height: 20),
                     value.quackNew == 0
                         ? _index3(pages.manuscript.text, pages.poster.text,
-                            pages.video.text)
+                            pages.video.text, pages.zip.text)
                         : const SizedBox(),
                   ],
                 ),
@@ -126,7 +126,7 @@ Widget _index2(gname, authors) {
   );
 }
 
-Widget _index3(doc, img, clip) {
+Widget _index3(doc, img, clip, zip) {
   return PageConfirmContainer(
     children: [
       Page4RowContent(
@@ -145,6 +145,12 @@ Widget _index3(doc, img, clip) {
         children: [
           const Text("VIDEOS"),
           Page4TextModule(string: clip),
+        ],
+      ),
+      Page4RowContent(
+        children: [
+          const Text("SOURCE CODE"),
+          Page4TextModule(string: zip),
         ],
       ),
     ],

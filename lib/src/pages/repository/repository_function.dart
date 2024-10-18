@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:repository_ustp/src/components/loading.dart';
 import 'package:repository_ustp/src/components/snackbar.dart';
 import 'package:repository_ustp/src/data/server/url.dart';
 
@@ -59,6 +60,7 @@ class RepositoryFunction {
 
   static Future updateProject(BuildContext context, int id, String title,
       int? projectType, String year, String groupName, List<String?> m0) async {
+    circularLoading(context);
     try {
       final response =
           await http.put(Uri.parse("${Servername.host}project/$id"), body: {
@@ -95,10 +97,13 @@ class RepositoryFunction {
       }
     } catch (e) {
       print("An error occurred while updating project: $e");
+    } finally {
+      Navigator.of(context).pop();
     }
   }
 
   static Future deleteProject(BuildContext context, int id) async {
+    circularLoading(context);
     try {
       final response =
           await http.delete(Uri.parse("${Servername.host}project/$id"));
@@ -121,6 +126,8 @@ class RepositoryFunction {
       }
     } catch (e) {
       // print("An error occurred while deleting project: $e");
+    } finally {
+      Navigator.of(context).pop();
     }
   }
 }

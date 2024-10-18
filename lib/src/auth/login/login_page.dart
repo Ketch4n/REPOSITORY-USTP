@@ -54,7 +54,12 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            addTitle("PROJECT REPOSITORY\nSYSTEM", null),
+            const Text(
+              '" Updated\nProjects and Repository\nAccumulated Document Researches "',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
+            ),
+            addTitle("UpPARADor", null),
             _buildTextFields(),
             _buildButton(),
             buildFooterTextButton(context),

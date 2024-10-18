@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repository_ustp/src/components/loading.dart';
 import 'package:repository_ustp/src/components/snackbar.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
 import 'package:repository_ustp/src/data/mail/sendmail.dart';
@@ -22,7 +23,7 @@ class ProjectFunction {
       customSnackBar(context, 1, "Cannot add empty fields");
       return;
     }
-
+    circularLoading(context);
     try {
       var postOutput = await RepositoryFunction.postProject(
         context,
@@ -37,7 +38,7 @@ class ProjectFunction {
       );
 
       if (postOutput['dataID'] != 0) {
-        customSnackBar(context, 0, "Uploading Please wait...");
+        // customSnackBar(context, 0, "Uploading Please wait...");
         await PagesUploadFiles.uploadFile(context, postOutput['dataID']);
         SendMailFunction.sendEmailTypeStatus(
           link,
@@ -45,16 +46,18 @@ class ProjectFunction {
           projectTypeBinaryValue(projectType),
           pages.yearPublished.text,
         );
-
         customSnackBar(context, 0, postOutput['message']);
-        Navigator.of(context).pop();
-        reload();
-        ClearTextEditingControllers.clear();
       } else {
         customSnackBar(context, 1, postOutput['message']);
       }
     } catch (e) {
       print("Submission Error: $e");
+    } finally {
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      reload();
+
+      ClearTextEditingControllers.clear();
     }
   }
 
@@ -69,7 +72,7 @@ class ProjectFunction {
       customSnackBar(context, 1, "Cannot add empty fields");
       return;
     }
-
+    circularLoading(context);
     try {
       var updateOutput = await RepositoryFunction.updateProject(
         context,
@@ -90,6 +93,8 @@ class ProjectFunction {
       print("Submission Error: $e");
     } finally {
       Navigator.of(context).pop();
+      Navigator.of(context).pop();
+
       reload();
       ClearTextEditingControllers.clear();
     }

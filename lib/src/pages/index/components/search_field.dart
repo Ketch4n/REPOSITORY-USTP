@@ -117,6 +117,18 @@ class _SearchFieldState extends State<SearchField> {
               ),
               child: DropdownProjectCollection(reload: widget.reload),
             ),
+            Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+              ),
+              child: IconButton(
+                onPressed: () {
+                  widget.reload();
+                },
+                icon: const Icon(Icons.search),
+              ),
+            ),
           ],
         ),
       ),

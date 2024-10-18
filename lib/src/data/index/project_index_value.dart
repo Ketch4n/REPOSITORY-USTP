@@ -9,7 +9,7 @@ String projectTypeBinaryValue(int type) {
     case 3:
       return "PIT PROJECT";
     case 4:
-      return "RECENTLY ADDED";
+      return "ALL PROJECT";
     default:
       return "INVALID PROJECT TYPE";
   }

@@ -1,12 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:repository_ustp/src/components/loading.dart';
 import 'package:repository_ustp/src/components/snackbar.dart';
 import 'package:repository_ustp/src/data/server/url.dart';
 import 'package:http/http.dart' as http;
 
 Future deleteRatingComment(
     BuildContext context, int id, Function reload, projid) async {
+  circularLoading(context);
   try {
     final response =
         await http.delete(Uri.parse("${Servername.host}likecomment/$id"));
@@ -29,5 +31,7 @@ Future deleteRatingComment(
     }
   } catch (e) {
     // print("An error occurred while deleting project: $e");
+  } finally {
+    Navigator.of(context).pop();
   }
 }

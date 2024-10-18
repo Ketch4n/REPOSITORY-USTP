@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:repository_ustp/src/components/loading.dart';
 import 'package:repository_ustp/src/components/snackbar.dart';
 import 'package:repository_ustp/src/data/server/url.dart';
 import 'package:repository_ustp/src/data/provider/user_session.dart';
@@ -11,6 +12,7 @@ class LoginFunctions {
     if (username.isEmpty && password.isEmpty) {
       customSnackBar(context, 1, "Username or Password is Empty !");
     } else {
+      circularLoading(context);
       try {
         final response = await http.post(
           Uri.parse("${Servername.host}user/login"),
