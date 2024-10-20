@@ -39,6 +39,7 @@ class _SearchFieldState extends State<SearchField> {
         alignment: Alignment.topCenter,
         child: Wrap(
           spacing: 10.0,
+          runSpacing: 10.0,
           direction: Axis.horizontal,
           alignment: WrapAlignment.center,
           children: [

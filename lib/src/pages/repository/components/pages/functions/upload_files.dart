@@ -36,12 +36,12 @@ class PagesUploadFiles {
       selectedDoc = result.files.first;
 
       final fileExtension = selectedDoc!.extension?.toLowerCase();
-      if (['jpg', 'jpeg', 'png', 'gif', 'mp4'].contains(fileExtension)) {
+      if (['pdf'].contains(fileExtension)) {
+        pages.manuscript.text = selectedDoc!.name;
+      } else {
         if (!context.mounted) return;
         customSnackBar(context, 1, "Invalid Document format");
         selectedDoc = null;
-      } else {
-        pages.manuscript.text = selectedDoc!.name;
       }
     }
   }
@@ -131,7 +131,7 @@ class PagesUploadFiles {
             selectedImg = null;
           else if (fileType == "video")
             selectedClip = null;
-          else if (fileType == "zip") selectedZip = null;
+          else if (fileType == "source code") selectedZip = null;
         }
       } else {
         // customSnackBar(context, 1, "No $fileType selected for upload");

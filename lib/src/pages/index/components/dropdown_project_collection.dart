@@ -36,7 +36,7 @@ class _DropdownProjectCollectionState extends State<DropdownProjectCollection> {
         setState(() {
           _selectedCollection = newValue;
           ClickEventProjectCollection.quack = _selectedCollection!;
-          // widget.reload();
+          widget.reload();
         });
       },
       items: _collection.map<DropdownMenuItem<int>>((int value) {

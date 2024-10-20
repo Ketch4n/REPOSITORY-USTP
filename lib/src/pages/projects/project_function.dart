@@ -35,22 +35,32 @@ class ProjectFunction {
 
             final List<ProjectModel> filtered = projects.where((u) {
               final titleMatched = lowerCaseKeyword != null &&
+                  projectCollection == 0 &&
                   u.title.toLowerCase().contains(lowerCaseKeyword);
               // final titleMatches = projectKeyword == 1 &&
               //     u.title.toLowerCase().contains(lowerCaseKeyword!);
               final yearMatches = projectKeyword == 3 &&
+                  projectCollection == 0 &&
                   u.year_published.toLowerCase() == lowerCaseKeyword;
               final typeMatches = (projectType == 0 || projectType == 4) ||
                   u.project_type == projectType;
 
               final docCollection = projectCollection == 1 &&
-                  (u.manuscript?.toLowerCase().contains(lowerCaseKeyword!) ??
-                      false);
+                  (u.manuscript != null &&
+                      u.manuscript!.toLowerCase().contains(lowerCaseKeyword!) &&
+                      u.manuscript!.toLowerCase().endsWith('.pdf'));
+
               final imgCollection = projectCollection == 2 &&
-                  (u.poster?.toLowerCase().contains(lowerCaseKeyword!) ??
-                      false);
+                  (u.poster != null &&
+                      u.poster!.toLowerCase().contains(lowerCaseKeyword!) &&
+                      (u.poster!.toLowerCase().endsWith('.jpg') ||
+                          u.poster!.toLowerCase().endsWith('.png') ||
+                          u.poster!.toLowerCase().endsWith('.jpeg')));
+
               final clipCollection = projectCollection == 3 &&
-                  (u.video?.toLowerCase().contains(lowerCaseKeyword!) ?? false);
+                  (u.video != null &&
+                      u.video!.toLowerCase().contains(lowerCaseKeyword!) &&
+                      u.video!.toLowerCase().endsWith('.mp4'));
 
               return (titleMatched ||
                       yearMatches ||

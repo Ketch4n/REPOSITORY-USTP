@@ -60,7 +60,7 @@ class _SignupPageState extends State<SignupPage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: addTitle("CREATE NEW ACCOUNT", 20),
+                        child: addTitle("CREATE NEW ACCOUNT", 20, 20),
                       ),
                       CustomTextField(
                         controller: _usernameController,

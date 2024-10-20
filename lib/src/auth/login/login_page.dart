@@ -7,6 +7,7 @@ import 'package:repository_ustp/src/auth/login/utils/login_style.dart';
 import 'package:repository_ustp/src/auth/login/components/main_container.dart';
 import 'package:repository_ustp/src/components/button.dart';
 import 'package:repository_ustp/src/components/textfield.dart';
+import 'package:repository_ustp/src/utils/screen_breakpoint.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -22,13 +23,15 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: _buildBody(),
+      body: _buildBody(height),
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(heigth) {
+    final height = heigth;
     return Container(
       decoration: LoginStyle.bg,
       child: Center(
@@ -37,9 +40,9 @@ class _LoginPageState extends State<LoginPage> {
           alignment: Alignment.topCenter,
           children: [
             _buildMainContainer(),
-            const Positioned(
-              top: -50,
-              child: Hero(tag: 'Container-0-Hero', child: USTPLogo(size: 120)),
+            Positioned(
+              top: height <= tabletBreakpoint ? -40 : -50,
+              child: USTPLogo(size: height <= tabletBreakpoint ? 100 : 120),
             ),
           ],
         ),
@@ -53,13 +56,14 @@ class _LoginPageState extends State<LoginPage> {
       child: LoginMainContainer(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
               '" Updated\nProjects and Repository\nAccumulated Document Researches "',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
             ),
-            addTitle("UpPARADor", null),
+            addTitle("UpPARADor", null, null),
             _buildTextFields(),
             _buildButton(),
             buildFooterTextButton(context),
@@ -71,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildTextFields() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 40.0),
+      padding: const EdgeInsets.symmetric(horizontal: 40.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
