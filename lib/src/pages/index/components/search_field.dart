@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:repository_ustp/src/data/provider/card_click_event.dart';
+import 'package:repository_ustp/src/data/provider/click_event_collection.dart';
+import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
 import 'package:repository_ustp/src/data/provider/search_suggestion.dart';
 import 'package:repository_ustp/src/pages/index/components/dropdown_project_collection.dart';
 import 'package:repository_ustp/src/pages/index/components/dropdown_project_keyword.dart';
 import 'package:repository_ustp/src/pages/index/components/dropdown_project_type.dart';
+import 'package:repository_ustp/src/pages/index/components/provider/event.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field_controller.dart';
 
 class SearchField extends StatefulWidget {
@@ -95,6 +100,25 @@ class _SearchFieldState extends State<SearchField> {
                     ),
                   ],
                 ],
+              ),
+            ),
+            Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+              ),
+              child: IconButton(
+                onPressed: () {
+                  setState(() {
+                    SearchFieldController().clear();
+                    CLickEventProjectType.quack = 0;
+                    ClickEventProjectKeyword.quack = 0;
+                    ClickEventProjectCollection.quack = 0;
+
+                    widget.reload();
+                  });
+                },
+                icon: const Icon(Icons.cleaning_services_rounded),
               ),
             ),
             Container(

@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:repository_ustp/src/data/provider/author_list.dart';
 import 'package:repository_ustp/src/data/provider/project_purpose.dart';
@@ -137,33 +139,40 @@ Widget _index2(gname, authors) {
 Widget _index3(doc, img, clip, zip) {
   return PageConfirmContainer(
     children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const Text("MANUSCRIPT"),
-          Page4TextModule(string: doc),
-        ],
+      SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildRow("MANUSCRIPT", doc),
+            _buildScrollableRow("POSTER", img),
+            _buildScrollableRow("VIDEOS", clip),
+            _buildRow("SOURCE CODE", zip),
+          ],
+        ),
       ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const Text("POSTER"),
-          Page4TextModule(string: img),
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const Text("VIDEOS"),
-          Page4TextModule(string: clip),
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const Text("SOURCE CODE"),
-          Page4TextModule(string: zip),
-        ],
+    ],
+  );
+}
+
+Widget _buildRow(String label, String content) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(label),
+      Expanded(child: Page4TextModule(string: content)),
+    ],
+  );
+}
+
+Widget _buildScrollableRow(String label, String content) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(label),
+      Expanded(
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Page4TextModule(string: content),
+        ),
       ),
     ],
   );

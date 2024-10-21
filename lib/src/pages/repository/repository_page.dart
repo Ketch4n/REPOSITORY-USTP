@@ -174,9 +174,11 @@ class _RepositoryPageState extends State<RepositoryPage> {
                         Tab(text: 'Videos'),
                       ],
                     )
-                  : SizedBox(),
-              RepositoryTopButtons(
-                  reload: () => reload(), toPDF: () => exportToPDF()),
+                  : const SizedBox(),
+              _searchController.text.isEmpty
+                  ? RepositoryTopButtons(
+                      reload: () => reload(), toPDF: () => exportToPDF())
+                  : const SizedBox(),
               Expanded(
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,

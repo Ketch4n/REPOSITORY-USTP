@@ -10,7 +10,10 @@ class Page4TextModule extends StatelessWidget {
     return Text(
       string.toUpperCase(),
       style: Page4TextUtils.lt,
+      softWrap: true,
+      textWidthBasis: TextWidthBasis.longestLine,
       overflow: TextOverflow.ellipsis,
+      maxLines: 2,
     );
   }
 }

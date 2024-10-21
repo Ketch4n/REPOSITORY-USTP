@@ -17,4 +17,8 @@ class SearchFieldController {
   void dispose() {
     search.dispose();
   }
+
+  void clear() {
+    search.clear();
+  }
 }

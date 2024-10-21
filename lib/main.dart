@@ -14,6 +14,7 @@ import 'package:repository_ustp/src/data/provider/search_suggestion.dart';
 import 'package:repository_ustp/src/data/provider/show_top_items.dart';
 import 'package:repository_ustp/src/data/provider/switch_role_signup.dart';
 import 'package:repository_ustp/src/data/provider/user_session.dart';
+import 'package:repository_ustp/src/pages/index/components/provider/event.dart';
 import 'package:repository_ustp/src/routes/routes.dart';
 
 void main() async {
@@ -47,7 +48,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ShowTopItems()),
         ChangeNotifierProvider(create: (_) => ClickEventProjectCollection()),
         ChangeNotifierProvider(create: (_) => ProjectIDClickEvent()),
-        ChangeNotifierProvider(create: (_) => SearchSuggestion())
+        ChangeNotifierProvider(create: (_) => SearchSuggestion()),
       ],
       child: const MainApp(),
     ),
