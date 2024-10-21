@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/pages/repository/components/stream/image_viewer.dart';
 import 'package:repository_ustp/src/pages/repository/components/stream/pdf_viewer.dart';
 import 'package:repository_ustp/src/pages/repository/components/stream/video_player.dart';
+import 'package:repository_ustp/src/pages/repository/components/stream/zip_viewer.dart';
 
 class FilePreview extends StatelessWidget {
   final String fileName;
@@ -21,6 +22,8 @@ class FilePreview extends StatelessWidget {
     } else if (lowerCaseFileName.endsWith('.docx') ||
         lowerCaseFileName.endsWith('.pdf')) {
       return DocumentViewer(fileUrl: fileUrl);
+    } else if (lowerCaseFileName.endsWith('.zip')) {
+      return ZipFileViewer(url: fileUrl);
     } else {
       return const Center(child: Text('Unsupported file type'));
     }

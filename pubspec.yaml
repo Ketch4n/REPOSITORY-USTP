@@ -36,6 +36,7 @@ dependencies:
   webview_flutter: ^4.8.0
   syncfusion_flutter_pdfviewer: ^20.4.42
   syncfusion_flutter_core: ^20.4.42
+  archive: ^3.3.0
 
   # Documents
   printing: ^5.5.0

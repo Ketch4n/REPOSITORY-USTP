@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
 import 'package:repository_ustp/src/data/provider/click_event_collection.dart';
 import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
@@ -7,7 +6,6 @@ import 'package:repository_ustp/src/data/provider/search_suggestion.dart';
 import 'package:repository_ustp/src/pages/index/components/dropdown_project_collection.dart';
 import 'package:repository_ustp/src/pages/index/components/dropdown_project_keyword.dart';
 import 'package:repository_ustp/src/pages/index/components/dropdown_project_type.dart';
-import 'package:repository_ustp/src/pages/index/components/provider/event.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field_controller.dart';
 
 class SearchField extends StatefulWidget {
