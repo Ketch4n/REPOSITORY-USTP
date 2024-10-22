@@ -59,28 +59,7 @@ class _Page1State extends State<Page1> {
                     },
                   ),
                 ),
-                CustomTextField(
-                  controller: pages.yearPublished,
-                  readOnly: true,
-                  label: "School Year",
-                  suffix: PopupMenuButton<int>(
-                    icon: const Icon(Icons.arrow_drop_down_outlined),
-                    onSelected: (int value) {
-                      setState(() {
-                        ProjectTypeAdd.quack = value;
-                        pages.projectType.text = projectTypeBinaryValue(value);
-                      });
-                    },
-                    itemBuilder: (BuildContext context) {
-                      return _items.map((int type) {
-                        return PopupMenuItem<int>(
-                          value: type,
-                          child: Text(projectTypeBinaryValue(type)),
-                        );
-                      }).toList();
-                    },
-                  ),
-                ),
+                _index3(pages.yearPublished),
               ],
             ),
           ),
@@ -101,5 +80,14 @@ Widget _index1(capstoneTitle) {
     controller: capstoneTitle,
     label: "Project Title",
     readOnly: false,
+  );
+}
+
+Widget _index3(yearPublished) {
+  return CustomTextField(
+    controller: yearPublished,
+    label: "Year Published",
+    readOnly: false,
+    index: 1,
   );
 }

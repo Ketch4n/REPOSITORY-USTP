@@ -92,7 +92,10 @@ class _RepositoryOpenState extends State<RepositoryOpen> {
                           child: ListTile(
                             title: Text(fileRef.name),
                             trailing: IconButton(
-                              icon: const Icon(Icons.remove_red_eye),
+                              icon: Icon(UserSession.type == 2 &&
+                                      fileRef.name.endsWith("zip")
+                                  ? Icons.visibility_off
+                                  : Icons.visibility),
                               onPressed: () async {
                                 final url = await fileRef.getDownloadURL();
                                 await ViewedRepo.store(
