@@ -96,11 +96,17 @@ class ProjectFunction {
               project.title.toLowerCase().contains(lowerCaseKeyword!) &&
               project.video!.toLowerCase().endsWith('.mp4'));
 
+      final zipCollection = projectCollection == 4 &&
+          (project.zip != null &&
+              project.title.toLowerCase().contains(lowerCaseKeyword!) &&
+              project.zip!.toLowerCase().endsWith('.zip'));
+
       return (titleMatched ||
               yearMatches ||
               docCollection ||
               imgCollection ||
-              clipCollection) &&
+              clipCollection ||
+              zipCollection) &&
           typeMatches;
     }).toList();
   }

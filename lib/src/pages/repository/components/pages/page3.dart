@@ -28,7 +28,7 @@ class _Page3State extends State<Page3> {
               children: [
                 CustomTextField(
                   controller: pages.manuscript,
-                  label: "Manuscript - (PDF/DOCX/PROJ-SHEET)",
+                  label: "Manuscript / Project Sheet - (PDF)",
                   readOnly: true,
                   suffix: IconButton(
                       icon: const Icon(Icons.file_upload_sharp),

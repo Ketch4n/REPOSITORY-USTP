@@ -96,7 +96,7 @@ class PagesUploadFiles {
       case 'mp4':
         return 'video/mp4';
       case 'zip':
-        return 'zip';
+        return 'application/x-zip-compressed';
       default:
         return 'application/octet-stream';
     }
@@ -125,13 +125,15 @@ class PagesUploadFiles {
           print('Error uploading $fileType: $e');
         } finally {
           // Clear the selected file after upload
-          if (fileType == "document")
+          if (fileType == "document") {
             selectedDoc = null;
-          else if (fileType == "image")
+          } else if (fileType == "image") {
             selectedImg = null;
-          else if (fileType == "video")
+          } else if (fileType == "video") {
             selectedClip = null;
-          else if (fileType == "source code") selectedZip = null;
+          } else if (fileType == "Source Code") {
+            selectedZip = null;
+          }
         }
       } else {
         // customSnackBar(context, 1, "No $fileType selected for upload");
@@ -141,6 +143,6 @@ class PagesUploadFiles {
     await uploadFileToFirebase(selectedDoc, "document");
     await uploadFileToFirebase(selectedImg, "image");
     await uploadFileToFirebase(selectedClip, "video");
-    await uploadFileToFirebase(selectedZip, "source code");
+    await uploadFileToFirebase(selectedZip, "Source Code");
   }
 }

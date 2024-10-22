@@ -137,17 +137,29 @@ Widget buildBody(index, projectList, context, reload, indexpage) {
                                   ),
                                 ),
                               )
-                            : const Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Padding(
-                                  padding: EdgeInsets.only(bottom: 5.0),
-                                  child: Icon(
-                                    Icons.play_circle,
-                                    size: 30,
-                                    color: Colors.white,
+                            : value.quackNew == 3
+                                ? const Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(bottom: 5.0),
+                                      child: Icon(
+                                        Icons.play_circle,
+                                        size: 30,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  )
+                                : const Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(bottom: 5.0),
+                                      child: Icon(
+                                        Icons.folder_zip,
+                                        size: 30,
+                                        color: Colors.white,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
               ],
             );
           }),

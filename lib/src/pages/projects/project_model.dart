@@ -9,6 +9,8 @@ class ProjectModel {
   final String? manuscript;
   final String? poster;
   final String? video;
+  final String? zip;
+
   // final int privacy;
   final List<String?> authors;
 
@@ -21,6 +23,8 @@ class ProjectModel {
     this.manuscript,
     this.poster,
     this.video,
+    this.zip,
+
     // required this.privacy,
     required this.authors,
   });
@@ -36,6 +40,8 @@ class ProjectModel {
       manuscript: json['manuscript'],
       poster: json['poster'],
       video: json['video'],
+      zip: json['zip'],
+
       // privacy: json['privacy'],
       authors: List<String?>.from(json['authors'] ?? []),
     );
@@ -52,6 +58,8 @@ class ProjectModel {
       'manuscript': manuscript,
       'poster': poster,
       'video': video,
+      'zip': zip,
+
       // 'privacy': privacy,
       'authors': authors,
     };

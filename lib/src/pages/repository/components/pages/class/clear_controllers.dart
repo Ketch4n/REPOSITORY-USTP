@@ -10,5 +10,6 @@ class ClearTextEditingControllers {
     pages.manuscript.clear();
     pages.video.clear();
     pages.poster.clear();
+    pages.zip.clear();
   }
 }

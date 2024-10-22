@@ -50,7 +50,7 @@ class _CapstoneTeamsPageState extends State<CapstoneTeamsPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text("CAPSTONE TEAMS / AUTHORS"),
+            const Text("TEAMS NAME / AUTHORS"),
             IconButton(
               onPressed: () {
                 clear();
@@ -75,8 +75,7 @@ class _CapstoneTeamsPageState extends State<CapstoneTeamsPage> {
                   final List<AuthorsModel?> teamlist = snapshot.data!;
 
                   if (teamlist.isEmpty) {
-                    return const Duck(
-                        status: "NO CAPSTONE TEAMS YET", content: "");
+                    return const Duck(status: "NO GROUPS YET", content: "");
                   }
 
                   return Column(

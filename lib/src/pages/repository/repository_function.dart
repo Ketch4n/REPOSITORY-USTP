@@ -18,6 +18,7 @@ class RepositoryFunction {
     String? doc,
     String? img,
     String? clip,
+    String? zip,
   ) async {
     try {
       final response =
@@ -29,6 +30,7 @@ class RepositoryFunction {
         'manuscript': doc,
         'poster': img,
         'video': clip,
+        'zip': zip,
         for (int i = 0; i < m0.length; i++) 'member_$i': m0[i],
       });
 

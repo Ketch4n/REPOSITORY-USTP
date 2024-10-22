@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
             ),
-            addTitle("UpPARADor", null, null),
+            addTitle("UpPARADoR", null, null),
             _buildTextFields(),
             _buildButton(),
             buildFooterTextButton(context),

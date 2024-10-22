@@ -10,6 +10,7 @@ import 'package:repository_ustp/src/data/provider/click_event_collection.dart';
 import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
 import 'package:repository_ustp/src/data/provider/search_suggestion.dart';
 import 'package:repository_ustp/src/data/provider/show_top_items.dart';
+import 'package:repository_ustp/src/data/provider/user_session.dart';
 import 'package:repository_ustp/src/pages/index/components/card_list.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field_controller.dart';
@@ -122,7 +123,7 @@ class _RepositoryPageState extends State<RepositoryPage> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return DefaultTabController(
-      length: 4,
+      length: UserSession.type == 2 ? 4 : 5,
       child: Scaffold(
         body: Consumer<ShowTopItems>(builder: (context, value, child) {
           return Column(
@@ -164,21 +165,27 @@ class _RepositoryPageState extends State<RepositoryPage> {
                             ClickEventProjectCollection.quack = value;
                             reload();
                             break;
+                          case 4:
+                            ClickEventProjectCollection.quack = value;
+                            reload();
+                            break;
                         }
                       },
                       indicatorSize: TabBarIndicatorSize.tab,
-                      tabs: const [
-                        Tab(text: 'All'),
-                        Tab(text: 'Manuscript'),
-                        Tab(text: 'Poster'),
-                        Tab(text: 'Videos'),
+                      tabs: [
+                        const Tab(text: 'All'),
+                        const Tab(text: 'Manuscript'),
+                        const Tab(text: 'Poster'),
+                        const Tab(text: 'Videos'),
+                        if (UserSession.type != 2)
+                          const Tab(text: 'Source Code'),
                       ],
                     )
                   : const SizedBox(),
-              _searchController.text.isEmpty
-                  ? RepositoryTopButtons(
-                      reload: () => reload(), toPDF: () => exportToPDF())
-                  : const SizedBox(),
+              const SizedBox(height: 8),
+              RepositoryTopButtons(
+                  reload: () => reload(), toPDF: () => exportToPDF()),
+              const Divider(),
               Expanded(
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,

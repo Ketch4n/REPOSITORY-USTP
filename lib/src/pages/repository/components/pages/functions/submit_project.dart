@@ -35,6 +35,7 @@ class ProjectFunction {
         pages.manuscript.text,
         pages.poster.text,
         pages.video.text,
+        pages.zip.text,
       );
 
       if (postOutput['dataID'] != 0) {

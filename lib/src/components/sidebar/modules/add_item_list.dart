@@ -3,7 +3,6 @@ import 'package:repository_ustp/src/components/sidebar/modules/add_footer_icon.d
 import 'package:repository_ustp/src/components/textbutton_icon.dart';
 import 'package:repository_ustp/src/utils/screen_breakpoint.dart';
 
-
 Widget addItemList(callback, context) {
   final width = MediaQuery.of(context).size.width;
   final bool mobile = width <= tabletBreakpoint ? true : false;
@@ -19,7 +18,7 @@ Widget addItemList(callback, context) {
       ),
       CustomListTileItems(
         icon: addPreffixIcon(Icons.groups),
-        label: addLabel("Capstone Teams"),
+        label: addLabel("Project Teams"),
         callback: () {
           callback(1);
           mobile ? Navigator.of(context).pop() : null;
