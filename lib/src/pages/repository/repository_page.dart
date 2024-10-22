@@ -209,20 +209,46 @@ class _RepositoryPageState extends State<RepositoryPage> {
                             );
                           }
 
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 10.0),
-                            child: Wrap(
-                              alignment: WrapAlignment.center,
-                              runAlignment: WrapAlignment.center,
-                              runSpacing: 10.0,
-                              spacing: 10.0,
-                              children: List.generate(
-                                projectList.length,
-                                (index) => buildBody(index, projectList,
-                                    context, reload, widget.indexPage),
+                          return Consumer<ClickEventProjectCollection>(
+                              builder: (context, projectCollection, child) {
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: Wrap(
+                                alignment: WrapAlignment.center,
+                                runAlignment: WrapAlignment.center,
+                                runSpacing: 10.0,
+                                spacing: 10.0,
+                                children: projectCollection.quackNew == 0
+                                    ? List.generate(
+                                        projectList.length,
+                                        (index) => buildBody(index, projectList,
+                                            context, reload, widget.indexPage),
+                                      )
+                                    : projectCollection.quackNew == 1
+                                        ? List.generate(
+                                            projectList.length,
+                                            (index) =>
+                                                Icon(Icons.document_scanner),
+                                          )
+                                        : projectCollection.quackNew == 2
+                                            ? List.generate(
+                                                projectList.length,
+                                                (index) => Icon(Icons.image),
+                                              )
+                                            : projectCollection.quackNew == 3
+                                                ? List.generate(
+                                                    projectList.length,
+                                                    (index) =>
+                                                        Icon(Icons.play_circle),
+                                                  )
+                                                : List.generate(
+                                                    projectList.length,
+                                                    (index) =>
+                                                        Icon(Icons.folder_zip),
+                                                  ),
                               ),
-                            ),
-                          );
+                            );
+                          });
                         } else if (snapshot.hasError) {
                           return Center(
                             child: Text("Error: ${snapshot.error}"),
