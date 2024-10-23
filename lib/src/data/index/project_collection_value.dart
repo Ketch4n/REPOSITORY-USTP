@@ -8,6 +8,8 @@ String projectCollectionBinaryValue(int type) {
       return "POSTER";
     case 3:
       return "VIDEO";
+    case 4:
+      return "SOURCE CODE";
     default:
       return "INVALID PROJECT KEYWORD";
   }

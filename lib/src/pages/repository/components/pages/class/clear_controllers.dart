@@ -4,6 +4,7 @@ class ClearTextEditingControllers {
   static void clear() {
     pages.capstoneTitle.clear();
     pages.yearPublished.clear();
+    pages.schoolYear.clear();
     pages.groupName.clear();
     pages.projectType.clear();
     pages.authors.clear();

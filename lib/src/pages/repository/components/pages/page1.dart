@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:repository_ustp/src/components/textfield.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
+import 'package:repository_ustp/src/data/index/project_semester.dart';
 import 'package:repository_ustp/src/data/provider/project_type_add.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/class/access_controller_instance.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/class/clear_controllers.dart';
@@ -18,9 +20,11 @@ class Page1 extends StatefulWidget {
 
 class _Page1State extends State<Page1> {
   final List<int> _items = [1, 2, 3];
+  final List<int> _sem = [1, 2, 3];
 
   void _cancel() async {
     ClearTextEditingControllers.clear();
+    ProjectSemesterAdd.quack = 0;
     Navigator.of(context).pop();
     widget.reload();
   }
@@ -46,6 +50,7 @@ class _Page1State extends State<Page1> {
                     onSelected: (int value) {
                       setState(() {
                         ProjectTypeAdd.quack = value;
+
                         pages.projectType.text = projectTypeBinaryValue(value);
                       });
                     },
@@ -58,6 +63,39 @@ class _Page1State extends State<Page1> {
                       }).toList();
                     },
                   ),
+                ),
+                Consumer<ProjectTypeAdd>(
+                  builder: (context, value, child) {
+                    return SizedBox(
+                      child: value.quackNew == 3 && value.quackNew != 0
+                          ? CustomTextField(
+                              controller: pages.schoolYear,
+                              readOnly: true,
+                              label: "School Year",
+                              suffix: PopupMenuButton<int>(
+                                icon:
+                                    const Icon(Icons.arrow_drop_down_outlined),
+                                onSelected: (int value) {
+                                  setState(() {
+                                    ProjectSemesterAdd.quack = value;
+                                    pages.schoolYear.text =
+                                        projectSemesterBinaryValue(value);
+                                  });
+                                },
+                                itemBuilder: (BuildContext context) {
+                                  return _sem.map((int type) {
+                                    return PopupMenuItem<int>(
+                                      value: type,
+                                      child: Text(
+                                          projectSemesterBinaryValue(type)),
+                                    );
+                                  }).toList();
+                                },
+                              ),
+                            )
+                          : const SizedBox(),
+                    );
+                  },
                 ),
                 _index3(pages.yearPublished),
               ],

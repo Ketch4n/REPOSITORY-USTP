@@ -1,57 +1,45 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
-import 'package:repository_ustp/src/components/snackbar.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart';
+import 'package:pdfx/pdfx.dart';
 
-class DocumentViewer extends StatefulWidget {
-  final String fileUrl;
-
-  const DocumentViewer({super.key, required this.fileUrl});
+class PDFViewer extends StatefulWidget {
+  const PDFViewer({super.key, required this.fileUrl});
+  final fileUrl;
 
   @override
-  State<DocumentViewer> createState() => _DocumentViewerState();
+  State<PDFViewer> createState() => _PDFViewerState();
 }
 
-class _DocumentViewerState extends State<DocumentViewer> {
-  String modifyUrlForViewer(String url) {
-    return widget.fileUrl;
-  }
-
-  viewDocs() async {
-    final modifiedUrl = modifyUrlForViewer(widget.fileUrl);
-    final uri = Uri.parse(modifiedUrl);
-    if (await canLaunch(uri.toString())) {
-      await launch(
-        uri.toString(),
-        forceSafariVC: false,
-        forceWebView: true,
-      );
-    } else {
-      customSnackBar(context, 1, 'Could not open document');
-    }
-  }
+class _PDFViewerState extends State<PDFViewer> {
+  PdfControllerPinch? pdfController;
 
   @override
   void initState() {
-    viewDocs();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (Duration timeStamp) async {
+        final String url = widget.fileUrl;
+        final Uri parsedUri = Uri.parse(url);
+        final Response res = await get(parsedUri);
+        final Future<PdfDocument> doc = PdfDocument.openData(res.bodyBytes);
+        pdfController = PdfControllerPinch(document: doc);
+        setState(() {});
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    pdfController?.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-          child: MaterialButton(
-        color: Colors.blue,
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        child: const Text(
-          "Back to Recent Page",
-          style: TextStyle(color: Colors.white),
-        ),
-      )),
+      body: pdfController != null
+          ? PdfViewPinch(controller: pdfController!)
+          : const CircularProgressIndicator(),
     );
   }
 }

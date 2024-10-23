@@ -4,13 +4,13 @@ import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
 import 'package:repository_ustp/src/components/duck_404.dart';
+import 'package:repository_ustp/src/components/duck_access.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
 import 'package:repository_ustp/src/data/provider/click_event_collection.dart';
 import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
 import 'package:repository_ustp/src/data/provider/search_suggestion.dart';
 import 'package:repository_ustp/src/data/provider/show_top_items.dart';
-import 'package:repository_ustp/src/data/provider/user_session.dart';
 import 'package:repository_ustp/src/pages/index/components/card_list.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field_controller.dart';
@@ -126,7 +126,7 @@ class _RepositoryPageState extends State<RepositoryPage> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return DefaultTabController(
-      length: UserSession.type == 2 ? 4 : 5,
+      length: 5,
       child: Scaffold(
         body: Consumer<ShowTopItems>(builder: (context, value, child) {
           return Column(
@@ -171,17 +171,17 @@ class _RepositoryPageState extends State<RepositoryPage> {
                           case 4:
                             ClickEventProjectCollection.quack = value;
                             reload();
+
                             break;
                         }
                       },
                       indicatorSize: TabBarIndicatorSize.tab,
-                      tabs: [
-                        const Tab(text: 'All'),
-                        const Tab(text: 'Manuscript'),
-                        const Tab(text: 'Poster'),
-                        const Tab(text: 'Videos'),
-                        if (UserSession.type != 2)
-                          const Tab(text: 'Source Code'),
+                      tabs: const [
+                        Tab(text: 'All'),
+                        Tab(text: 'Manuscript'),
+                        Tab(text: 'Poster'),
+                        Tab(text: 'Videos'),
+                        Tab(text: 'Source Code'),
                       ],
                     )
                   : const SizedBox(),
@@ -260,8 +260,11 @@ class _RepositoryPageState extends State<RepositoryPage> {
                                                   )
                                                 : List.generate(
                                                     projectList.length,
-                                                    (index) =>
-                                                        Icon(Icons.folder_zip)),
+                                                    (index) => const DuckNada(
+                                                        status:
+                                                            "Admin Access Only",
+                                                        content:
+                                                            "No access permission !")),
                               ),
                             );
                           });

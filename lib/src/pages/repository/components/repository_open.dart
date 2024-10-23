@@ -97,18 +97,26 @@ class _RepositoryOpenState extends State<RepositoryOpen> {
                                   ? Icons.visibility_off
                                   : Icons.visibility),
                               onPressed: () async {
-                                final url = await fileRef.getDownloadURL();
-                                await ViewedRepo.store(
-                                  widget.projectID,
-                                  UserSession.id,
-                                  fileRef.name,
-                                );
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => FilePreview(
-                                          fileName: fileRef.name,
-                                          fileUrl: url,
-                                        )));
-                                // _launchURL(url);
+                                if (UserSession.type == 2 &&
+                                    fileRef.name.endsWith("zip")) {
+                                  customSnackBar(
+                                      context, 1, "Administrator Access Only");
+                                } else {
+                                  final url = await fileRef.getDownloadURL();
+                                  await ViewedRepo.store(
+                                    widget.projectID,
+                                    UserSession.id,
+                                    fileRef.name,
+                                  );
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => FilePreview(
+                                        fileName: fileRef.name,
+                                        fileUrl: url,
+                                      ),
+                                    ),
+                                  );
+                                }
                               },
                             ),
                           ),

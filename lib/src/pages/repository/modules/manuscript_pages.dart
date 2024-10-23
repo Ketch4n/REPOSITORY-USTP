@@ -30,7 +30,7 @@ class ManuscriptPages extends StatefulWidget {
 
 class _ManuscriptPagesState extends State<ManuscriptPages> {
   bool isLoading = true;
-  Reference? _videoReference;
+  Reference? _manuscriptReference;
 
   @override
   void initState() {
@@ -48,12 +48,12 @@ class _ManuscriptPagesState extends State<ManuscriptPages> {
 
     try {
       // Get a single video reference
-      _videoReference = storage.ref(folderName);
+      _manuscriptReference = storage.ref(folderName);
       setState(() {
         isLoading = false; // Update loading state
       });
     } catch (e) {
-      print('Error retrieving video: $e');
+      print('Error retrieving manuscript: $e');
       setState(() => isLoading = false); // Update loading state on error
     }
   }
@@ -74,9 +74,9 @@ class _ManuscriptPagesState extends State<ManuscriptPages> {
         child: Stack(
           children: [
             if (!isLoading &&
-                _videoReference != null) // Display video if loaded
+                _manuscriptReference != null) // Display video if loaded
               FutureBuilder<String>(
-                future: _videoReference!.getDownloadURL(),
+                future: _manuscriptReference!.getDownloadURL(),
                 builder:
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
                   if (snapshot.connectionState == ConnectionState.done &&
@@ -87,15 +87,15 @@ class _ManuscriptPagesState extends State<ManuscriptPages> {
                           switch (value) {
                             case 0:
                               final url =
-                                  await _videoReference!.getDownloadURL();
+                                  await _manuscriptReference!.getDownloadURL();
                               await ViewedRepo.store(
                                 project.id,
                                 UserSession.id,
-                                _videoReference!.name,
+                                _manuscriptReference!.name,
                               );
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => FilePreview(
-                                        fileName: _videoReference!.name,
+                                        fileName: _manuscriptReference!.name,
                                         fileUrl: url,
                                       )));
                               break;
@@ -109,8 +109,8 @@ class _ManuscriptPagesState extends State<ManuscriptPages> {
                         },
                         itemBuilder: (BuildContext context) => [
                           const PopupMenuItem<int>(
-                              value: 0, child: Text('Play')),
-                          if (UserSession.type == 0)
+                              value: 0, child: Text('Read')),
+                          
                             const PopupMenuItem<int>(
                                 value: 1, child: Text('Source')),
                         ],
@@ -119,7 +119,7 @@ class _ManuscriptPagesState extends State<ManuscriptPages> {
                             Expanded(
                                 child: Center(
                                     child: Icon(
-                              Icons.play_circle,
+                              Icons.document_scanner,
                               size: 90,
                               color: Colors.blue,
                             )))

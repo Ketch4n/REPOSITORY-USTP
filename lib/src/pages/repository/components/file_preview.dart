@@ -19,9 +19,9 @@ class FilePreview extends StatelessWidget {
       return ImagePreview(fileUrl: fileUrl);
     } else if (lowerCaseFileName.endsWith('.mp4')) {
       return VideoPlayerWidget(fileUrl: fileUrl);
-    } else if (lowerCaseFileName.endsWith('.docx') ||
-        lowerCaseFileName.endsWith('.pdf')) {
-      return DocumentViewer(fileUrl: fileUrl);
+    } else if (lowerCaseFileName.endsWith('.pdf')) {
+      // return DocumentViewer(fileUrl: fileUrl);
+      return PDFViewer(fileUrl: fileUrl);
     } else if (lowerCaseFileName.endsWith('.zip')) {
       return ZipFileViewer(url: fileUrl);
     } else {

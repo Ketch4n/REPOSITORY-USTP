@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:repository_ustp/src/components/confirmation_dialog.dart';
 import 'package:repository_ustp/src/components/show_dialog.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
+import 'package:repository_ustp/src/data/index/project_semester.dart';
 import 'package:repository_ustp/src/data/provider/project_id.dart';
 import 'package:repository_ustp/src/data/provider/user_session.dart';
 import 'package:repository_ustp/src/pages/projects/components/text_content.dart';
@@ -125,7 +126,7 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
                         children: [
                           const Text("Year Published: -- "),
                           Text(
-                            project.year_published.toString(),
+                            "${project.year_published} ${projectSemesterBinaryValue(project.semester)}",
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),

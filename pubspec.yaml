@@ -34,10 +34,7 @@ dependencies:
   video_player: ^2.5.0
   pdf_render: ^1.4.12
   webview_flutter: ^4.8.0
-  syncfusion_flutter_pdfviewer: ^20.4.42
-  syncfusion_flutter_core: ^20.4.42
   archive: ^3.3.0
-  video_thumbnail: ^0.5.0
 
   # Documents
   printing: ^5.5.0
@@ -50,6 +47,8 @@ dependencies:
 
   # Widgets
   flutter_rating_bar: ^4.0.1
+  pdfx: ^2.6.0
+  internet_file: ^1.2.0
 
 
 dev_dependencies:

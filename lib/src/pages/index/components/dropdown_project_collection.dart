@@ -14,7 +14,7 @@ class DropdownProjectCollection extends StatefulWidget {
 class _DropdownProjectCollectionState extends State<DropdownProjectCollection> {
   int? _selectedCollection;
 
-  final List<int> _collection = [0, 1, 2, 3];
+  final List<int> _collection = [0, 1, 2, 3, 4];
   @override
   Widget build(BuildContext context) {
     return DropdownButton<int>(
@@ -36,7 +36,7 @@ class _DropdownProjectCollectionState extends State<DropdownProjectCollection> {
         setState(() {
           _selectedCollection = newValue;
           ClickEventProjectCollection.quack = _selectedCollection!;
-          widget.reload();
+          // widget.reload();
         });
       },
       items: _collection.map<DropdownMenuItem<int>>((int value) {

@@ -14,7 +14,7 @@ class ProjectFunction {
   var updateOutput = {};
 
   static void submit(BuildContext context, int? projectType,
-      List<String?> authors, Function reload) async {
+      List<String?> authors, int projectSemester, Function reload) async {
     if (pages.capstoneTitle.text.isEmpty ||
         projectType == null ||
         projectType == 0 ||
@@ -30,6 +30,7 @@ class ProjectFunction {
         pages.capstoneTitle.text,
         projectType,
         pages.yearPublished.text,
+        projectSemester,
         pages.groupName.text,
         authors,
         pages.manuscript.text,

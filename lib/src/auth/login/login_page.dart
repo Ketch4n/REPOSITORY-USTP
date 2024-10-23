@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
-              '" Updated\nProjects and Repository\nAccumulated Document Researches "',
+              '" Updated Projects and\nRepository for Accumulated\nDocumentations and Researches "',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
             ),

@@ -48,6 +48,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ClickEventProjectCollection()),
         ChangeNotifierProvider(create: (_) => ProjectIDClickEvent()),
         ChangeNotifierProvider(create: (_) => SearchSuggestion()),
+        ChangeNotifierProvider(create: (_) => ProjectSemesterAdd()),
       ],
       child: const MainApp(),
     ),

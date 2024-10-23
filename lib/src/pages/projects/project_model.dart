@@ -4,6 +4,7 @@ class ProjectModel {
   final int id;
   final String title;
   final String year_published;
+  final int semester;
   final int project_type;
   final String group_name;
   final String? manuscript;
@@ -18,6 +19,7 @@ class ProjectModel {
     required this.id,
     required this.title,
     required this.year_published,
+    required this.semester,
     required this.project_type,
     required this.group_name,
     this.manuscript,
@@ -35,6 +37,7 @@ class ProjectModel {
       id: json['id'],
       title: json['title'],
       year_published: json['year_published'],
+      semester: json['semester'],
       project_type: json['project_type'],
       group_name: json['group_name'],
       manuscript: json['manuscript'],
@@ -53,6 +56,7 @@ class ProjectModel {
       'id': id,
       'title': title,
       'year_published': year_published,
+      'semester': semester,
       'project_type': project_type,
       'group_name': group_name,
       'manuscript': manuscript,

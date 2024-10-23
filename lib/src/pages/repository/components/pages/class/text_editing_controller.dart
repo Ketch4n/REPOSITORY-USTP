@@ -14,6 +14,9 @@ class PagesTextEditingController {
   TextEditingController capstoneTitle = TextEditingController();
   TextEditingController projectType = TextEditingController();
   TextEditingController yearPublished = TextEditingController();
+
+  TextEditingController schoolYear = TextEditingController();
+
   TextEditingController groupName = TextEditingController();
   TextEditingController authors = TextEditingController();
 
@@ -27,6 +30,7 @@ class PagesTextEditingController {
     capstoneTitle.dispose();
     projectType.dispose();
     yearPublished.dispose();
+    schoolYear.dispose();
     groupName.dispose();
     authors.dispose();
 

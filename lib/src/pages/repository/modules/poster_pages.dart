@@ -8,6 +8,7 @@ import 'package:repository_ustp/src/pages/projects/components/text_content.dart'
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
 import 'package:repository_ustp/src/pages/repository/components/file_preview.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/functions/viewed_repo.dart';
+import 'package:repository_ustp/src/utils/palette.dart';
 
 class PosterPages extends StatefulWidget {
   const PosterPages({
@@ -63,7 +64,7 @@ class _PosterPagesState extends State<PosterPages> {
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: SizedBox(
+      child: Container(
         height: 190,
         width: 190,
         child: Stack(
@@ -105,16 +106,21 @@ class _PosterPagesState extends State<PosterPages> {
                         itemBuilder: (BuildContext context) => [
                           const PopupMenuItem<int>(
                               value: 0, child: Text('Fullscreen')),
-                          if (UserSession.type == 0)
-                            const PopupMenuItem<int>(
-                                value: 1, child: Text('Source')),
+                          const PopupMenuItem<int>(
+                              value: 1, child: Text('Source')),
                         ],
                         child: Column(
                           children: [
-                            AspectRatio(
-                              aspectRatio: 1,
-                              child: Image.network(snapshot.data!,
-                                  fit: BoxFit.cover),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: ColorPallete.grey,
+                                border: Border.all(width: 1),
+                              ),
+                              child: AspectRatio(
+                                aspectRatio: 1,
+                                child: Image.network(snapshot.data!,
+                                    fit: BoxFit.cover),
+                              ),
                             ),
                           ],
                         ),

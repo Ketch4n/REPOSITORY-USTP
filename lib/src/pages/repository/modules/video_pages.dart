@@ -110,9 +110,8 @@ class _VideoPagesState extends State<VideoPages> {
                         itemBuilder: (BuildContext context) => [
                           const PopupMenuItem<int>(
                               value: 0, child: Text('Play')),
-                          if (UserSession.type == 0)
-                            const PopupMenuItem<int>(
-                                value: 1, child: Text('Source')),
+                          const PopupMenuItem<int>(
+                              value: 1, child: Text('Source')),
                         ],
                         child: const Column(
                           children: [

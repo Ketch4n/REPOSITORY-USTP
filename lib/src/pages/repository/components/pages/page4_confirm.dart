@@ -37,27 +37,24 @@ class _RepositoryConfirmState extends State<RepositoryConfirm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _topContent(pages.capstoneTitle.text),
+            _topContent(),
             Consumer<ProjectPurpose>(builder: (context, value, child) {
               return SizedBox(
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      _index1(pages.projectType.text, pages.yearPublished.text),
+                      _index1(),
                       const SizedBox(height: 20),
-                      _index2(pages.groupName.text, pages.authors.text),
+                      _index2(),
                       const SizedBox(height: 20),
-                      value.quackNew == 0
-                          ? _index3(pages.manuscript.text, pages.poster.text,
-                              pages.video.text, pages.zip.text)
-                          : const SizedBox(),
+                      value.quackNew == 0 ? _index3() : const SizedBox(),
                     ],
                   ),
                 ),
               );
             }),
-            Consumer2<ProjectTypeAdd, AuthorList>(
-                builder: (context, value, value2, child) {
+            Consumer3<ProjectTypeAdd, AuthorList, ProjectSemesterAdd>(
+                builder: (context, value, value2, value3, child) {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child: PageViewButtons(
@@ -66,7 +63,7 @@ class _RepositoryConfirmState extends State<RepositoryConfirm> {
                   ffunction: () {
                     widget.purposeID == 0
                         ? ProjectFunction.submit(context, value.quackNew,
-                            value2.authors, widget.reload)
+                            value2.authors, value3.quackNew, widget.reload)
                         : ProjectFunction.update(context, value.quackNew,
                             value2.authors, widget.reload, widget.purposeID);
                   },
@@ -81,71 +78,82 @@ class _RepositoryConfirmState extends State<RepositoryConfirm> {
   }
 }
 
-Widget _topContent(title) {
+Widget _topContent() {
   return SizedBox(
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
             height: 100, width: 50, child: Image.asset("assets/hardbound.png")),
-        Page4TextModule(string: title),
+        Page4TextModule(string: pages.capstoneTitle.text),
       ],
     ),
   );
 }
 
-Widget _index1(type, year) {
+Widget _index1() {
   return PageConfirmContainer(
     children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Text("PROJECT TYPE"),
-          Page4TextModule(string: type),
+          Page4TextModule(string: pages.projectType.text),
         ],
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Text("YEAR PUBLISHED"),
-          Page4TextModule(string: year),
+          Page4TextModule(string: pages.yearPublished.text),
         ],
       ),
+      Consumer<ProjectTypeAdd>(builder: (context, value, child) {
+        return value.quackNew == 3
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("SCHOOL YEAR"),
+                  Page4TextModule(string: pages.schoolYear.text),
+                ],
+              )
+            : const SizedBox();
+      }),
     ],
   );
 }
 
-Widget _index2(gname, authors) {
+Widget _index2() {
   return PageConfirmContainer(
     children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Text("GROUP NAME"),
-          Page4TextModule(string: gname),
+          Page4TextModule(string: pages.groupName.text),
         ],
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Text("AUTHORS"),
-          Page4TextModule(string: authors),
+          Page4TextModule(string: pages.authors.text),
         ],
       ),
     ],
   );
 }
 
-Widget _index3(doc, img, clip, zip) {
+Widget _index3() {
   return PageConfirmContainer(
     children: [
       SingleChildScrollView(
         child: Column(
           children: [
-            _buildRow("MANUSCRIPT", doc),
-            _buildScrollableRow("POSTER", img),
-            _buildScrollableRow("VIDEOS", clip),
-            _buildRow("SOURCE CODE", zip),
+            _buildRow("MANUSCRIPT", pages.manuscript.text),
+            _buildScrollableRow("POSTER", pages.poster.text),
+            _buildScrollableRow("VIDEOS", pages.video.text),
+            _buildRow("SOURCE CODE", pages.zip.text),
           ],
         ),
       ),
