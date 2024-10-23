@@ -17,7 +17,10 @@ import 'package:repository_ustp/src/pages/index/components/search_field_controll
 import 'package:repository_ustp/src/pages/projects/project_function.dart';
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
 import 'package:repository_ustp/src/pages/repository/modules/hardbound_pages.dart';
+import 'package:repository_ustp/src/pages/repository/modules/manuscript_pages.dart';
+import 'package:repository_ustp/src/pages/repository/modules/poster_pages.dart';
 import 'package:repository_ustp/src/pages/repository/modules/top_buttons.dart';
+import 'package:repository_ustp/src/pages/repository/modules/video_pages.dart';
 import 'package:repository_ustp/src/utils/palette.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:repository_ustp/src/utils/screen_breakpoint.dart';
@@ -227,25 +230,38 @@ class _RepositoryPageState extends State<RepositoryPage> {
                                     : projectCollection.quackNew == 1
                                         ? List.generate(
                                             projectList.length,
-                                            (index) =>
-                                                Icon(Icons.document_scanner),
+                                            (index) => ManuscriptPages(
+                                              index: index,
+                                              projectList: projectList,
+                                              reload: reload,
+                                              indexpage: widget.indexPage,
+                                            ),
                                           )
                                         : projectCollection.quackNew == 2
                                             ? List.generate(
                                                 projectList.length,
-                                                (index) => Icon(Icons.image),
+                                                (index) => PosterPages(
+                                                  index: index,
+                                                  projectList: projectList,
+                                                  reload: reload,
+                                                  indexpage: widget.indexPage,
+                                                ),
                                               )
                                             : projectCollection.quackNew == 3
                                                 ? List.generate(
                                                     projectList.length,
-                                                    (index) =>
-                                                        Icon(Icons.play_circle),
+                                                    (index) => VideoPages(
+                                                      index: index,
+                                                      projectList: projectList,
+                                                      reload: reload,
+                                                      indexpage:
+                                                          widget.indexPage,
+                                                    ),
                                                   )
                                                 : List.generate(
                                                     projectList.length,
                                                     (index) =>
-                                                        Icon(Icons.folder_zip),
-                                                  ),
+                                                        Icon(Icons.folder_zip)),
                               ),
                             );
                           });
