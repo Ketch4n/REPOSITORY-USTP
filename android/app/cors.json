@@ -19,7 +19,7 @@
     },
     {
         "origin": [
-            "http://localhost:64741/"
+            "http://localhost:50299/"
         ],
         "method": [
             "GET, POST"

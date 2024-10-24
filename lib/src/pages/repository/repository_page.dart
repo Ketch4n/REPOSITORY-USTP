@@ -11,6 +11,7 @@ import 'package:repository_ustp/src/data/provider/click_event_collection.dart';
 import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
 import 'package:repository_ustp/src/data/provider/search_suggestion.dart';
 import 'package:repository_ustp/src/data/provider/show_top_items.dart';
+import 'package:repository_ustp/src/data/provider/user_session.dart';
 import 'package:repository_ustp/src/pages/index/components/card_list.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field.dart';
 import 'package:repository_ustp/src/pages/index/components/search_field_controller.dart';
@@ -21,6 +22,7 @@ import 'package:repository_ustp/src/pages/repository/modules/manuscript_pages.da
 import 'package:repository_ustp/src/pages/repository/modules/poster_pages.dart';
 import 'package:repository_ustp/src/pages/repository/modules/top_buttons.dart';
 import 'package:repository_ustp/src/pages/repository/modules/video_pages.dart';
+import 'package:repository_ustp/src/pages/repository/modules/zip_pages.dart';
 import 'package:repository_ustp/src/utils/palette.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:repository_ustp/src/utils/screen_breakpoint.dart';
@@ -258,13 +260,26 @@ class _RepositoryPageState extends State<RepositoryPage> {
                                                           widget.indexPage,
                                                     ),
                                                   )
-                                                : List.generate(
-                                                    projectList.length,
-                                                    (index) => const DuckNada(
-                                                        status:
-                                                            "Admin Access Only",
-                                                        content:
-                                                            "No access permission !")),
+                                                : projectCollection
+                                                                .quackNew ==
+                                                            4 &&
+                                                        UserSession.type == 0
+                                                    ? List.generate(
+                                                        projectList.length,
+                                                        (index) => ZipPages(
+                                                            index: index,
+                                                            projectList:
+                                                                projectList,
+                                                            reload: reload,
+                                                            indexpage: widget
+                                                                .indexPage))
+                                                    : List.generate(
+                                                        projectList.length,
+                                                        (index) => const DuckNada(
+                                                            status:
+                                                                "Admin Access Only",
+                                                            content:
+                                                                "No access permission !")),
                               ),
                             );
                           });
