@@ -19,7 +19,7 @@ class USTPLogo extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(100),
-        child: Image.asset("assets/ustp_logo.jpg"),
+        child: Image.asset("assets/logo_made.jpg"),
       ),
     );
   }

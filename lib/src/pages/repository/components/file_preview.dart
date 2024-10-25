@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/pages/repository/components/stream/document_viewer.dart';
 import 'package:repository_ustp/src/pages/repository/components/stream/image_viewer.dart';
-import 'package:repository_ustp/src/pages/repository/components/stream/pdf_viewer.dart';
 import 'package:repository_ustp/src/pages/repository/components/stream/video_player.dart';
-import 'package:repository_ustp/src/pages/repository/components/stream/zip_viewer.dart';
 
 class FilePreview extends StatelessWidget {
   final String fileName;

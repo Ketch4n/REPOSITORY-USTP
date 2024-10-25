@@ -8,7 +8,6 @@ import 'package:repository_ustp/src/pages/projects/components/text_content.dart'
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
 import 'package:repository_ustp/src/pages/repository/components/file_preview.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/functions/viewed_repo.dart';
-import 'package:repository_ustp/src/utils/palette.dart';
 
 class ZipPages extends StatefulWidget {
   const ZipPages({
@@ -64,12 +63,8 @@ class _ZipPagesState extends State<ZipPages> {
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Container(
-        decoration: BoxDecoration(
-            color: ColorPallete.grey,
-            border: Border.all(width: 1),
-            borderRadius: BorderRadius.circular(10)),
-        height: 180,
+      child: SizedBox(
+        height: 160,
         width: 160,
         child: Stack(
           children: [
@@ -82,47 +77,37 @@ class _ZipPagesState extends State<ZipPages> {
                       snapshot.hasData) {
                     return InkWell(
                       child: PopupMenuButton<int>(
-                        onSelected: (value) async {
-                          switch (value) {
-                            case 0:
-                              final url = await _zipReference!.getDownloadURL();
-                              await ViewedRepo.store(
-                                project.id,
-                                UserSession.id,
-                                _zipReference!.name,
-                              );
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => FilePreview(
-                                        fileName: _zipReference!.name,
-                                        fileUrl: url,
-                                      )));
-                              break;
-                            case 1:
-                              widget.indexpage(5);
-                              Provider.of<ProjectIDClickEvent>(context,
-                                      listen: false)
-                                  .selectProject(project);
-                              break;
-                          }
-                        },
-                        itemBuilder: (BuildContext context) => [
-                          const PopupMenuItem<int>(
-                              value: 0, child: Text('Extract')),
-                          const PopupMenuItem<int>(
-                              value: 1, child: Text('Source')),
-                        ],
-                        child: const Column(
-                          children: [
-                            Expanded(
-                                child: Center(
-                                    child: Icon(
-                              Icons.folder_zip,
-                              size: 90,
-                              color: Colors.yellow,
-                            )))
-                          ],
-                        ),
-                      ),
+                          onSelected: (value) async {
+                            switch (value) {
+                              case 0:
+                                final url =
+                                    await _zipReference!.getDownloadURL();
+                                await ViewedRepo.store(
+                                  project.id,
+                                  UserSession.id,
+                                  _zipReference!.name,
+                                );
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => FilePreview(
+                                          fileName: _zipReference!.name,
+                                          fileUrl: url,
+                                        )));
+                                break;
+                              case 1:
+                                widget.indexpage(5);
+                                Provider.of<ProjectIDClickEvent>(context,
+                                        listen: false)
+                                    .selectProject(project);
+                                break;
+                            }
+                          },
+                          itemBuilder: (BuildContext context) => [
+                                const PopupMenuItem<int>(
+                                    value: 0, child: Text('Extract')),
+                                const PopupMenuItem<int>(
+                                    value: 1, child: Text('Source')),
+                              ],
+                          child: Image.asset("assets/folder.png")),
                     );
                   } else {
                     return const Center(
@@ -132,7 +117,7 @@ class _ZipPagesState extends State<ZipPages> {
                 },
               ),
             TextContent(
-              alignment: Alignment.topCenter,
+              alignment: Alignment.center,
               title: project.title,
               size: 10,
               color: Colors.black87,
