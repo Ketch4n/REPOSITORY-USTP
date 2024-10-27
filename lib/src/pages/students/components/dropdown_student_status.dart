@@ -53,17 +53,17 @@ class _DropdownStudentStatusState extends State<DropdownStudentStatus> {
       itemBuilder: (BuildContext context) => [
         if (widget.status == 2)
           PopupMenuItem<int>(
-            value: UserSession.type == 0 ? 1 : 3,
+            value: UserSession.type == 0 || UserSession.type == 1 ? 1 : 3,
             child: const Text('Archive'),
           ),
         if (widget.status == 1)
           PopupMenuItem<int>(
-            value: UserSession.type == 0 ? 1 : 3,
+            value: UserSession.type == 0 || UserSession.type == 1 ? 1 : 3,
             child: const Text('Restore'),
           ),
         if (widget.status == 1)
           PopupMenuItem<int>(
-            value: UserSession.type == 0 ? 2 : 3,
+            value: UserSession.type == 0 || UserSession.type == 1 ? 2 : 3,
             child: const Text('Delete'),
           ),
       ],

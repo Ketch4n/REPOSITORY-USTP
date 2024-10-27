@@ -8,6 +8,8 @@ String projectKeywordBinaryValue(int type) {
       return "AUTHOR";
     case 3:
       return "YEAR PUBLISHED";
+    case 4:
+      return "SEMESTER";
     default:
       return "INVALID PROJECT KEYWORD";
   }

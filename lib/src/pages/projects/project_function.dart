@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:repository_ustp/src/data/index/project_semester.dart';
 import 'package:repository_ustp/src/data/provider/search_suggestion.dart';
 import 'package:repository_ustp/src/data/server/url.dart';
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
@@ -79,6 +80,11 @@ class ProjectFunction {
       final typeMatches = (projectType == 0 || projectType == 4) ||
           project.project_type == projectType;
 
+      final semesterMatches = projectKeyword == 4 &&
+          projectType == 3 &&
+          projectSemesterBinaryValue(project.semester)
+              .contains(lowerCaseKeyword!);
+
       final docCollection = projectCollection == 1 &&
           (project.manuscript != null &&
               project.title.toLowerCase().contains(lowerCaseKeyword!) &&
@@ -106,7 +112,8 @@ class ProjectFunction {
               docCollection ||
               imgCollection ||
               clipCollection ||
-              zipCollection) &&
+              zipCollection ||
+              semesterMatches) &&
           typeMatches;
     }).toList();
   }

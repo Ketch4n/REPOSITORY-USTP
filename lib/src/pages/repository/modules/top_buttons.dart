@@ -25,7 +25,7 @@ class _RepositoryTopButtonsState extends State<RepositoryTopButtons> {
           MaterialButton(
             color: Colors.green,
             onPressed: () {
-              if (UserSession.type == 0) {
+              if (UserSession.type == 0 || UserSession.type == 1) {
                 ProjectPurpose.quack = 0;
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -56,7 +56,7 @@ class _RepositoryTopButtonsState extends State<RepositoryTopButtons> {
           MaterialButton(
             color: Colors.grey,
             onPressed: () {
-              if (UserSession.type == 0) {
+              if (UserSession.type == 0 || UserSession.type == 1) {
                 widget.toPDF();
               } else {
                 customSnackBar(context, 1, "Administrator Access Only");

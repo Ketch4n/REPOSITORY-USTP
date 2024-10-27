@@ -261,9 +261,12 @@ class _RepositoryPageState extends State<RepositoryPage> {
                                                     ),
                                                   )
                                                 : projectCollection
-                                                                .quackNew ==
-                                                            4 &&
-                                                        UserSession.type == 0
+                                                                    .quackNew ==
+                                                                4 &&
+                                                            UserSession
+                                                                    .type ==
+                                                                0 ||
+                                                        UserSession.type == 1
                                                     ? List.generate(
                                                         projectList.length,
                                                         (index) => ZipPages(

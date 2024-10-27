@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/components/sidebar/modules/add_footer_icon.dart';
 import 'package:repository_ustp/src/components/textbutton_icon.dart';
+import 'package:repository_ustp/src/data/provider/user_session.dart';
 import 'package:repository_ustp/src/utils/screen_breakpoint.dart';
 
 Widget addItemList(callback, context) {
@@ -42,14 +43,16 @@ Widget addItemList(callback, context) {
         },
       ),
       const Divider(),
-      CustomListTileItems(
-        icon: addPreffixIcon(Icons.cloud_download),
-        label: addLabel("Cloud Back-up"),
-        callback: () {
-          callback(4);
-          mobile ? Navigator.of(context).pop() : null;
-        },
-      ),
+      UserSession.type == 0 || UserSession.type == 1
+          ? CustomListTileItems(
+              icon: addPreffixIcon(Icons.cloud_download),
+              label: addLabel("Cloud Back-up"),
+              callback: () {
+                callback(4);
+                mobile ? Navigator.of(context).pop() : null;
+              },
+            )
+          : const SizedBox(),
       // CustomListTileItems(
       //   icon: addPreffixIcon(Icons.mail),
       //   label: addLabel("Email"),
