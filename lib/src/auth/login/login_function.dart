@@ -44,6 +44,7 @@ class LoginFunctions {
         } else {
           // const content = "Username or password invalid";
           customSnackBar(context, 1, message);
+          Navigator.of(context).pop();
         }
       } catch (e) {
         // final content = 'Failed to fetch users: $e';

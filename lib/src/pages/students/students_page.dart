@@ -1,9 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:pdf/pdf.dart';
+import 'package:printing/printing.dart';
 import 'package:repository_ustp/src/components/duck_404.dart';
+import 'package:repository_ustp/src/components/snackbar.dart';
+import 'package:repository_ustp/src/data/provider/user_session.dart';
 import 'package:repository_ustp/src/model/user_model.dart';
 import 'package:repository_ustp/src/pages/students/components/dropdown_student_status.dart';
 import 'package:repository_ustp/src/pages/students/students_function.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class StudentsPage extends StatefulWidget {
   const StudentsPage({super.key, required this.type, required this.status});
@@ -19,7 +24,7 @@ class StudentsPage extends StatefulWidget {
 class _StudentsPageState extends State<StudentsPage> {
   final StreamController<List<UserModel>> _userStream =
       StreamController<List<UserModel>>();
-
+  List<UserModel?> users = [];
   void reload() {
     StudentFunctions.fetchStudentsList(_userStream, widget.type, widget.status);
   }
@@ -34,6 +39,42 @@ class _StudentsPageState extends State<StudentsPage> {
   dispose() {
     super.dispose();
     _userStream.close();
+  }
+
+  Future<void> exportToPDF() async {
+    final pdf = pw.Document();
+    pdf.addPage(
+      pw.Page(
+        build: (pw.Context context) {
+          return pw.Column(
+            children: [
+              pw.Text(
+                'Active Users',
+                style:
+                    pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold),
+                textAlign: pw.TextAlign.center,
+              ),
+              pw.SizedBox(height: 20),
+              pw.TableHelper.fromTextArray(
+                headers: [
+                  'Username',
+                  'Email',
+                ],
+                data: users.map((user) {
+                  return [
+                    user!.username,
+                    user.email,
+                  ];
+                }).toList(),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+    await Printing.layoutPdf(
+      onLayout: (PdfPageFormat format) async => pdf.save(),
+    );
   }
 
   @override
@@ -55,6 +96,33 @@ class _StudentsPageState extends State<StudentsPage> {
                 ))
           ],
         ),
+        actions: [
+          MaterialButton(
+            color: Colors.grey,
+            onPressed: () {
+              if (UserSession.type == 0 || UserSession.type == 1) {
+                exportToPDF();
+              } else {
+                customSnackBar(context, 1, "Administrator Access Only");
+              }
+            },
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Report",
+                  style: TextStyle(color: Colors.white),
+                ),
+                SizedBox(width: 10),
+                Icon(
+                  Icons.picture_as_pdf,
+                  color: Colors.white,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 20),
+        ],
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
@@ -67,6 +135,7 @@ class _StudentsPageState extends State<StudentsPage> {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       final List<UserModel?> userlist = snapshot.data!;
+                      users = userlist;
 
                       if (userlist.isEmpty) {
                         return const Duck(
