@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:repository_ustp/src/data/database/components/confirm_dialog.dart';
 import 'package:repository_ustp/src/data/server/url.dart';
 
 class BackupPage extends StatefulWidget {
@@ -33,6 +34,7 @@ class _BackupPageState extends State<BackupPage> {
   void reload() {
     setState(() {
       fetchBackups();
+      message = "";
     });
   }
 
@@ -94,6 +96,67 @@ class _BackupPageState extends State<BackupPage> {
     } catch (e) {
       setState(() {
         message = 'Failed to create backup. Error: $e';
+      });
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> deleteBackup(String fileName) async {
+    try {
+      final response = await http.delete(
+        Uri.parse('${Servername.host}delete-backup/$fileName'),
+        headers: {'Accept': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        final dynamic jsonResponse = json.decode(response.body);
+        setState(() {
+          message = jsonResponse['message'] ?? 'Backup deleted successfully!';
+        });
+        fetchBackups(); // Reload backups after deletion
+      } else {
+        setState(() {
+          message = 'Failed to delete backup. Error: ${response.statusCode}';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        message = 'Failed to delete backup. Error: $e';
+      });
+    }
+  }
+
+  /// Restore database from a backup file
+  Future<void> restoreBackup(String fileName) async {
+    setState(() {
+      isLoading = true;
+      message = '';
+    });
+
+    try {
+      final response = await http.post(
+        Uri.parse('${Servername.host}restore-backup/$fileName'),
+        headers: {'Accept': 'application/json'},
+      );
+
+      final jsonResponse = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+        setState(() {
+          message =
+              jsonResponse['message'] ?? 'Database restored successfully!';
+        });
+      } else {
+        setState(() {
+          message = jsonResponse['error'] ?? 'Failed to restore database.';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        message = 'Failed to restore database. Error: $e';
       });
     } finally {
       setState(() {
@@ -173,6 +236,27 @@ class _BackupPageState extends State<BackupPage> {
                         child: ListTile(
                           leading: const Icon(Icons.file_copy),
                           title: Text(backups[index]),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.restore,
+                                    color: Colors.green),
+                                onPressed: () {
+                                  showRestoreConfirmationDialog(context,
+                                      restoreBackup, backups[index], "Restore");
+                                },
+                              ),
+                              IconButton(
+                                icon:
+                                    const Icon(Icons.delete, color: Colors.red),
+                                onPressed: () {
+                                  showRestoreConfirmationDialog(context,
+                                      deleteBackup, backups[index], "Delete");
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
