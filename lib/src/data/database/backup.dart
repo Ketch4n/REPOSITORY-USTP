@@ -1,28 +1,72 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:repository_ustp/src/components/snackbar.dart';
-import 'package:repository_ustp/src/data/provider/user_session.dart';
 import 'package:repository_ustp/src/data/server/url.dart';
 
-class BackupScreen extends StatefulWidget {
-  const BackupScreen({super.key});
+class BackupPage extends StatefulWidget {
+  const BackupPage({Key? key}) : super(key: key);
 
   @override
-  BackupScreenState createState() => BackupScreenState();
+  State<BackupPage> createState() => _BackupPageState();
 }
 
-class BackupScreenState extends State<BackupScreen> {
+class _BackupPageState extends State<BackupPage> {
+  late StreamController<List<String>> _backupStreamController;
   bool isLoading = false;
   String message = '';
-  Future<List<String>>? backupsFuture;
 
   @override
   void initState() {
     super.initState();
-    backupsFuture = fetchBackups(); // Fetch backups when the screen loads
+    _backupStreamController = StreamController<List<String>>();
+    fetchBackups();
   }
 
+  @override
+  void dispose() {
+    _backupStreamController.close();
+    super.dispose();
+  }
+
+  /// Reload function to fetch backups again
+  void reload() {
+    setState(() {
+      fetchBackups();
+    });
+  }
+
+  /// Fetch backups and push to stream
+  Future<void> fetchBackups() async {
+    try {
+      final response = await http.get(
+        Uri.parse('${Servername.host}list-backups'),
+        headers: {'Accept': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        final dynamic jsonResponse = json.decode(response.body);
+        List<String> backups = [];
+
+        if (jsonResponse is List) {
+          backups = jsonResponse.cast<String>();
+        } else if (jsonResponse is Map) {
+          backups = jsonResponse.values.cast<String>().toList();
+        } else {
+          throw Exception('Unexpected JSON format');
+        }
+
+        _backupStreamController.add(backups);
+      } else {
+        _backupStreamController
+            .addError('Failed to fetch backups. Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      _backupStreamController.addError('Failed to fetch backups. Error: $e');
+    }
+  }
+
+  /// Trigger backup creation
   Future<void> triggerBackup() async {
     setState(() {
       isLoading = true;
@@ -32,59 +76,25 @@ class BackupScreenState extends State<BackupScreen> {
     try {
       final response = await http.post(
         Uri.parse('${Servername.host}backup-database'),
-        headers: {
-          'Accept': 'application/json',
-        },
+        headers: {'Accept': 'application/json'},
       );
 
-      final Map<String, dynamic> jsonResponse = json.decode(response.body);
+      final dynamic jsonResponse = json.decode(response.body);
+
       if (response.statusCode == 200) {
-        String data = jsonResponse['message'];
         setState(() {
-          message = data;
+          message = jsonResponse['message'] ?? 'Backup created successfully!';
         });
-        backupsFuture =
-            fetchBackups(); // Refresh backups after a successful backup
+        fetchBackups(); // Reload backups
       } else {
         setState(() {
-          message = 'Failed to upload backup. Error: ${response.statusCode}';
+          message = jsonResponse['error'] ?? 'Failed to create backup.';
         });
       }
     } catch (e) {
       setState(() {
-        message = 'Failed to upload backup. Error: $e';
+        message = 'Failed to create backup. Error: $e';
       });
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
-  Future<List<String>> fetchBackups() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    try {
-      final response = await http.get(
-        Uri.parse('${Servername.host}list-backups'),
-        headers: {
-          'Accept': 'application/json',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> jsonResponse = json.decode(response.body);
-        // Extract the values from the response map
-        final backups = jsonResponse.values.cast<String>().toList();
-        return backups;
-      } else {
-        throw Exception(
-            'Failed to fetch backups. Error: ${response.statusCode}');
-      }
-    } catch (e) {
-      throw Exception('Failed to fetch backups. Error: $e');
     } finally {
       setState(() {
         isLoading = false;
@@ -96,92 +106,82 @@ class BackupScreenState extends State<BackupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Database Backup'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Database Backup'),
+            IconButton(
+              onPressed: reload,
+              icon: const Icon(
+                Icons.refresh,
+                color: Colors.blue,
+              ),
+            ),
+          ],
+        ),
         automaticallyImplyLeading: false,
       ),
-      body: Center(
-        child: isLoading
-            ? const CircularProgressIndicator()
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      if (UserSession.type == 0) {
-                        triggerBackup();
-                      } else {
-                        customSnackBar(context, 1, "Administrator Access Only");
-                      }
-                    },
-                    child: const Text('Start Backup'),
-                  ),
-                  const SizedBox(height: 20),
-                  if (message.isNotEmpty)
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          message,
-                          style: TextStyle(
-                            color: message.contains('successfully')
-                                ? Colors.green
-                                : Colors.red,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        TextButton.icon(
-                          onPressed: () {
-                            setState(() {
-                              isLoading = false;
-                              message = '';
-                            });
-                          },
-                          icon: const Icon(Icons.done),
-                          label: const Text("DONE"),
-                        ),
-                      ],
-                    ),
-                  const SizedBox(height: 20),
-                  Text('Available Backups:',
-                      style: Theme.of(context).textTheme.headline6),
-                  Expanded(
-                    child: FutureBuilder<List<String>>(
-                      future: backupsFuture, // Use the fetched backups
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        } else if (snapshot.hasError) {
-                          return Center(
-                              child: Text('Error: ${snapshot.error}'));
-                        } else if (!snapshot.hasData ||
-                            snapshot.data!.isEmpty) {
-                          return const Center(child: Text('No backups found.'));
-                        } else {
-                          final backups = snapshot.data!;
-                          return Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: ListView.builder(
-                              itemCount: backups.length,
-                              itemBuilder: (context, index) {
-                                return Center(
-                                  child: Card(
-                                    child: ListTile(
-                                      title: Text(backups[index]),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ],
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
+            child: ElevatedButton(
+              onPressed: triggerBackup,
+              style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
               ),
+              child: const Text(
+                'Create Backup',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          ),
+          if (isLoading) const LinearProgressIndicator(),
+          if (message.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                message,
+                style: const TextStyle(color: Colors.green, fontSize: 16),
+              ),
+            ),
+          Expanded(
+            child: StreamBuilder<List<String>>(
+              stream: _backupStreamController.stream,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      'Error: ${snapshot.error}',
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  );
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('No backups available.'));
+                } else {
+                  final backups = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: backups.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        child: ListTile(
+                          leading: const Icon(Icons.file_copy),
+                          title: Text(backups[index]),
+                        ),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

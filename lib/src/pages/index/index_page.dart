@@ -113,7 +113,7 @@ Widget _buildSubContent(onCardItemTap, onMenuItemTap) {
                 const CapstoneTeamsPage(),
                 const StudentsPage(type: 2, status: 1),
                 const StudentsPage(type: 2, status: 2),
-                const BackupScreen(),
+                const BackupPage(),
                 RepositoryDetails(indexPage: onMenuItemTap)
               ],
             ),
