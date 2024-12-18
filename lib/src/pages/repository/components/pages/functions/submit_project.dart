@@ -3,6 +3,7 @@ import 'package:repository_ustp/src/components/loading.dart';
 import 'package:repository_ustp/src/components/snackbar.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
 import 'package:repository_ustp/src/data/mail/sendmail.dart';
+import 'package:repository_ustp/src/data/server/send_sms.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/class/access_controller_instance.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/class/clear_controllers.dart';
 import 'package:repository_ustp/src/pages/repository/components/pages/functions/upload_files.dart';
@@ -42,12 +43,13 @@ class ProjectFunction {
       if (postOutput['dataID'] != 0) {
         // customSnackBar(context, 0, "Uploading Please wait...");
         await PagesUploadFiles.uploadFile(context, postOutput['dataID']);
-        SendMailFunction.sendEmailTypeStatus(
-          link,
-          pages.capstoneTitle.text,
-          projectTypeBinaryValue(projectType),
-          pages.yearPublished.text,
-        );
+        sendSMS();
+        // SendMailFunction.sendEmailTypeStatus(
+        //   link,
+        //   pages.capstoneTitle.text,
+        //   projectTypeBinaryValue(projectType),
+        //   pages.yearPublished.text,
+        // );
         customSnackBar(context, 0, postOutput['message']);
       } else {
         customSnackBar(context, 1, postOutput['message']);
