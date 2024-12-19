@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:repository_ustp/src/components/loading.dart';
 import 'package:repository_ustp/src/components/snackbar.dart';
@@ -39,17 +41,18 @@ class ProjectFunction {
         pages.video.text,
         pages.zip.text,
       );
-
+      var mess =
+          "Hello Admin,\nA new project has been submitted.\nPlease check the repository for more details.\nName:${pages.capstoneTitle.text}\nGroup:${pages.groupName.text}\nYear:${pages.yearPublished.text}\nType:${projectTypeBinaryValue(projectType)}";
       if (postOutput['dataID'] != 0) {
         // customSnackBar(context, 0, "Uploading Please wait...");
         await PagesUploadFiles.uploadFile(context, postOutput['dataID']);
-        sendSMS();
-        // SendMailFunction.sendEmailTypeStatus(
-        //   link,
-        //   pages.capstoneTitle.text,
-        //   projectTypeBinaryValue(projectType),
-        //   pages.yearPublished.text,
-        // );
+        sendSmsToLaravel(phone: "+639635612465", message: mess);
+        SendMailFunction.sendEmailTypeStatus(
+          link,
+          pages.capstoneTitle.text,
+          projectTypeBinaryValue(projectType),
+          pages.yearPublished.text,
+        );
         customSnackBar(context, 0, postOutput['message']);
       } else {
         customSnackBar(context, 1, postOutput['message']);

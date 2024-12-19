@@ -1,19 +1,48 @@
-import 'package:repository_ustp/src/data/server/sms_chef.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:repository_ustp/src/data/server/url.dart';
 
-void sendSMS() async {
-  final smsChefService = SMSChefService();
+Future<Map<String, dynamic>> sendSmsToLaravel({
+  required String phone,
+  required String message,
+}) async {
+  // Laravel backend API URL
+  String apiUrl = '${Servername.host}send-sms';
 
-  List<String> numbers = ["+639614901967", "+639630903296"];
-  String message = "Hello, this is a test message from Flutter!";
+  try {
+    // Prepare request body
+    final Map<String, dynamic> requestBody = {
+      'phone': phone,
+      'message': message,
+    };
 
-  final result = await smsChefService.sendSMS(numbers, message);
+    // Send POST request
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: json.encode(requestBody),
+    );
 
-  if (result.containsKey("error")) {
-    print("Error: ${result['error']}");
-    if (result.containsKey("details")) {
-      print("Details: ${result['details']}");
+    // Check response status
+    if (response.statusCode == 200) {
+      // Parse JSON response
+      return json.decode(response.body);
+    } else {
+      // Handle non-200 responses
+      return {
+        'success': false,
+        'status': response.statusCode,
+        'message': 'Error: ${response.body}',
+      };
     }
-  } else {
-    print("SMS sent successfully: ${result}");
+  } catch (e) {
+    // Handle exceptions
+    return {
+      'success': false,
+      'message': 'Exception: $e',
+    };
   }
 }
