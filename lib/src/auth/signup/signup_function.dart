@@ -25,7 +25,7 @@ signupFunction(
         'email': email,
         'type': role.toString(),
         'password': password,
-        'phone': phone,
+        'phone': "+63$phone",
       },
     );
     Map<String, dynamic> jsonResponse = json.decode(response.body);

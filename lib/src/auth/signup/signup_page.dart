@@ -89,7 +89,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                       CustomTextField(
                         controller: _phoneController,
-                        label: "Phone",
+                        label: "Phone (+63)",
                         readOnly: false,
                       ),
 

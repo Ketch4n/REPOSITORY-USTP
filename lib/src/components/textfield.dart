@@ -38,10 +38,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 LengthLimitingTextInputFormatter(4),
                 FilteringTextInputFormatter.digitsOnly,
               ]
-            : widget.label == "Phone"
+            : widget.label == "Phone (+63)"
                 ? [
                     FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(11),
+                    LengthLimitingTextInputFormatter(10),
                   ]
                 : null,
         readOnly: widget.readOnly,
