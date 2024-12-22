@@ -113,8 +113,14 @@ _buildContent(index, teamList) {
           fit: BoxFit.cover,
         ),
       ),
-      title: Text(team.group_name),
-      trailing: Text("${team.title} - ${team.year_published}"),
+      title: Text(
+        team.group_name,
+        style: const TextStyle(fontSize: 18),
+      ),
+      trailing: Text(
+        "${team.title} - ${team.year_published}",
+        style: const TextStyle(fontSize: 18),
+      ),
       children: List.generate(
         team.authors.where((author) => author != null).length,
         (index) => _buildExpandedContent(

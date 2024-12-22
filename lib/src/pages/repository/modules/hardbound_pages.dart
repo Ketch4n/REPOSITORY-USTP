@@ -110,7 +110,7 @@ Widget buildBody(index, projectList, context, reload, indexpage) {
                 value.quackNew == 0
                     ? TextContent(
                         title: project.group_name,
-                        size: 8,
+                        size: 10,
                         alignment: Alignment.bottomCenter,
                       )
                     : value.quackNew == 1

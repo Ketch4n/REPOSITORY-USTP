@@ -21,6 +21,7 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _roleController = TextEditingController();
 
   // int _selectedValue = 0;
@@ -33,11 +34,18 @@ class _SignupPageState extends State<SignupPage> {
     if (_usernameController.text.isEmpty ||
         _passwordController.text.isEmpty ||
         _emailController.text.isEmpty ||
-        _roleController.text.isEmpty) {
+        _roleController.text.isEmpty ||
+        _phoneController.text.isEmpty) {
       customSnackBar(context, 1, "Fields cannot be Empty !");
     } else {
-      await signupFunction(context, _usernameController.text,
-          _emailController.text, _passwordController.text, _selectedItem!);
+      await signupFunction(
+        context,
+        _usernameController.text,
+        _emailController.text,
+        _passwordController.text,
+        _phoneController.text,
+        _selectedItem!,
+      );
     }
   }
 
@@ -77,6 +85,11 @@ class _SignupPageState extends State<SignupPage> {
                       CustomTextField(
                         controller: _passwordController,
                         label: "Password",
+                        readOnly: false,
+                      ),
+                      CustomTextField(
+                        controller: _phoneController,
+                        label: "Phone",
                         readOnly: false,
                       ),
 

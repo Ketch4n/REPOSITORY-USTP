@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import 'package:repository_ustp/src/data/server/url.dart';
 
 Future<Map<String, dynamic>> sendSmsToLaravel({
-  required String phone,
   required String message,
 }) async {
   // Laravel backend API URL
@@ -12,7 +11,6 @@ Future<Map<String, dynamic>> sendSmsToLaravel({
   try {
     // Prepare request body
     final Map<String, dynamic> requestBody = {
-      'phone': phone,
       'message': message,
     };
 

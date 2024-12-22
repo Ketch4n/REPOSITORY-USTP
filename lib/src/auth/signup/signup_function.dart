@@ -13,6 +13,7 @@ signupFunction(
   String username,
   String email,
   String password,
+  String phone,
   int? role,
 ) async {
   circularLoading(context);
@@ -24,6 +25,7 @@ signupFunction(
         'email': email,
         'type': role.toString(),
         'password': password,
+        'phone': phone,
       },
     );
     Map<String, dynamic> jsonResponse = json.decode(response.body);

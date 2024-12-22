@@ -38,7 +38,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 LengthLimitingTextInputFormatter(4),
                 FilteringTextInputFormatter.digitsOnly,
               ]
-            : null,
+            : widget.label == "Phone"
+                ? [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(11),
+                  ]
+                : null,
         readOnly: widget.readOnly,
         obscureText: widget.obscure ?? false,
         controller: widget.controller,

@@ -42,11 +42,11 @@ class ProjectFunction {
         pages.zip.text,
       );
       var mess =
-          "Hello Admin,\nA new project has been submitted.\nPlease check the repository for more details.\nName:${pages.capstoneTitle.text}\nGroup:${pages.groupName.text}\nYear:${pages.yearPublished.text}\nType:${projectTypeBinaryValue(projectType)}";
+          "A new project has been submitted.\nPlease check the repository for more details.\nName:${pages.capstoneTitle.text}\nGroup:${pages.groupName.text}\nYear:${pages.yearPublished.text}\nType:${projectTypeBinaryValue(projectType)}";
       if (postOutput['dataID'] != 0) {
         // customSnackBar(context, 0, "Uploading Please wait...");
         await PagesUploadFiles.uploadFile(context, postOutput['dataID']);
-        sendSmsToLaravel(phone: "+639635612465", message: mess);
+        sendSmsToLaravel(message: mess);
         SendMailFunction.sendEmailTypeStatus(
           link,
           pages.capstoneTitle.text,
