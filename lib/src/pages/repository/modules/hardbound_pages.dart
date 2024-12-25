@@ -8,7 +8,6 @@ import 'package:repository_ustp/src/data/provider/project_purpose.dart';
 import 'package:repository_ustp/src/data/provider/user_session.dart';
 import 'package:repository_ustp/src/pages/projects/components/text_content.dart';
 import 'package:repository_ustp/src/pages/projects/project_model.dart';
-import 'package:repository_ustp/src/pages/repository/components/pages/functions/get_files.dart';
 import 'package:repository_ustp/src/pages/repository/components/repository_update.dart';
 import 'package:repository_ustp/src/pages/repository/repository_function.dart';
 
@@ -54,14 +53,14 @@ Widget buildBody(index, projectList, context, reload, indexpage) {
                 const title = "Delete this Project ?";
                 const content =
                     "this will also delete Authors and Project Data";
-                var quack =
-                    await confirmationDialog(context, title, content, () {
+                // var quack =
+                await confirmationDialog(context, title, content, () {
                   RepositoryFunction.deleteProject(context, project.id.toInt())
                       .then((value) => reload());
                 });
-                if (quack == true) {
-                  await PagesGetFiles.deleteFolder('${project.id}');
-                }
+                // if (quack == true) {
+                //   await PagesGetFiles.deleteFolder('${project.id}');
+                // }
 
                 break;
             }
