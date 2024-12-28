@@ -8,6 +8,6 @@ String projectSemesterBinaryValue(int type) {
       return "Mid-Year";
 
     default:
-      return "";
+      return "N/A";
   }
 }

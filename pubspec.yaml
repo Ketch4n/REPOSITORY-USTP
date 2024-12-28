@@ -27,6 +27,8 @@ dependencies:
   # Storage
   shared_preferences: ^2.2.3
 
+  path_provider: ^2.1.4
+
   # Media
   file_picker: ^8.0.5
   open_file: ^3.3.2
@@ -39,6 +41,9 @@ dependencies:
   # Documents
   printing: ^5.5.0
   pdf: ^3.6.0
+  pdfx: ^2.6.0
+  flutter_pdfview: ^1.3.4
+  flutter_cache_manager: ^3.3.1
 
   # Styling
   hexcolor: ^3.0.1
@@ -47,7 +52,6 @@ dependencies:
 
   # Widgets
   flutter_rating_bar: ^4.0.1
-  pdfx: ^2.6.0
   internet_file: ^1.2.0
 
 

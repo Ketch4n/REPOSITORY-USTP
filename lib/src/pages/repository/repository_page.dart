@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:repository_ustp/src/components/duck_404.dart';
 import 'package:repository_ustp/src/components/duck_access.dart';
 import 'package:repository_ustp/src/data/index/project_index_value.dart';
+import 'package:repository_ustp/src/data/index/project_semester.dart';
 import 'package:repository_ustp/src/data/provider/card_click_event.dart';
 import 'package:repository_ustp/src/data/provider/click_event_collection.dart';
 import 'package:repository_ustp/src/data/provider/click_event_keyword.dart';
@@ -103,6 +104,7 @@ class _RepositoryPageState extends State<RepositoryPage> {
                   'Title',
                   'Year Published',
                   'Project Type',
+                  'Semester',
                   'Group Name',
                 ],
                 data: projects.map((project) {
@@ -110,6 +112,7 @@ class _RepositoryPageState extends State<RepositoryPage> {
                     project.title,
                     project.year_published,
                     projectTypeBinaryValue(project.project_type),
+                    projectSemesterBinaryValue(project.semester),
                     project.group_name,
                   ];
                 }).toList(),

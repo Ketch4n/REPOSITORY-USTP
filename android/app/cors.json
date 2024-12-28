@@ -1,37 +1,18 @@
 [
     {
         "origin": [
-            "https://repository-ustp.web.app/"
-        ],
-        "method": [
-            "GET, POST"
-        ],
-        "maxAgeSeconds": 3600
-    },
-    {
-        "origin": [
-            "https://repository-ustp.firebaseapp.com/"
-        ],
-        "method": [
-            "GET, POST"
-        ],
-        "maxAgeSeconds": 3600
-    },
-    {
-        "origin": [
-            "http://localhost:50299/"
-        ],
-        "method": [
-            "GET, POST"
-        ],
-        "maxAgeSeconds": 3600
-    },
-    {
-        "origin": [
+            "https://repository-ustp.web.app/",
+            "https://repository-ustp.firebaseapp.com/",
+            "http://localhost:64588/",
             "*"
         ],
         "method": [
-            "GET, POST"
+            "GET",
+            "HEAD",
+            "OPTIONS"
+        ],
+        "responseHeader": [
+            "Content-Type"
         ],
         "maxAgeSeconds": 3600
     }

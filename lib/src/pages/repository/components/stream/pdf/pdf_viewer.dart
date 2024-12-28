@@ -39,7 +39,7 @@ class _PDFViewerState extends State<PDFViewer> {
     return Scaffold(
       body: pdfController != null
           ? PdfViewPinch(controller: pdfController!)
-          : const CircularProgressIndicator(),
+          : const Expanded(child: Center(child: CircularProgressIndicator())),
     );
   }
 }

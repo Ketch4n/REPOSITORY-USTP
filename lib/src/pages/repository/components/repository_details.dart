@@ -126,7 +126,7 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
                         children: [
                           const Text("Year Published: -- "),
                           Text(
-                            "${project.year_published} ${projectSemesterBinaryValue(project.semester)}",
+                            "${project.year_published} ${project.semester == 4 ? "" : projectSemesterBinaryValue(project.semester)}",
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
