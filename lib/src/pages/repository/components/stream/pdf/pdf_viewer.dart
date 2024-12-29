@@ -4,7 +4,7 @@ import 'package:pdfx/pdfx.dart';
 
 class PDFViewer extends StatefulWidget {
   const PDFViewer({super.key, required this.fileUrl});
-  final fileUrl;
+  final String fileUrl;
 
   @override
   State<PDFViewer> createState() => _PDFViewerState();
@@ -39,7 +39,7 @@ class _PDFViewerState extends State<PDFViewer> {
     return Scaffold(
       body: pdfController != null
           ? PdfViewPinch(controller: pdfController!)
-          : const Expanded(child: Center(child: CircularProgressIndicator())),
+          : const Center(child: CircularProgressIndicator()),
     );
   }
 }
