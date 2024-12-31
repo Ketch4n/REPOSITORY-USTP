@@ -87,25 +87,33 @@ class ProjectFunction {
 
       final docCollection = projectCollection == 1 &&
           (project.manuscript != null &&
-              project.title.toLowerCase().contains(lowerCaseKeyword!) &&
-              project.manuscript!.toLowerCase().endsWith('.pdf'));
+                  project.title.toLowerCase().contains(lowerCaseKeyword!) ||
+              project.year_published.toLowerCase() == lowerCaseKeyword &&
+                  projectKeyword == 3 &&
+                  project.manuscript!.toLowerCase().endsWith('.pdf'));
 
       final imgCollection = projectCollection == 2 &&
           (project.poster != null &&
-              project.title.toLowerCase().contains(lowerCaseKeyword!) &&
-              (project.poster!.toLowerCase().endsWith('.jpg') ||
-                  project.poster!.toLowerCase().endsWith('.png') ||
-                  project.poster!.toLowerCase().endsWith('.jpeg')));
+                  project.title.toLowerCase().contains(lowerCaseKeyword!) ||
+              project.year_published.toLowerCase() == lowerCaseKeyword &&
+                  projectKeyword == 3 &&
+                  (project.poster!.toLowerCase().endsWith('.jpg') ||
+                      project.poster!.toLowerCase().endsWith('.png') ||
+                      project.poster!.toLowerCase().endsWith('.jpeg')));
 
       final clipCollection = projectCollection == 3 &&
           (project.video != null &&
-              project.title.toLowerCase().contains(lowerCaseKeyword!) &&
-              project.video!.toLowerCase().endsWith('.mp4'));
+                  project.title.toLowerCase().contains(lowerCaseKeyword!) ||
+              project.year_published.toLowerCase() == lowerCaseKeyword &&
+                  projectKeyword == 3 &&
+                  project.video!.toLowerCase().endsWith('.mp4'));
 
       final zipCollection = projectCollection == 4 &&
           (project.zip != null &&
-              project.title.toLowerCase().contains(lowerCaseKeyword!) &&
-              project.zip!.toLowerCase().endsWith('.zip'));
+                  project.title.toLowerCase().contains(lowerCaseKeyword!) ||
+              project.year_published.toLowerCase() == lowerCaseKeyword &&
+                  projectKeyword == 3 &&
+                  project.zip!.toLowerCase().endsWith('.zip'));
 
       return (titleMatched ||
               yearMatches ||
