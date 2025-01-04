@@ -82,8 +82,8 @@ class ProjectFunction {
 
       final semesterMatches = projectKeyword == 4 &&
           projectType == 3 &&
-          projectSemesterBinaryValue(project.semester)
-              .contains(lowerCaseKeyword!);
+          projectSemesterBinaryValue(project.semester).toLowerCase() ==
+              lowerCaseKeyword;
 
       final docCollection = projectCollection == 1 &&
           (project.manuscript != null &&
