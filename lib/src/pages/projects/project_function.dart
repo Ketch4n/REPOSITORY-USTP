@@ -81,7 +81,9 @@ class ProjectFunction {
           project.project_type == projectType;
 
       final semesterMatches = projectKeyword == 4 &&
-          projectType == 3 &&
+              projectType == 3 &&
+              projectSemesterBinaryValue(project.semester)
+                  .contains(lowerCaseKeyword!) ||
           projectSemesterBinaryValue(project.semester).toLowerCase() ==
               lowerCaseKeyword;
 
