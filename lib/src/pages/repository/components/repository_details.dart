@@ -32,8 +32,7 @@ class RepositoryDetails extends StatefulWidget {
 class _RepositoryDetailsState extends State<RepositoryDetails> {
   final StreamController<List<LikecommentModel>> _likecommentStream =
       StreamController<List<LikecommentModel>>();
-  // List<LikecommentModel> likecomment = [];
-  bool _openEye = false;
+
   fetchLikeComment(id) {
     getLikeComment(_likecommentStream, id);
   }
@@ -41,7 +40,7 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
   @override
   Widget build(BuildContext context) {
     final project = Provider.of<ProjectIDClickEvent>(context).selectedProject;
-
+    fetchLikeComment(project?.id);
     if (project == null) {
       return const Center(child: Text('No project selected.'));
     }
@@ -189,12 +188,12 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
+                  const Row(
                     children: [
-                      const Text("Viewers Comments"),
-                      const SizedBox(width: 10),
+                      Text("Viewers Comments"),
+                      SizedBox(width: 10),
                       Icon(
-                        _openEye ? Icons.visibility : Icons.visibility_off,
+                        Icons.comment,
                         color: Colors.grey,
                       )
                     ],
@@ -235,21 +234,8 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
                 stream: _likecommentStream.stream,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: MaterialButton(
-                        color: Colors.blue,
-                        onPressed: () async {
-                          fetchLikeComment(project.id);
-
-                          setState(() {
-                            _openEye = true;
-                          });
-                        },
-                        child: const Text(
-                          "Show Comments",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
+                    return const Center(
+                      child: CircularProgressIndicator(),
                     );
                   }
 
@@ -264,20 +250,18 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
                       color: ColorPallete.grey,
                       child: Scaffold(
                         backgroundColor: Colors.transparent,
-                        floatingActionButton: _openEye
-                            ? FloatingActionButton(
-                                onPressed: () {
-                                  showCustomDialog(
-                                      context,
-                                      RepositoryRatingsAdd(
-                                        projID: project.id,
-                                        reload: () {
-                                          fetchLikeComment(project.id);
-                                        },
-                                      ));
-                                },
-                                child: const Icon(Icons.add))
-                            : null,
+                        floatingActionButton: FloatingActionButton(
+                            onPressed: () {
+                              showCustomDialog(
+                                  context,
+                                  RepositoryRatingsAdd(
+                                    projID: project.id,
+                                    reload: () {
+                                      fetchLikeComment(project.id);
+                                    },
+                                  ));
+                            },
+                            child: const Icon(Icons.add)),
                         body: const Center(
                           child: Text("NO COMMENTS YET"),
                         ),
@@ -293,20 +277,18 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
                       color: ColorPallete.grey,
                       child: Scaffold(
                         backgroundColor: Colors.transparent,
-                        floatingActionButton: _openEye
-                            ? FloatingActionButton(
-                                onPressed: () {
-                                  showCustomDialog(
-                                      context,
-                                      RepositoryRatingsAdd(
-                                        projID: project.id,
-                                        reload: () {
-                                          fetchLikeComment(project.id);
-                                        },
-                                      ));
-                                },
-                                child: const Icon(Icons.add))
-                            : null,
+                        floatingActionButton: FloatingActionButton(
+                            onPressed: () {
+                              showCustomDialog(
+                                  context,
+                                  RepositoryRatingsAdd(
+                                    projID: project.id,
+                                    reload: () {
+                                      fetchLikeComment(project.id);
+                                    },
+                                  ));
+                            },
+                            child: const Icon(Icons.add)),
                         body: SingleChildScrollView(
                           child: Padding(
                             padding: const EdgeInsets.only(top: 20.0),
