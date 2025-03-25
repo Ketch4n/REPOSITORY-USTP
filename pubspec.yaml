@@ -53,6 +53,7 @@ dependencies:
   # Widgets
   flutter_rating_bar: ^4.0.1
   internet_file: ^1.2.0
+  connectivity: ^3.0.6
 
 
 dev_dependencies:
